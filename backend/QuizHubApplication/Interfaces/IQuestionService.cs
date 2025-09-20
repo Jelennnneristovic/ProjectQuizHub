@@ -1,5 +1,6 @@
 ﻿using QuizHubApplication.DTOs.Requests;
 using QuizHubApplication.DTOs.Responses;
+using QuizHubDomain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace QuizHubApplication.Interfaces
         QuizDetailsDto? DeleteQuestion(int quizId, int questionId);
         QuizDetailsDto? UpdateQuestion(UpdateQuestionDto updateQuestionDto);
         QuizDetailsDto? CreateQuestionDto (CreateQuestionDto  createQuestionDto);
+        Question? GetQuestionWithAnswers(int questionId);
     }
 }

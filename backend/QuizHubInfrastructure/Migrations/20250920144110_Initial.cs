@@ -152,25 +152,51 @@ namespace QuizHubInfrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AnswerOptionId = table.Column<int>(type: "int", nullable: false),
                     FillInAnswer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
                     AwardedPoints = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
                     QuizAttemptId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AttemptAnswers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AttemptAnswers_AnswerOptions_AnswerOptionId",
-                        column: x => x.AnswerOptionId,
-                        principalTable: "AnswerOptions",
+                        name: "FK_AttemptAnswers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AttemptAnswers_QuizAttempts_QuizAttemptId",
                         column: x => x.QuizAttemptId,
                         principalTable: "QuizAttempts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AttemptAnswerOptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AnswerOptionId = table.Column<int>(type: "int", nullable: false),
+                    AttemptAnswerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AttemptAnswerOptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AttemptAnswerOptions_AnswerOptions_AnswerOptionId",
+                        column: x => x.AnswerOptionId,
+                        principalTable: "AnswerOptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AttemptAnswerOptions_AttemptAnswers_AttemptAnswerId",
+                        column: x => x.AttemptAnswerId,
+                        principalTable: "AttemptAnswers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -192,7 +218,8 @@ namespace QuizHubInfrastructure.Migrations
                 values: new object[,]
                 {
                     { 1, null, "admin@admin.com", "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==", 0, "admin" },
-                    { 2, null, "marko@cake.com", "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==", 1, "marko" }
+                    { 2, null, "marko@cake.com", "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==", 1, "marko" },
+                    { 3, null, "ana@cake.com", "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==", 1, "ana" }
                 });
 
             migrationBuilder.InsertData(
@@ -238,7 +265,7 @@ namespace QuizHubInfrastructure.Migrations
                     { 2, true, true, 1, "C#" },
                     { 3, true, true, 1, "C++" },
                     { 4, true, true, 2, "True" },
-                    { 5, true, false, 2, "True" },
+                    { 5, true, false, 2, "False" },
                     { 6, true, true, 3, "berlinskog zida" },
                     { 7, true, false, 4, "gudacki" },
                     { 8, true, true, 4, "udaracki" },
@@ -247,12 +274,22 @@ namespace QuizHubInfrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "AttemptAnswers",
-                columns: new[] { "Id", "AnswerOptionId", "AwardedPoints", "FillInAnswer", "IsCorrect", "QuizAttemptId" },
+                columns: new[] { "Id", "AwardedPoints", "FillInAnswer", "IsCorrect", "QuestionId", "QuizAttemptId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, null, true, 1 },
-                    { 2, 2, 1, null, true, 1 },
-                    { 3, 3, 1, null, true, 1 }
+                    { 1, 3, null, true, 1, 1 },
+                    { 2, 2, null, true, 2, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AttemptAnswerOptions",
+                columns: new[] { "Id", "AnswerOptionId", "AttemptAnswerId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 1, 1 },
+                    { 3, 1, 1 },
+                    { 4, 4, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -261,9 +298,19 @@ namespace QuizHubInfrastructure.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttemptAnswers_AnswerOptionId",
-                table: "AttemptAnswers",
+                name: "IX_AttemptAnswerOptions_AnswerOptionId",
+                table: "AttemptAnswerOptions",
                 column: "AnswerOptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttemptAnswerOptions_AttemptAnswerId",
+                table: "AttemptAnswerOptions",
+                column: "AttemptAnswerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttemptAnswers_QuestionId",
+                table: "AttemptAnswers",
+                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AttemptAnswers_QuizAttemptId",
@@ -295,22 +342,25 @@ namespace QuizHubInfrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AttemptAnswers");
+                name: "AttemptAnswerOptions");
 
             migrationBuilder.DropTable(
                 name: "AnswerOptions");
 
             migrationBuilder.DropTable(
-                name: "QuizAttempts");
+                name: "AttemptAnswers");
 
             migrationBuilder.DropTable(
                 name: "Questions");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "QuizAttempts");
 
             migrationBuilder.DropTable(
                 name: "Quizzes");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Categories");

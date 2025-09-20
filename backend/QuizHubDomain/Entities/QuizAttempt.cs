@@ -16,8 +16,6 @@ namespace QuizHubDomain.Entities
         public int QuizId { get; set; }
         public Quiz? Quiz { get; set; }
 
-       // public User User { get; set; } = new User();
-
         public DateTime StartedAt { get; set; } = DateTime.Now;
         public int? TimeTakenSeconds { get; set; }
         public DateTime? FinishedAt { get; set; } 
@@ -27,5 +25,10 @@ namespace QuizHubDomain.Entities
         public List<AttemptAnswer> AttemptAnswers { get; set; } = [];
     
         public QuizAttempt() { }
+        public QuizAttempt(int quizId, int userId) 
+        {
+            this.QuizId = quizId;
+            this.UserId = userId;
+        }
     }
 }

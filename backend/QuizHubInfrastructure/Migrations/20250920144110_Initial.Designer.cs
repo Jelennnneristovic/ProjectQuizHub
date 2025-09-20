@@ -12,7 +12,7 @@ using QuizHubInfrastructure.Data;
 namespace QuizHubInfrastructure.Migrations
 {
     [DbContext(typeof(QuizHubDbContext))]
-    [Migration("20250919135937_Initial")]
+    [Migration("20250920144110_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -91,7 +91,7 @@ namespace QuizHubInfrastructure.Migrations
                             IsActive = true,
                             IsCorrect = false,
                             QuestionId = 2,
-                            Text = "True"
+                            Text = "False"
                         },
                         new
                         {
@@ -135,9 +135,6 @@ namespace QuizHubInfrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AnswerOptionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("AwardedPoints")
                         .HasColumnType("int");
 
@@ -147,12 +144,15 @@ namespace QuizHubInfrastructure.Migrations
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
                     b.Property<int>("QuizAttemptId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnswerOptionId");
+                    b.HasIndex("QuestionId");
 
                     b.HasIndex("QuizAttemptId");
 
@@ -162,26 +162,67 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AnswerOptionId = 1,
-                            AwardedPoints = 1,
+                            AwardedPoints = 3,
                             IsCorrect = true,
+                            QuestionId = 1,
                             QuizAttemptId = 1
                         },
                         new
                         {
                             Id = 2,
-                            AnswerOptionId = 2,
-                            AwardedPoints = 1,
+                            AwardedPoints = 2,
                             IsCorrect = true,
+                            QuestionId = 2,
                             QuizAttemptId = 1
+                        });
+                });
+
+            modelBuilder.Entity("QuizHubDomain.Entities.AttemptAnswerOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnswerOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AttemptAnswerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerOptionId");
+
+                    b.HasIndex("AttemptAnswerId");
+
+                    b.ToTable("AttemptAnswerOptions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AnswerOptionId = 1,
+                            AttemptAnswerId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AnswerOptionId = 1,
+                            AttemptAnswerId = 1
                         },
                         new
                         {
                             Id = 3,
-                            AnswerOptionId = 3,
-                            AwardedPoints = 1,
-                            IsCorrect = true,
-                            QuizAttemptId = 1
+                            AnswerOptionId = 1,
+                            AttemptAnswerId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AnswerOptionId = 4,
+                            AttemptAnswerId = 2
                         });
                 });
 
@@ -522,6 +563,14 @@ namespace QuizHubInfrastructure.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==",
                             Role = 1,
                             UserName = "marko"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "ana@cake.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==",
+                            Role = 1,
+                            UserName = "ana"
                         });
                 });
 
@@ -538,10 +587,10 @@ namespace QuizHubInfrastructure.Migrations
 
             modelBuilder.Entity("QuizHubDomain.Entities.AttemptAnswer", b =>
                 {
-                    b.HasOne("QuizHubDomain.Entities.AnswerOption", "AnswerOption")
+                    b.HasOne("QuizHubDomain.Entities.Question", "Question")
                         .WithMany()
-                        .HasForeignKey("AnswerOptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("QuizHubDomain.Entities.QuizAttempt", "QuizAttempt")
@@ -550,9 +599,28 @@ namespace QuizHubInfrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("AnswerOption");
+                    b.Navigation("Question");
 
                     b.Navigation("QuizAttempt");
+                });
+
+            modelBuilder.Entity("QuizHubDomain.Entities.AttemptAnswerOption", b =>
+                {
+                    b.HasOne("QuizHubDomain.Entities.AnswerOption", "AnswerOption")
+                        .WithMany()
+                        .HasForeignKey("AnswerOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuizHubDomain.Entities.AttemptAnswer", "AttemptAnswer")
+                        .WithMany("AttemptAnswerOptions")
+                        .HasForeignKey("AttemptAnswerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AnswerOption");
+
+                    b.Navigation("AttemptAnswer");
                 });
 
             modelBuilder.Entity("QuizHubDomain.Entities.Question", b =>
@@ -594,6 +662,11 @@ namespace QuizHubInfrastructure.Migrations
                     b.Navigation("Quiz");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("QuizHubDomain.Entities.AttemptAnswer", b =>
+                {
+                    b.Navigation("AttemptAnswerOptions");
                 });
 
             modelBuilder.Entity("QuizHubDomain.Entities.Question", b =>

@@ -20,23 +20,27 @@ namespace QuizHubInfrastructure.Data
 
         public DbSet<Question> Questions => Set<Question>();
         public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
+        public DbSet<AttemptAnswerOption> AttemptAnswerOptions => Set<AttemptAnswerOption>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<AttemptAnswer>()
-                .HasOne(a => a.AnswerOption)
-                .WithMany()
-                .HasForeignKey(a => a.AnswerOptionId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+            // Primer: AttemptAnswer → QuizAttempt
             modelBuilder.Entity<AttemptAnswer>()
                 .HasOne(a => a.QuizAttempt)
                 .WithMany(q => q.AttemptAnswers)
                 .HasForeignKey(a => a.QuizAttemptId)
+                .OnDelete(DeleteBehavior.Restrict); // umesto Cascade
+
+            // Primer: AttemptAnswerOption → AttemptAnswer
+            modelBuilder.Entity<AttemptAnswerOption>()
+                .HasOne(aa => aa.AttemptAnswer)
+                .WithMany(a => a.AttemptAnswerOptions)
+                .HasForeignKey(aa => aa.AttemptAnswerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Primer: AnswerOption → Question
             modelBuilder.Entity<AnswerOption>()
                 .HasOne(o => o.Question)
                 .WithMany(q => q.AnswerOptions)
@@ -63,9 +67,19 @@ namespace QuizHubInfrastructure.Data
                 AvatarUrl = null,
                 Role = Role.User,
             };
+            var user2 = new User
+            {
+                Id = 3,
+                UserName = "ana",
+                Email = "ana@cake.com",
+                PasswordHash = "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==",
+                AvatarUrl = null,
+                Role = Role.User,
+            };
             modelBuilder.Entity<User>().HasData(
                 admin,
-                user1
+                user1,
+                user2
             );
 
             //Categories
@@ -243,7 +257,7 @@ namespace QuizHubInfrastructure.Data
             var answerOption5 = new AnswerOption
             {
                 Id = 5,
-                Text = "True",
+                Text = "False",
                 QuestionId = question2.Id,
                 IsCorrect = false,
                 IsActive = true
@@ -358,36 +372,63 @@ namespace QuizHubInfrastructure.Data
             var attemptAnswer1 = new AttemptAnswer
             {
                 Id = 1,
-                AnswerOptionId = answerOption1.Id,
                 QuizAttemptId = quizAttempt1.Id,
+                QuestionId = question1.Id,
                 FillInAnswer = null,
-                IsCorrect = answerOption1.IsCorrect,
-                AwardedPoints = 1,
+                IsCorrect = true,
+                AwardedPoints = question1.Points,
             };
+
             var attemptAnswer2 = new AttemptAnswer
             {
                 Id = 2,
-                AnswerOptionId = answerOption2.Id,
                 QuizAttemptId = quizAttempt1.Id,
+                QuestionId = question2.Id,
                 FillInAnswer = null,
-                IsCorrect = answerOption2.IsCorrect,
-                AwardedPoints = 1,
+                IsCorrect = true,
+                AwardedPoints = question2.Points,
             };
-            var attemptAnswer3 = new AttemptAnswer
-            {
-                Id = 3,
-                AnswerOptionId = answerOption3.Id,
-                QuizAttemptId = quizAttempt1.Id,
-                FillInAnswer = null,
-                IsCorrect = answerOption3.IsCorrect,
-                AwardedPoints = 1,
-            };
+
 
             modelBuilder.Entity<AttemptAnswer>().HasData(
                 attemptAnswer1,
-                attemptAnswer2,
-                attemptAnswer3
+                attemptAnswer2
             );
+
+            //AttemptAnswerOptions
+
+            var attemptAnswerOption1 = new AttemptAnswerOption
+            {
+                Id = 1,
+                AttemptAnswerId = attemptAnswer1.Id,
+                AnswerOptionId = answerOption1.Id,
+            };
+            var attemptAnswerOption2 = new AttemptAnswerOption
+            {
+                Id = 2,
+                AttemptAnswerId = attemptAnswer1.Id,
+                AnswerOptionId = answerOption1.Id,
+            };
+            var attemptAnswerOption3 = new AttemptAnswerOption
+            {
+                Id = 3,
+                AttemptAnswerId = attemptAnswer1.Id,
+                AnswerOptionId = answerOption1.Id,
+            };
+            var attemptAnswerOption4 = new AttemptAnswerOption
+            {
+                Id = 4,
+                AttemptAnswerId = attemptAnswer2.Id,
+                AnswerOptionId = answerOption4.Id,
+            };
+
+            modelBuilder.Entity<AttemptAnswerOption>().HasData(
+                attemptAnswerOption1,
+                attemptAnswerOption2,
+                attemptAnswerOption3,
+                attemptAnswerOption4
+            );
+
 
         }
     }

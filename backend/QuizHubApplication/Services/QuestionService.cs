@@ -87,6 +87,11 @@ namespace QuizHubApplication.Services
             return new QuestionDto(0, question.Order, question.Text, question.Points, "", "", null);
         }
 
+        public Question? GetQuestionWithAnswers(int questionId)
+        {
+            return _questionRepository.GetQuestionWithAnswers(questionId);
+        }
+
         public QuizDetailsDto? UpdateQuestion(UpdateQuestionDto updateQuestionDto)
         {
             //azuriramo odgovore od onih koji su aktivni
