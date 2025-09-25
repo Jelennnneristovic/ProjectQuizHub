@@ -12,8 +12,8 @@ using QuizHubInfrastructure.Data;
 namespace QuizHubInfrastructure.Migrations
 {
     [DbContext(typeof(QuizHubDbContext))]
-    [Migration("20250924200308_UpdateResult")]
-    partial class UpdateResult
+    [Migration("20250925110947_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -468,20 +468,20 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            FinishedAt = new DateTime(2025, 9, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            FinishedAt = new DateTime(2025, 8, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 1,
                             Score = 1,
-                            StartedAt = new DateTime(2025, 9, 13, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            StartedAt = new DateTime(2025, 8, 13, 15, 30, 0, 0, DateTimeKind.Unspecified),
                             TimeTakenMin = 60,
                             UserId = 2
                         },
                         new
                         {
                             Id = 2,
-                            FinishedAt = new DateTime(2025, 9, 14, 19, 30, 0, 0, DateTimeKind.Unspecified),
+                            FinishedAt = new DateTime(2025, 8, 14, 19, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 1,
                             Score = 3,
-                            StartedAt = new DateTime(2025, 9, 14, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            StartedAt = new DateTime(2025, 8, 14, 18, 30, 0, 0, DateTimeKind.Unspecified),
                             TimeTakenMin = 60,
                             UserId = 2
                         },
@@ -514,6 +514,86 @@ namespace QuizHubInfrastructure.Migrations
                             StartedAt = new DateTime(2025, 9, 17, 15, 0, 0, 0, DateTimeKind.Unspecified),
                             TimeTakenMin = 60,
                             UserId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            FinishedAt = new DateTime(2025, 9, 18, 15, 20, 0, 0, DateTimeKind.Unspecified),
+                            QuizId = 3,
+                            Score = 2,
+                            StartedAt = new DateTime(2025, 9, 18, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 20,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            FinishedAt = new DateTime(2025, 9, 18, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            QuizId = 3,
+                            Score = 1,
+                            StartedAt = new DateTime(2025, 9, 18, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 30,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            FinishedAt = new DateTime(2025, 9, 19, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            QuizId = 4,
+                            Score = 2,
+                            StartedAt = new DateTime(2025, 9, 19, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 60,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            FinishedAt = new DateTime(2025, 9, 20, 18, 40, 0, 0, DateTimeKind.Unspecified),
+                            QuizId = 2,
+                            Score = 4,
+                            StartedAt = new DateTime(2025, 9, 20, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 40,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            FinishedAt = new DateTime(2025, 9, 21, 12, 25, 0, 0, DateTimeKind.Unspecified),
+                            QuizId = 1,
+                            Score = 3,
+                            StartedAt = new DateTime(2025, 9, 21, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 25,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            FinishedAt = new DateTime(2025, 9, 22, 10, 40, 0, 0, DateTimeKind.Unspecified),
+                            QuizId = 1,
+                            Score = 4,
+                            StartedAt = new DateTime(2025, 9, 22, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 40,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 12,
+                            FinishedAt = new DateTime(2025, 9, 22, 11, 50, 0, 0, DateTimeKind.Unspecified),
+                            QuizId = 2,
+                            Score = 2,
+                            StartedAt = new DateTime(2025, 9, 22, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 50,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            FinishedAt = new DateTime(2025, 9, 23, 9, 20, 0, 0, DateTimeKind.Unspecified),
+                            QuizId = 4,
+                            Score = 3,
+                            StartedAt = new DateTime(2025, 9, 23, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 20,
+                            UserId = 4
                         });
                 });
 
@@ -562,7 +642,7 @@ namespace QuizHubInfrastructure.Migrations
                         {
                             Id = 1,
                             CorrectAnswers = 2,
-                            CreatedAt = new DateTime(2025, 9, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 8, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             Percentage = 100.0,
                             QuizAttemptId = 1,
                             QuizTitle = "Kviz programiranja",
@@ -574,7 +654,7 @@ namespace QuizHubInfrastructure.Migrations
                         {
                             Id = 2,
                             CorrectAnswers = 1,
-                            CreatedAt = new DateTime(2025, 9, 14, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 8, 14, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             Percentage = 50.0,
                             QuizAttemptId = 2,
                             QuizTitle = "Kviz programiranja",
@@ -592,6 +672,102 @@ namespace QuizHubInfrastructure.Migrations
                             QuizTitle = "Kviz o arhitekturi Novog Sada",
                             Score = 0,
                             TimeTakenMin = 10,
+                            TotalQuestions = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CorrectAnswers = 1,
+                            CreatedAt = new DateTime(2025, 9, 18, 15, 20, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 100.0,
+                            QuizAttemptId = 6,
+                            QuizTitle = "Kviz opsteg znanja istoriji",
+                            Score = 2,
+                            TimeTakenMin = 20,
+                            TotalQuestions = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CorrectAnswers = 1,
+                            CreatedAt = new DateTime(2025, 9, 18, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 100.0,
+                            QuizAttemptId = 7,
+                            QuizTitle = "Kviz opsteg znanja istoriji",
+                            Score = 1,
+                            TimeTakenMin = 30,
+                            TotalQuestions = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CorrectAnswers = 1,
+                            CreatedAt = new DateTime(2025, 9, 19, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 100.0,
+                            QuizAttemptId = 8,
+                            QuizTitle = "Kviz o muzici",
+                            Score = 2,
+                            TimeTakenMin = 60,
+                            TotalQuestions = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CorrectAnswers = 2,
+                            CreatedAt = new DateTime(2025, 9, 20, 18, 40, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 100.0,
+                            QuizAttemptId = 9,
+                            QuizTitle = "Kviz o arhitekturi Novog Sada",
+                            Score = 4,
+                            TimeTakenMin = 40,
+                            TotalQuestions = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CorrectAnswers = 1,
+                            CreatedAt = new DateTime(2025, 9, 21, 12, 25, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 50.0,
+                            QuizAttemptId = 10,
+                            QuizTitle = "Kviz programiranja",
+                            Score = 3,
+                            TimeTakenMin = 25,
+                            TotalQuestions = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CorrectAnswers = 2,
+                            CreatedAt = new DateTime(2025, 9, 22, 10, 40, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 66.0,
+                            QuizAttemptId = 11,
+                            QuizTitle = "Kviz programiranja",
+                            Score = 4,
+                            TimeTakenMin = 40,
+                            TotalQuestions = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CorrectAnswers = 1,
+                            CreatedAt = new DateTime(2025, 9, 22, 11, 50, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 33.0,
+                            QuizAttemptId = 12,
+                            QuizTitle = "Kviz o arhitekturi Novog Sada",
+                            Score = 2,
+                            TimeTakenMin = 50,
+                            TotalQuestions = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CorrectAnswers = 2,
+                            CreatedAt = new DateTime(2025, 9, 23, 9, 20, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 100.0,
+                            QuizAttemptId = 13,
+                            QuizTitle = "Kviz o muzici",
+                            Score = 3,
+                            TimeTakenMin = 20,
                             TotalQuestions = 2
                         });
                 });
@@ -650,6 +826,14 @@ namespace QuizHubInfrastructure.Migrations
                             PasswordHash = "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==",
                             Role = 1,
                             UserName = "ana"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "stefan@cake.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==",
+                            Role = 1,
+                            UserName = "stefan"
                         });
                 });
 

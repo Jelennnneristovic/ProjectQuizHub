@@ -85,10 +85,20 @@ namespace QuizHubInfrastructure.Data
                 AvatarUrl = null,
                 Role = Role.User,
             };
+            var user3 = new User
+            {
+                Id = 4,
+                UserName = "stefan",
+                Email = "stefan@cake.com",
+                PasswordHash = "AQAAAAIAAYagAAAAEFg+InxaoNsss+/H2jitDRm8G652TpCi7RMkdRoeNeVai+H3/7foRQ0XtTmgpkQ+WQ==",
+                AvatarUrl = null,
+                Role = Role.User,
+            };
             modelBuilder.Entity<User>().HasData(
                 admin,
                 user1,
-                user2
+                user2,
+                user3
             );
 
             //Categories
@@ -323,8 +333,8 @@ namespace QuizHubInfrastructure.Data
                 Id = 1,
                 QuizId = quiz1.Id,
                 UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-13 15:30:00"),
-                FinishedAt = DateTime.Parse("2025-09-13 16:30:00"),
+                StartedAt = DateTime.Parse("2025-08-13 15:30:00"),
+                FinishedAt = DateTime.Parse("2025-08-13 16:30:00"),
                 TimeTakenMin = 60,
                 Score = 1,
             };
@@ -333,8 +343,8 @@ namespace QuizHubInfrastructure.Data
                 Id = 2,
                 QuizId = quiz1.Id,
                 UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-14 18:30:00"),
-                FinishedAt = DateTime.Parse("2025-09-14 19:30:00"),
+                StartedAt = DateTime.Parse("2025-08-14 18:30:00"),
+                FinishedAt = DateTime.Parse("2025-08-14 19:30:00"),
                 TimeTakenMin = 60,
                 Score = 3,
             };
@@ -368,12 +378,106 @@ namespace QuizHubInfrastructure.Data
                 TimeTakenMin = 60,
                 Score = 1,
             };
+            var quizAttempt6 = new QuizAttempt
+            {
+                Id = 6,
+                QuizId = quiz3.Id,
+                UserId = user2.Id,
+                StartedAt = DateTime.Parse("2025-09-18 15:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-18 15:20:00"),
+                TimeTakenMin = 20,
+                Score = 2,
+            };
+
+            var quizAttempt7 = new QuizAttempt
+            {
+                Id = 7,
+                QuizId = quiz3.Id,
+                UserId = user1.Id,
+                StartedAt = DateTime.Parse("2025-09-18 16:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-18 16:30:00"),
+                TimeTakenMin = 30,
+                Score = 1,
+            };
+
+            var quizAttempt8 = new QuizAttempt
+            {
+                Id = 8,
+                QuizId = quiz4.Id,
+                UserId = user1.Id,
+                StartedAt = DateTime.Parse("2025-09-19 14:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-19 15:00:00"),
+                TimeTakenMin = 60,
+                Score = 2,
+            };
+
+            var quizAttempt9 = new QuizAttempt
+            {
+                Id = 9,
+                QuizId = quiz2.Id,
+                UserId = user2.Id,
+                StartedAt = DateTime.Parse("2025-09-20 18:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-20 18:40:00"),
+                TimeTakenMin = 40,
+                Score = 4,
+            };
+
+            var quizAttempt10 = new QuizAttempt
+            {
+                Id = 10,
+                QuizId = quiz1.Id,
+                UserId = user2.Id,
+                StartedAt = DateTime.Parse("2025-09-21 12:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-21 12:25:00"),
+                TimeTakenMin = 25,
+                Score = 3,
+            };
+            var quizAttempt11 = new QuizAttempt
+            {
+                Id = 11,
+                QuizId = quiz1.Id, // Programiranje
+                UserId = user3.Id,
+                StartedAt = DateTime.Parse("2025-09-22 10:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-22 10:40:00"),
+                TimeTakenMin = 40,
+                Score = 4,
+            };
+
+            var quizAttempt12 = new QuizAttempt
+            {
+                Id = 12,
+                QuizId = quiz2.Id, // Arhitektura
+                UserId = user3.Id,
+                StartedAt = DateTime.Parse("2025-09-22 11:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-22 11:50:00"),
+                TimeTakenMin = 50,
+                Score = 2,
+            };
+
+            var quizAttempt13 = new QuizAttempt
+            {
+                Id = 13,
+                QuizId = quiz4.Id, // Muzika
+                UserId = user3.Id,
+                StartedAt = DateTime.Parse("2025-09-23 09:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-23 09:20:00"),
+                TimeTakenMin = 20,
+                Score = 3,
+            };
             modelBuilder.Entity<QuizAttempt>().HasData(
                 quizAttempt1,
                 quizAttempt2,
                 quizAttempt3,
                 quizAttempt4,
-                quizAttempt5
+                quizAttempt5,
+                quizAttempt6,
+                quizAttempt7,
+                quizAttempt8,
+                quizAttempt9,
+                quizAttempt10,
+                quizAttempt11,
+                quizAttempt12,
+                quizAttempt13
 
             );
 
@@ -447,7 +551,7 @@ namespace QuizHubInfrastructure.Data
                 Score = 5,
                 Percentage = 100,
                 TimeTakenMin = 50,
-                CreatedAt = DateTime.Parse("2025-09-13 16:30:00")
+                CreatedAt = DateTime.Parse("2025-08-13 16:30:00")
             };
             var result2 = new Result
             {
@@ -459,7 +563,7 @@ namespace QuizHubInfrastructure.Data
                 Score = 3,           
                 Percentage = 50,
                 TimeTakenMin = 20, //20 minuta
-                CreatedAt = DateTime.Parse("2025-09-14 17:00:00")
+                CreatedAt = DateTime.Parse("2025-08-14 17:00:00")
             };
 
             var result3 = new Result
@@ -474,13 +578,124 @@ namespace QuizHubInfrastructure.Data
                 TimeTakenMin = 10, // 10 minuta
                 CreatedAt = DateTime.Parse("2025-09-15 17:30:00")
             };
+            var result4 = new Result
+            {
+                Id = 4,
+                QuizAttemptId = 6,
+                QuizTitle = quiz3.Title,
+                TotalQuestions = 1,
+                CorrectAnswers = 1,
+                Score = 2,
+                Percentage = 100,
+                TimeTakenMin = 20,
+                CreatedAt = DateTime.Parse("2025-09-18 15:20:00")
+            };
+
+            var result5 = new Result
+            {
+                Id = 5,
+                QuizAttemptId = 7,
+                QuizTitle = quiz3.Title,
+                TotalQuestions = 1,
+                CorrectAnswers = 1,
+                Score = 1,
+                Percentage = 100,
+                TimeTakenMin = 30,
+                CreatedAt = DateTime.Parse("2025-09-18 16:30:00")
+            };
+
+            var result6 = new Result
+            {
+                Id = 6,
+                QuizAttemptId = 8,
+                QuizTitle = quiz4.Title,
+                TotalQuestions = 1,
+                CorrectAnswers = 1,
+                Score = 2,
+                Percentage = 100,
+                TimeTakenMin = 60,
+                CreatedAt = DateTime.Parse("2025-09-19 15:00:00")
+            };
+
+            var result7 = new Result
+            {
+                Id = 7,
+                QuizAttemptId = 9,
+                QuizTitle = quiz2.Title,
+                TotalQuestions = 2,
+                CorrectAnswers = 2,
+                Score = 4,
+                Percentage = 100,
+                TimeTakenMin = 40,
+                CreatedAt = DateTime.Parse("2025-09-20 18:40:00")
+            };
+
+            var result8 = new Result
+            {
+                Id = 8,
+                QuizAttemptId = 10,
+                QuizTitle = quiz1.Title,
+                TotalQuestions = 2,
+                CorrectAnswers = 1,
+                Score = 3,
+                Percentage = 50,
+                TimeTakenMin = 25,
+                CreatedAt = DateTime.Parse("2025-09-21 12:25:00")
+            };
+            var result9 = new Result
+            {
+                Id = 9,
+                QuizAttemptId = 11,
+                QuizTitle = quiz1.Title,
+                TotalQuestions = 3,
+                CorrectAnswers = 2,
+                Score = 4,
+                Percentage = 66,
+                TimeTakenMin = 40,
+                CreatedAt = DateTime.Parse("2025-09-22 10:40:00")
+            };
+
+            var result10 = new Result
+            {
+                Id = 10,
+                QuizAttemptId = 12,
+                QuizTitle = quiz2.Title,
+                TotalQuestions = 3,
+                CorrectAnswers = 1,
+                Score = 2,
+                Percentage = 33,
+                TimeTakenMin = 50,
+                CreatedAt = DateTime.Parse("2025-09-22 11:50:00")
+            };
+
+            var result11 = new Result
+            {
+                Id = 11,
+                QuizAttemptId = 13,
+                QuizTitle = quiz4.Title,
+                TotalQuestions = 2,
+                CorrectAnswers = 2,
+                Score = 3,
+                Percentage = 100,
+                TimeTakenMin = 20,
+                CreatedAt = DateTime.Parse("2025-09-23 09:20:00")
+            };
+
 
             modelBuilder.Entity<Result>().HasData(
                 result1,
                 result2,
-                result3
-                
-            
+                result3,
+                result4,
+                result5,
+                result6,
+                result7,
+                result8,
+                result9,
+                result10,
+                result11
+
+
             );
         }
     }
