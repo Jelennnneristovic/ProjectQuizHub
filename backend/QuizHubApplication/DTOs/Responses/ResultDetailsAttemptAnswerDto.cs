@@ -9,7 +9,8 @@ namespace QuizHubApplication.DTOs.Responses
     public record ResultDetailsQuizAttemptAnswerDto(
         string QuestionText,
         List<ResultDetailsAttemptAnswerOptionDto> UserAnswers,
-        bool IsCorrect
+        bool IsCorrect,
+        string? FillInAnswer
         )
     {
     }

@@ -52,7 +52,8 @@ namespace QuizHubApplication.Services
             }
 
             //odgovori Usera
-            AttemptAnswer newAttemptAnswer = new(createAttemptAnswerDto.QuizAttemptId,
+            AttemptAnswer newAttemptAnswer = new(
+                    createAttemptAnswerDto.QuizAttemptId,
                     createAttemptAnswerDto.QuestionId,
                     createAttemptAnswerDto.FillInAnswer,
                     attemptAnswerOptions);
@@ -101,7 +102,49 @@ namespace QuizHubApplication.Services
                 }
             }
         }
-        private void ValidateMultipleCorrectAnswer(Question question, AttemptAnswer newAttemptAnswer) { }
-        private void ValidateFillInCorrectAnswer(Question question, AttemptAnswer newAttemptAnswer) { }
+        private void ValidateMultipleCorrectAnswer(Question question, AttemptAnswer newAttemptAnswer)
+        {
+            
+            if (newAttemptAnswer.AttemptAnswerOptions.Count < 2)
+            {
+                return;
+            }
+            //odgovor je tacan ako je korisnik odgovorio na sva pitanja tacno, i svi koji su tacni odgovori moraju biti oznacceni
+
+            HashSet<int> correctAnswers = [];
+            foreach (AnswerOption answerOption in question.AnswerOptions)
+            {
+                if (answerOption.IsCorrect && answerOption.IsActive)
+                {
+                    correctAnswers.Add(answerOption.Id);
+                }
+            }
+
+            HashSet<int> userAnswers = [];
+            foreach (AttemptAnswerOption option in newAttemptAnswer.AttemptAnswerOptions)
+            {
+                userAnswers.Add(option.Id);
+            }
+
+            if (correctAnswers.SetEquals(userAnswers))
+            {
+                newAttemptAnswer.IsCorrect = true;
+                newAttemptAnswer.AwardedPoints = question.Points;
+            }
+        }
+        private void ValidateFillInCorrectAnswer(Question question, AttemptAnswer newAttemptAnswer)
+        {
+            if (question.CorrectFillInAnswer is null || newAttemptAnswer.FillInAnswer is null)
+            {
+                return;
+            }
+            if (string.Equals(question.CorrectFillInAnswer, newAttemptAnswer.FillInAnswer, StringComparison.OrdinalIgnoreCase))
+            {
+                //ako je tacan dogovor -> 
+                newAttemptAnswer.IsCorrect = true;
+                newAttemptAnswer.AwardedPoints = question.Points;
+            }
+        
+        }
     }
 }

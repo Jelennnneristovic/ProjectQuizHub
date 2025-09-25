@@ -146,11 +146,11 @@ namespace QuizHubApplication.Services
             _questionRepository.UpdateQuestion(question);
             return _quizService.GetQuiz(updateQuestionDto.QuizId);
         }
-        private void ValidateAnswersWithQuestionType(QuestionType QuestionType, string? CorrectFillAnswer, List<ICRUDAnswerOptionDto> AnswerOptionDtos)
+        private static void ValidateAnswersWithQuestionType(QuestionType QuestionType, string? CorrectFillAnswer, List<ICRUDAnswerOptionDto> AnswerOptionDtos)
         {
             if (QuestionType.Equals(QuestionType.FillIn))
             {
-                if (CorrectFillAnswer is null || AnswerOptionDtos.Count != 1)
+                if (CorrectFillAnswer is null || AnswerOptionDtos.Count != 0)
                 { throw new NotFillInTypeQuestion(); }
 
 

@@ -21,15 +21,7 @@ namespace QuizHubApplication.Services
         private readonly ICategoryService _categoryService = categoryService;
         public QuizDto CreateQuiz(CreateQuizDto createQuizDto)
         {
-           /*
-            Quiz? quiz = _quizRepository.GetQuiz(1);
 
-            if (quiz is not null)
-            {
-                throw new EntityAlreadyExists(string.Format("The quiz '{0}' already exists.", quiz.Title));
-            }
-
-            */
 
             Quiz newQuiz = new(createQuizDto.Title, createQuizDto.Description,createQuizDto.TimeLimit, Enum.Parse<DifficultyLevel>(createQuizDto.DifficultyLevel), createQuizDto.CategoryId);
             _quizRepository.CreateQuiz(newQuiz);
@@ -61,17 +53,7 @@ namespace QuizHubApplication.Services
 
         }
 
-        /*
-        public string GetQuiz(string name)
-        {
-            Quiz? quiz = _quizRepository.GetQuiz(1);
-            if (quiz is null)
 
-            { return null; }
-
-            return string.Format("The quiz '{0}' is deleted .", quiz.Id);
-        }
-        */
 
         public QuizDetailsDto? GetQuiz(int id)
         {

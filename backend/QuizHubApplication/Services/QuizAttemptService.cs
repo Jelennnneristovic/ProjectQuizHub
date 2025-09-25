@@ -24,7 +24,7 @@ namespace QuizHubApplication.Services
         private readonly IQuizService _quizService = quizService;
         private readonly IResultService _resultService = resultService;
 
-        public QuizAttemptDto CreateQuizAttemptDto(CreateQuizAttemptDto createQuizAttemptDto)
+        public UserQuizAttemptDto CreateQuizAttempt(CreateQuizAttemptDto createQuizAttemptDto)
         {
             Quiz? quiz = _quizService.GetQuizById(createQuizAttemptDto.QuizId);
             if (quiz is null)
@@ -37,8 +37,41 @@ namespace QuizHubApplication.Services
             QuizAttempt newQuizAttempt = new (createQuizAttemptDto.QuizId, context.Id);
             _quizAttemptRepository.CreateQuizAttempt(newQuizAttempt);
 
-            return new(newQuizAttempt.Id, newQuizAttempt.UserId, newQuizAttempt.QuizId, newQuizAttempt.StartedAt.ToString("yyyy-MM-dd HH:mm:ss"),null,newQuizAttempt.TimeTakenMin,newQuizAttempt.Score);
+            List<UserQuizAttemptQuestionDto> questions = [];
 
+            foreach (var question in quiz.Questions)
+            {
+                List<UserQuizAttemptOptionDto> options = [];
+                foreach (var answer in question.AnswerOptions)
+                {
+                    // ovdje kreiramo opcike
+                    UserQuizAttemptOptionDto answerOptionDto = new(
+                        answer.Id,
+                        answer.Text
+                    );
+                    options.Add(answerOptionDto);
+                }
+
+                // ovdje kreiramo pitanje i dodajemo ga u listu pitanja
+                UserQuizAttemptQuestionDto questionDto = new(
+                    question.Id,
+                    question.Text,
+                    question.Points,
+                    question.QuestionType.ToString(),
+                    options
+                );
+                questions.Add(questionDto);
+            }
+
+            // na kraju kreiramo UserQuizAttemptDto i vraćamo ga
+            UserQuizAttemptDto userQuizAttemptDto = new(
+                newQuizAttempt.Id,
+                newQuizAttempt.QuizId,
+                quiz.Title,
+                quiz.TimeLimit,
+                questions
+            );
+            return userQuizAttemptDto;
         }
 
         public QuizResultDto FinishQuizAttempt(int quizAttemptId)
@@ -124,21 +157,8 @@ namespace QuizHubApplication.Services
         }
 
         public List<QuizAttemptDto> GetQuizAttemptsByUserId(int userId)
-        {   /*
-             try 
-             {                 
-                    UserContext context = _tokenService.GetUserContext();
-                    if (context.Role != Role.Admin && context.Id != userId)
-                    {
-                        throw new UnauthorizedAccessException("You are not authorized to view quiz attempts of other users.");
-                    }
-             }
-                catch (Exception)
-                 {
-                     throw new UnauthorizedAccessException("You are not authorized to view quiz attempts of other users.");
-                 }
-            */
-            // Provera da li korisnik postoji
+        {   
+
 
             QuizAttempt? userCheck = _quizAttemptRepository.GetQuizAttemptById(userId);
             if (userCheck is null)

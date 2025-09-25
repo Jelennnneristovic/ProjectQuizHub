@@ -93,7 +93,8 @@ namespace QuizHubApplication.Services
                 ResultDetailsQuizAttemptAnswerDto attemptAnswer = new(
                     aa.Question.Text,
                     userAnswer,
-                    aa.IsCorrect
+                    aa.IsCorrect,
+                    aa.FillInAnswer
                 );
 
                 attemptAnswers.Add(attemptAnswer);
@@ -110,8 +111,6 @@ namespace QuizHubApplication.Services
                 result.TimeTakenMin,
                 result.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
                 attemptAnswers
-
-
                 );
         }
 

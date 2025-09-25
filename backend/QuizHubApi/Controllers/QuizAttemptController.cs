@@ -21,7 +21,7 @@ namespace QuizHubApi.Controllers
         {
             try
             {
-                return Ok(_quizAttemptService.CreateQuizAttemptDto(createQuizAttemptDto));
+                return Ok(_quizAttemptService.CreateQuizAttempt(createQuizAttemptDto));
             }
             catch (EntityDoesNotExist ex)
             {

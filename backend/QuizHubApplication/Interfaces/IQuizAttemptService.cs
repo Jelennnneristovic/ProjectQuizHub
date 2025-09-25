@@ -11,7 +11,8 @@ namespace QuizHubApplication.Interfaces
 {
     public interface IQuizAttemptService
     {
-        QuizAttemptDto CreateQuizAttemptDto(CreateQuizAttemptDto createQuizAttemptDto);
+        UserQuizAttemptDto CreateQuizAttempt(CreateQuizAttemptDto createQuizAttemptDto);
+
         QuizAttempt? GetQuizAttemptById(int quizAttemptId);
         QuizResultDto FinishQuizAttempt(int quizAttemptId);
         List<QuizAttemptDto> GetAllQuizAttempts();

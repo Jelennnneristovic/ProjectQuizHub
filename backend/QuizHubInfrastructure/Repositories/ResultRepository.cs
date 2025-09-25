@@ -61,6 +61,7 @@ namespace QuizHubInfrastructure.Repositories
                                                  Text = aa.Question.Text,
                                              } : null,
                                              IsCorrect = aa.IsCorrect,
+                                             FillInAnswer = aa.FillInAnswer,
                                              AttemptAnswerOptions = aa.AttemptAnswerOptions
                                                 .Select(ao => new AttemptAnswerOption
                                                 {
