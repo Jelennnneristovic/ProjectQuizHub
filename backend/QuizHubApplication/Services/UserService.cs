@@ -50,7 +50,7 @@ namespace QuizHubApplication.Services
 
         }
 
-        public string Login(LoginUserDto loginUserDto)
+        public TokenResponseDto Login(LoginUserDto loginUserDto)
         {
             User? user = _userRepository.GetUserByEmailOrUsername(loginUserDto.UserKey);
 
@@ -78,9 +78,7 @@ namespace QuizHubApplication.Services
                 throw new InvalidPassword("Password is not correct");
             }
 
-            return CreateToken(user);
-
-
+            return new(CreateToken(user), user.Role.ToString());
         }
 
         private string CreateToken(User user)

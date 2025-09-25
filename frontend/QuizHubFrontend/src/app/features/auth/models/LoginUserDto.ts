@@ -1,4 +1,4 @@
 export interface LoginUserDto {
-  UserKey: string;
-  Password: string;
+  userKey: string;
+  password: string;
 }

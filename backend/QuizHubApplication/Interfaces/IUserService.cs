@@ -11,6 +11,6 @@ namespace QuizHubApplication.Interfaces
     public interface IUserService
     {
         UserDto CreateUser(CreateUserDto createUserDto);
-        string Login(LoginUserDto loginUserDto);
+        TokenResponseDto Login(LoginUserDto loginUserDto);
     }
 }

@@ -31,7 +31,7 @@ namespace QuizHubApi.Controllers
 
         }
         [HttpPost("login")]
-        public ActionResult<string> Login([FromBody] LoginUserDto loginUserDto)
+        public ActionResult<TokenResponseDto> Login([FromBody] LoginUserDto loginUserDto)
         {
             try
             {

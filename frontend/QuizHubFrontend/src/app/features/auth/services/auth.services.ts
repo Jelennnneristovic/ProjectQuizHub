@@ -1,21 +1,32 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable, tap } from "rxjs";
 import { LoginUserDto } from "../models/LoginUserDto";
+import { TokenResponseDto } from "../models/TokenResponseDto";
+import { CreateUserDto } from "../models/CreateUserDto";
+import { UserDto } from "../models/UserDto";
+import { UserContext } from "../../../core/models/UserContext";
+import { jwtDecode } from "jwt-decode";
+
+export interface RawJwtPayload{
+    [key: string]: any;
+
+}
 
 //auth servis sluzi za logovanje i logout.
 @Injectable({ providedIn: 'root' })
+
 export class AuthService {
 
-private apiUrl = environment.apiUrl + '/users';
+    private http = inject(HttpClient)
+    private apiUrl = environment.apiUrl + '/users';
 
-    constructor(private http: HttpClient) {}
-
-    login(dto: LoginUserDto): Observable<string> {
-        return this.http.post(`${this.apiUrl}/login`, dto, { responseType: 'text' }).pipe(
+    login(dto: LoginUserDto): Observable<TokenResponseDto> {
+        return this.http.post<TokenResponseDto>(this.apiUrl + "/login", dto).pipe(
         tap((res) => {
-            localStorage.setItem('jwt', res);
+            console.log(res)
+            localStorage.setItem('jwt', res.token);
         })
         );
     }
@@ -29,4 +40,34 @@ private apiUrl = environment.apiUrl + '/users';
 
     }
 
+    register(dto: CreateUserDto) : Observable<UserDto>
+    {
+        return this.http.post<UserDto>(this.apiUrl + "/register", dto).pipe(tap((res)=>{}));
+    }
+
+    GetCurrentUser(): UserContext | null {
+            const token = localStorage.getItem('jwt');
+
+            if(!token) return null;
+
+            try {
+
+                const payload= jwtDecode<RawJwtPayload>(token);
+
+                return {
+                    id: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+                    username: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+                    email: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+                    role: payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+                };
+
+            } catch{
+
+                return null;
+            }
+
+    }
+    
 }
+
+

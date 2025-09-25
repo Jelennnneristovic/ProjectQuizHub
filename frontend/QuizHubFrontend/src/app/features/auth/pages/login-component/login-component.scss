@@ -54,3 +54,21 @@
     text-align: center;
   }
 }
+
+.switch-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #444;
+}
+
+.switch-link a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
+
