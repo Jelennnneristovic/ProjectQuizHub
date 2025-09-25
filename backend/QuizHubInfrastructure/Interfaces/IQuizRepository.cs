@@ -15,8 +15,6 @@ namespace QuizHubInfrastructure.Interfaces
        // List<Quiz> GetQuizzesSearchKeyWord(string keyword);
         List<Quiz> GetQuizzesWithAllDetailsForKeyWord();
 
-
-
         Quiz? GetQuiz(int Id);
 
         Quiz CreateQuiz(Quiz quiz);

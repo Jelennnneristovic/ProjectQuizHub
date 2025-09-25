@@ -12,8 +12,8 @@ using QuizHubInfrastructure.Data;
 namespace QuizHubInfrastructure.Migrations
 {
     [DbContext(typeof(QuizHubDbContext))]
-    [Migration("20250920144110_Initial")]
-    partial class Initial
+    [Migration("20250924200308_UpdateResult")]
+    partial class UpdateResult
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -450,7 +450,7 @@ namespace QuizHubInfrastructure.Migrations
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TimeTakenSeconds")
+                    b.Property<int?>("TimeTakenMin")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -468,11 +468,11 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            FinishedAt = new DateTime(2025, 9, 14, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            FinishedAt = new DateTime(2025, 9, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 1,
                             Score = 1,
-                            StartedAt = new DateTime(2025, 9, 14, 15, 30, 0, 0, DateTimeKind.Unspecified),
-                            TimeTakenSeconds = 3600,
+                            StartedAt = new DateTime(2025, 9, 13, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 60,
                             UserId = 2
                         },
                         new
@@ -482,38 +482,117 @@ namespace QuizHubInfrastructure.Migrations
                             QuizId = 1,
                             Score = 3,
                             StartedAt = new DateTime(2025, 9, 14, 18, 30, 0, 0, DateTimeKind.Unspecified),
-                            TimeTakenSeconds = 3600,
+                            TimeTakenMin = 60,
                             UserId = 2
                         },
                         new
                         {
                             Id = 3,
-                            FinishedAt = new DateTime(2025, 9, 4, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            FinishedAt = new DateTime(2025, 9, 15, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 2,
                             Score = 5,
-                            StartedAt = new DateTime(2025, 9, 4, 15, 30, 0, 0, DateTimeKind.Unspecified),
-                            TimeTakenSeconds = 3600,
+                            StartedAt = new DateTime(2025, 9, 15, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 60,
                             UserId = 2
                         },
                         new
                         {
                             Id = 4,
-                            FinishedAt = new DateTime(2025, 9, 15, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            FinishedAt = new DateTime(2025, 9, 16, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 3,
                             Score = 1,
-                            StartedAt = new DateTime(2025, 9, 15, 15, 30, 0, 0, DateTimeKind.Unspecified),
-                            TimeTakenSeconds = 3600,
-                            UserId = 2
+                            StartedAt = new DateTime(2025, 9, 16, 15, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 60,
+                            UserId = 3
                         },
                         new
                         {
                             Id = 5,
-                            FinishedAt = new DateTime(2025, 9, 24, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            FinishedAt = new DateTime(2025, 9, 17, 16, 0, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 4,
                             Score = 1,
-                            StartedAt = new DateTime(2025, 9, 24, 15, 0, 0, 0, DateTimeKind.Unspecified),
-                            TimeTakenSeconds = 3600,
-                            UserId = 2
+                            StartedAt = new DateTime(2025, 9, 17, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeTakenMin = 60,
+                            UserId = 3
+                        });
+                });
+
+            modelBuilder.Entity("QuizHubDomain.Entities.Result", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CorrectAnswers")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Percentage")
+                        .HasColumnType("float");
+
+                    b.Property<int>("QuizAttemptId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QuizTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeTakenMin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalQuestions")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizAttemptId")
+                        .IsUnique();
+
+                    b.ToTable("Results");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CorrectAnswers = 2,
+                            CreatedAt = new DateTime(2025, 9, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 100.0,
+                            QuizAttemptId = 1,
+                            QuizTitle = "Kviz programiranja",
+                            Score = 5,
+                            TimeTakenMin = 50,
+                            TotalQuestions = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CorrectAnswers = 1,
+                            CreatedAt = new DateTime(2025, 9, 14, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 50.0,
+                            QuizAttemptId = 2,
+                            QuizTitle = "Kviz programiranja",
+                            Score = 3,
+                            TimeTakenMin = 20,
+                            TotalQuestions = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CorrectAnswers = 0,
+                            CreatedAt = new DateTime(2025, 9, 15, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            Percentage = 0.0,
+                            QuizAttemptId = 3,
+                            QuizTitle = "Kviz o arhitekturi Novog Sada",
+                            Score = 0,
+                            TimeTakenMin = 10,
+                            TotalQuestions = 2
                         });
                 });
 
@@ -648,7 +727,7 @@ namespace QuizHubInfrastructure.Migrations
             modelBuilder.Entity("QuizHubDomain.Entities.QuizAttempt", b =>
                 {
                     b.HasOne("QuizHubDomain.Entities.Quiz", "Quiz")
-                        .WithMany()
+                        .WithMany("QuizAttempts")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -664,6 +743,17 @@ namespace QuizHubInfrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("QuizHubDomain.Entities.Result", b =>
+                {
+                    b.HasOne("QuizHubDomain.Entities.QuizAttempt", "QuizAttempt")
+                        .WithOne("Result")
+                        .HasForeignKey("QuizHubDomain.Entities.Result", "QuizAttemptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuizAttempt");
+                });
+
             modelBuilder.Entity("QuizHubDomain.Entities.AttemptAnswer", b =>
                 {
                     b.Navigation("AttemptAnswerOptions");
@@ -677,11 +767,15 @@ namespace QuizHubInfrastructure.Migrations
             modelBuilder.Entity("QuizHubDomain.Entities.Quiz", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("QuizAttempts");
                 });
 
             modelBuilder.Entity("QuizHubDomain.Entities.QuizAttempt", b =>
                 {
                     b.Navigation("AttemptAnswers");
+
+                    b.Navigation("Result");
                 });
 #pragma warning restore 612, 618
         }

@@ -103,7 +103,7 @@ namespace QuizHubInfrastructure.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     QuizId = table.Column<int>(type: "int", nullable: false),
                     StartedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeTakenSeconds = table.Column<int>(type: "int", nullable: true),
+                    TimeTakenMin = table.Column<int>(type: "int", nullable: true),
                     FinishedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Score = table.Column<int>(type: "int", nullable: false)
                 },
@@ -173,6 +173,32 @@ namespace QuizHubInfrastructure.Migrations
                         principalTable: "QuizAttempts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Results",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuizAttemptId = table.Column<int>(type: "int", nullable: false),
+                    QuizTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalQuestions = table.Column<int>(type: "int", nullable: false),
+                    CorrectAnswers = table.Column<int>(type: "int", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable: false),
+                    Percentage = table.Column<double>(type: "float", nullable: false),
+                    TimeTakenMin = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Results", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Results_QuizAttempts_QuizAttemptId",
+                        column: x => x.QuizAttemptId,
+                        principalTable: "QuizAttempts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,14 +272,14 @@ namespace QuizHubInfrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "QuizAttempts",
-                columns: new[] { "Id", "FinishedAt", "QuizId", "Score", "StartedAt", "TimeTakenSeconds", "UserId" },
+                columns: new[] { "Id", "FinishedAt", "QuizId", "Score", "StartedAt", "TimeTakenMin", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 9, 14, 16, 30, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(2025, 9, 14, 15, 30, 0, 0, DateTimeKind.Unspecified), 3600, 2 },
-                    { 2, new DateTime(2025, 9, 14, 19, 30, 0, 0, DateTimeKind.Unspecified), 1, 3, new DateTime(2025, 9, 14, 18, 30, 0, 0, DateTimeKind.Unspecified), 3600, 2 },
-                    { 3, new DateTime(2025, 9, 4, 16, 30, 0, 0, DateTimeKind.Unspecified), 2, 5, new DateTime(2025, 9, 4, 15, 30, 0, 0, DateTimeKind.Unspecified), 3600, 2 },
-                    { 4, new DateTime(2025, 9, 15, 16, 30, 0, 0, DateTimeKind.Unspecified), 3, 1, new DateTime(2025, 9, 15, 15, 30, 0, 0, DateTimeKind.Unspecified), 3600, 2 },
-                    { 5, new DateTime(2025, 9, 24, 16, 0, 0, 0, DateTimeKind.Unspecified), 4, 1, new DateTime(2025, 9, 24, 15, 0, 0, 0, DateTimeKind.Unspecified), 3600, 2 }
+                    { 1, new DateTime(2025, 9, 13, 16, 30, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(2025, 9, 13, 15, 30, 0, 0, DateTimeKind.Unspecified), 60, 2 },
+                    { 2, new DateTime(2025, 9, 14, 19, 30, 0, 0, DateTimeKind.Unspecified), 1, 3, new DateTime(2025, 9, 14, 18, 30, 0, 0, DateTimeKind.Unspecified), 60, 2 },
+                    { 3, new DateTime(2025, 9, 15, 16, 30, 0, 0, DateTimeKind.Unspecified), 2, 5, new DateTime(2025, 9, 15, 15, 30, 0, 0, DateTimeKind.Unspecified), 60, 2 },
+                    { 4, new DateTime(2025, 9, 16, 16, 30, 0, 0, DateTimeKind.Unspecified), 3, 1, new DateTime(2025, 9, 16, 15, 30, 0, 0, DateTimeKind.Unspecified), 60, 3 },
+                    { 5, new DateTime(2025, 9, 17, 16, 0, 0, 0, DateTimeKind.Unspecified), 4, 1, new DateTime(2025, 9, 17, 15, 0, 0, 0, DateTimeKind.Unspecified), 60, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -279,6 +305,16 @@ namespace QuizHubInfrastructure.Migrations
                 {
                     { 1, 3, null, true, 1, 1 },
                     { 2, 2, null, true, 2, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Results",
+                columns: new[] { "Id", "CorrectAnswers", "CreatedAt", "Percentage", "QuizAttemptId", "QuizTitle", "Score", "TimeTakenMin", "TotalQuestions" },
+                values: new object[,]
+                {
+                    { 1, 2, new DateTime(2025, 9, 13, 16, 30, 0, 0, DateTimeKind.Unspecified), 100.0, 1, "", 5, 50, 2 },
+                    { 2, 1, new DateTime(2025, 9, 14, 17, 0, 0, 0, DateTimeKind.Unspecified), 50.0, 2, "", 3, 20, 2 },
+                    { 3, 0, new DateTime(2025, 9, 15, 17, 30, 0, 0, DateTimeKind.Unspecified), 0.0, 3, "", 0, 10, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -336,6 +372,12 @@ namespace QuizHubInfrastructure.Migrations
                 name: "IX_Quizzes_CategoryId",
                 table: "Quizzes",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Results_QuizAttemptId",
+                table: "Results",
+                column: "QuizAttemptId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -343,6 +385,9 @@ namespace QuizHubInfrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AttemptAnswerOptions");
+
+            migrationBuilder.DropTable(
+                name: "Results");
 
             migrationBuilder.DropTable(
                 name: "AnswerOptions");

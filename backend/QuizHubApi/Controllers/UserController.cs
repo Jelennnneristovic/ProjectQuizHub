@@ -15,7 +15,7 @@ namespace QuizHubApi.Controllers
     {
         private readonly IUserService _userService = userService;
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
         public ActionResult<UserDto> CreateUser([FromBody] CreateUserDto createUserDto)
         {
             try
@@ -30,7 +30,7 @@ namespace QuizHubApi.Controllers
             }
 
         }
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public ActionResult<string> Login([FromBody] LoginUserDto loginUserDto)
         {
             try

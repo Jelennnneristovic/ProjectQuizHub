@@ -17,10 +17,11 @@ namespace QuizHubDomain.Entities
         public Quiz? Quiz { get; set; }
 
         public DateTime StartedAt { get; set; } = DateTime.Now;
-        public int? TimeTakenSeconds { get; set; }
+        public int? TimeTakenMin { get; set; }
         public DateTime? FinishedAt { get; set; } 
 
         public int Score { get; set; } = 0;
+        public Result? Result { get; set; } //svaki pokusaj ima svoj rezultat
 
         public List<AttemptAnswer> AttemptAnswers { get; set; } = [];
     

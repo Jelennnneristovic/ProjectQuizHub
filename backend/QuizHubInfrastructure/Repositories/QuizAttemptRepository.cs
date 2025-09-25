@@ -1,4 +1,5 @@
-﻿using QuizHubDomain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using QuizHubDomain.Entities;
 using QuizHubInfrastructure.Data;
 using QuizHubInfrastructure.Interfaces;
 using System;
@@ -17,6 +18,53 @@ namespace QuizHubInfrastructure.Repositories
         {
             _context.QuizAttempts.Add(quizAttempt);
             _context.SaveChanges();
+        }
+
+        public List<QuizAttempt> GetAllQuizAttempts()
+        {
+            return _context.QuizAttempts
+            .Select(qa => new QuizAttempt
+            {
+                Id = qa.Id,
+                UserId = qa.UserId,
+                User = new User
+                {
+                    Id = qa.UserId,
+                    UserName = qa.User.UserName,
+                    Email = qa.User.Email,
+                    AvatarUrl = qa.User.AvatarUrl,
+                    Role = qa.User.Role
+                },
+                QuizId = qa.QuizId,
+                Quiz = new Quiz
+                {
+                    Id = qa.QuizId,
+                    Title = qa.Quiz.Title,
+                    Description = qa.Quiz.Description,
+                    IsActive = qa.Quiz.IsActive,
+                },
+                StartedAt = qa.StartedAt,
+                FinishedAt = qa.FinishedAt,
+                TimeTakenMin = qa.TimeTakenMin,
+                Score = qa.Score,
+                AttemptAnswers = qa.AttemptAnswers.Select(aa => new AttemptAnswer
+                {
+                    Id = aa.Id,
+                    QuizAttemptId = aa.QuizAttemptId,
+                    FillInAnswer = aa.FillInAnswer,
+                    IsCorrect = aa.IsCorrect,
+                    AwardedPoints = aa.AwardedPoints,
+                    QuestionId = aa.QuestionId,
+                    AttemptAnswerOptions = aa.AttemptAnswerOptions.Select(ao => new AttemptAnswerOption
+                    {
+                        Id = ao.Id,
+                        AnswerOptionId = ao.AnswerOptionId,
+                        AttemptAnswerId = ao.AttemptAnswerId
+                    }).ToList()
+                }).ToList()
+            })
+            .ToList();
+
         }
 
         public QuizAttempt? GetQuizAttempt(int quizAttemptById)
@@ -43,7 +91,7 @@ namespace QuizHubInfrastructure.Repositories
                             {
                                 Id = ao.Id,   
                                 AnswerOptionId = ao.AnswerOptionId,
-                                AttemptAnswerId = ao.AttemptAnswerId
+                                AttemptAnswerId = ao.AttemptAnswerId,
                             }).ToList()
                         }).ToList()
                     })
@@ -55,6 +103,15 @@ namespace QuizHubInfrastructure.Repositories
             return _context.QuizAttempts
                 .Where(qa => qa.Id == quizAttemptId)
                 .FirstOrDefault();
+        }
+
+        public List<QuizAttempt> GetQuizAttemptsByUserId(int userId)
+        {
+            List<QuizAttempt> attempts = GetAllQuizAttempts()
+                                         .Where(qa => qa.UserId == userId)
+                                         .ToList();
+
+            return attempts;
         }
 
         public void UpdateQuizAttempt(QuizAttempt quizAttempt)

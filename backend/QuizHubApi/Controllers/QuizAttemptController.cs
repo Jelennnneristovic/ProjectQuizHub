@@ -5,10 +5,11 @@ using QuizHubApplication.DTOs.Requests;
 using QuizHubApplication.DTOs.Responses;
 using QuizHubApplication.Exceptions;
 using QuizHubApplication.Interfaces;
+using QuizHubDomain.Entities;
 
 namespace QuizHubApi.Controllers
 {
-    [Route("api/quizAttempt")]
+    [Route("api/quizAttempts")]
     [ApiController]
     public class QuizAttemptController(IQuizAttemptService quizAttemptService) : ControllerBase
     {
@@ -42,6 +43,42 @@ namespace QuizHubApi.Controllers
                 return BadRequest(ex.Message);
 
             }
+        }
+
+        //  [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult<List<QuizAttemptDto>> GetAllQuizAttempts()
+        {
+            return Ok(_quizAttemptService.GetAllQuizAttempts());
+        }
+
+        //  [Authorize(Roles = "Admin")]
+        [HttpGet("users/{userId}")]
+        public ActionResult<List<QuizAttemptDto>> GetQuizAttemptsByUserId(int userId)
+        {
+            try
+            {   
+                return Ok(_quizAttemptService.GetQuizAttemptsByUserId(userId));
+            }
+            catch (EntityDoesNotExist ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [Authorize(Roles = "User")]
+        [HttpGet("user")]
+        public ActionResult<List<QuizAttemptDto>> GetQuizAttemptsFromUser()
+        {
+            try
+            {
+                return Ok(_quizAttemptService.GetQuizAttemptsFromUser());
+            }
+            catch (EntityDoesNotExist ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace QuizHubApplication.DTOs.Responses
 {
-    public record QuizResultDto(int QuestionCount, int CorrectQuestionCount, double SuccessResult)
+    public record ResultDetailsAttemptAnswerOptionDto(
+        string OptionText,
+        bool IsCorrect
+        )
     {
     }
 }

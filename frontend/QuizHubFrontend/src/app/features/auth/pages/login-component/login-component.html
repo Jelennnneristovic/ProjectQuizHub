@@ -1,0 +1,29 @@
+<div class="login-container">
+  <h2>Prijava</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Korisničko ime ili Email</label>
+      <input type="text" formControlName="UserKey" />
+
+      @if (loginForm.get('UserKey')?.invalid && loginForm.get('UserKey')?.touched) {
+        <small>Polje je obavezno</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Lozinka</label>
+      <input type="password" formControlName="Password" />
+
+      @if (loginForm.get('Password')?.invalid && loginForm.get('Password')?.touched) {
+        <small>Lozinka mora imati bar 3 karaktera</small>
+      }
+    </div>
+
+    <button type="submit" [disabled]="loading">Prijavi se</button>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+</div>

@@ -13,5 +13,8 @@ namespace QuizHubInfrastructure.Interfaces
         QuizAttempt? GetQuizAttemptById(int quizAttemptId);
         void UpdateQuizAttempt(QuizAttempt quizAttempt);
         QuizAttempt? GetQuizAttempt(int quizAttemptById);
+
+        List<QuizAttempt> GetAllQuizAttempts();
+        List<QuizAttempt> GetQuizAttemptsByUserId(int userId);
     }
 }

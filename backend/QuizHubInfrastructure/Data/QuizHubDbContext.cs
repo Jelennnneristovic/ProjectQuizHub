@@ -21,6 +21,8 @@ namespace QuizHubInfrastructure.Data
         public DbSet<Question> Questions => Set<Question>();
         public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
         public DbSet<AttemptAnswerOption> AttemptAnswerOptions => Set<AttemptAnswerOption>();
+        public DbSet<Result> Results => Set<Result>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +48,13 @@ namespace QuizHubInfrastructure.Data
                 .WithMany(q => q.AnswerOptions)
                 .HasForeignKey(o => o.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Result → QuizAttempt (1:1)
+            modelBuilder.Entity<QuizAttempt>()
+                .HasOne(qa => qa.Result)
+                .WithOne(r => r.QuizAttempt)
+                .HasForeignKey<Result>(r => r.QuizAttemptId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //Users
             var admin = new User
@@ -314,9 +323,9 @@ namespace QuizHubInfrastructure.Data
                 Id = 1,
                 QuizId = quiz1.Id,
                 UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-14 15:30:00"),
-                FinishedAt = DateTime.Parse("2025-09-14 16:30:00"),
-                TimeTakenSeconds = 3600,
+                StartedAt = DateTime.Parse("2025-09-13 15:30:00"),
+                FinishedAt = DateTime.Parse("2025-09-13 16:30:00"),
+                TimeTakenMin = 60,
                 Score = 1,
             };
             var quizAttempt2 = new QuizAttempt
@@ -326,7 +335,7 @@ namespace QuizHubInfrastructure.Data
                 UserId = user1.Id,
                 StartedAt = DateTime.Parse("2025-09-14 18:30:00"),
                 FinishedAt = DateTime.Parse("2025-09-14 19:30:00"),
-                TimeTakenSeconds = 3600,
+                TimeTakenMin = 60,
                 Score = 3,
             };
             var quizAttempt3 = new QuizAttempt
@@ -334,29 +343,29 @@ namespace QuizHubInfrastructure.Data
                 Id = 3,
                 QuizId = quiz2.Id,
                 UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-04 15:30:00"),
-                FinishedAt = DateTime.Parse("2025-09-04 16:30:00"),
-                TimeTakenSeconds = 3600,
+                StartedAt = DateTime.Parse("2025-09-15 15:30:00"),
+                FinishedAt = DateTime.Parse("2025-09-15 16:30:00"),
+                TimeTakenMin = 60,
                 Score = 5,
             };
             var quizAttempt4 = new QuizAttempt
             {
                 Id = 4,
                 QuizId = quiz3.Id,
-                UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-15 15:30:00"),
-                FinishedAt = DateTime.Parse("2025-09-15 16:30:00"),
-                TimeTakenSeconds = 3600,
+                UserId = user2.Id,
+                StartedAt = DateTime.Parse("2025-09-16 15:30:00"),
+                FinishedAt = DateTime.Parse("2025-09-16 16:30:00"),
+                TimeTakenMin = 60,
                 Score = 1,
             };
             var quizAttempt5 = new QuizAttempt
             {
                 Id = 5,
                 QuizId = quiz4.Id,
-                UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-24 15:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-24 16:00:00"),
-                TimeTakenSeconds = 3600,
+                UserId = user2.Id,
+                StartedAt = DateTime.Parse("2025-09-17 15:00:00"),
+                FinishedAt = DateTime.Parse("2025-09-17 16:00:00"),
+                TimeTakenMin = 60,
                 Score = 1,
             };
             modelBuilder.Entity<QuizAttempt>().HasData(
@@ -428,8 +437,51 @@ namespace QuizHubInfrastructure.Data
                 attemptAnswerOption3,
                 attemptAnswerOption4
             );
+            var result1 = new Result
+            {
+                Id = 1,
+                QuizAttemptId = 1,
+                QuizTitle = quiz1.Title,
+                TotalQuestions = 2,
+                CorrectAnswers = 2,
+                Score = 5,
+                Percentage = 100,
+                TimeTakenMin = 50,
+                CreatedAt = DateTime.Parse("2025-09-13 16:30:00")
+            };
+            var result2 = new Result
+            {
+                Id = 2,
+                QuizAttemptId = 2,   
+                QuizTitle= quiz1.Title,
+                TotalQuestions = 2,  
+                CorrectAnswers = 1,  
+                Score = 3,           
+                Percentage = 50,
+                TimeTakenMin = 20, //20 minuta
+                CreatedAt = DateTime.Parse("2025-09-14 17:00:00")
+            };
 
+            var result3 = new Result
+            {
+                Id = 3,
+                QuizAttemptId = 3,
+                QuizTitle = quiz2.Title,
+                TotalQuestions = 2,
+                CorrectAnswers = 0,  
+                Score = 0,
+                Percentage = 0,
+                TimeTakenMin = 10, // 10 minuta
+                CreatedAt = DateTime.Parse("2025-09-15 17:30:00")
+            };
 
+            modelBuilder.Entity<Result>().HasData(
+                result1,
+                result2,
+                result3
+                
+            
+            );
         }
     }
 }

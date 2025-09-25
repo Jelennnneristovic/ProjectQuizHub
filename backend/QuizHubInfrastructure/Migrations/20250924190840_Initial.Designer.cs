@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizHubInfrastructure.Data;
 
@@ -11,9 +12,11 @@ using QuizHubInfrastructure.Data;
 namespace QuizHubInfrastructure.Migrations
 {
     [DbContext(typeof(QuizHubDbContext))]
-    partial class QuizHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250924190840_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -562,7 +565,7 @@ namespace QuizHubInfrastructure.Migrations
                             CreatedAt = new DateTime(2025, 9, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             Percentage = 100.0,
                             QuizAttemptId = 1,
-                            QuizTitle = "Kviz programiranja",
+                            QuizTitle = "",
                             Score = 5,
                             TimeTakenMin = 50,
                             TotalQuestions = 2
@@ -574,7 +577,7 @@ namespace QuizHubInfrastructure.Migrations
                             CreatedAt = new DateTime(2025, 9, 14, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             Percentage = 50.0,
                             QuizAttemptId = 2,
-                            QuizTitle = "Kviz programiranja",
+                            QuizTitle = "",
                             Score = 3,
                             TimeTakenMin = 20,
                             TotalQuestions = 2
@@ -586,7 +589,7 @@ namespace QuizHubInfrastructure.Migrations
                             CreatedAt = new DateTime(2025, 9, 15, 17, 30, 0, 0, DateTimeKind.Unspecified),
                             Percentage = 0.0,
                             QuizAttemptId = 3,
-                            QuizTitle = "Kviz o arhitekturi Novog Sada",
+                            QuizTitle = "",
                             Score = 0,
                             TimeTakenMin = 10,
                             TotalQuestions = 2
