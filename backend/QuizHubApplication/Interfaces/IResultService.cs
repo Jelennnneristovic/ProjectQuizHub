@@ -1,4 +1,5 @@
-﻿using QuizHubApplication.DTOs.Responses;
+﻿using QuizHubApplication.DTOs.Requests;
+using QuizHubApplication.DTOs.Responses;
 using QuizHubDomain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace QuizHubApplication.Interfaces
         List<ResultDto> GetResultsByUser();
         ResultDetailsDto? GetResultDetailsById(int resultId);
         ResultDto CreateResult(Result result);
+        LeaderBoardEntriesDto GetLeaderboard(LeaderBoardRequestDto leaderBoardRequestDto);
     }
 }

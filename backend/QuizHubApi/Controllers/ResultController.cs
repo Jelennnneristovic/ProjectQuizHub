@@ -48,6 +48,19 @@ namespace QuizHubApi.Controllers
 
         }
 
+        [HttpGet("topResults")]
+        public ActionResult<LeaderBoardEntriesDto> GetLeaderboard([FromQuery]  int QuizId, [FromQuery] string? Period)
+        {
+            try
+            {
+                LeaderBoardEntriesDto leaderBoardEntries = _resultService.GetLeaderboard(new (QuizId, Period));
+                return Ok(leaderBoardEntries);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 

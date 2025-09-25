@@ -1,4 +1,6 @@
-﻿using QuizHubApplication.Configuration;
+﻿using Azure.Core;
+using QuizHubApplication.Configuration;
+using QuizHubApplication.DTOs.Requests;
 using QuizHubApplication.DTOs.Responses;
 using QuizHubApplication.Exceptions;
 using QuizHubApplication.Interfaces;
@@ -128,6 +130,37 @@ namespace QuizHubApplication.Services
                     result.TimeTakenMin,
                     result.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")
                 );
+        }
+
+        public LeaderBoardEntriesDto GetLeaderboard(LeaderBoardRequestDto leaderBoardRequestDto)
+        {
+            if (leaderBoardRequestDto.Period is not null && leaderBoardRequestDto.Period != "monthly" && leaderBoardRequestDto.Period != "weekly")
+            {
+                throw new NotValidQueryParameter("Period query parameter must be one of the following values: none, monthly, weekly.");
+            }   
+
+            List<Result> results = _resultRepository.GetLeaderboard(leaderBoardRequestDto.QuizId, leaderBoardRequestDto.Period);
+            List<LeaderBoardEntryDto> entries = [];
+            int cnt = 1;
+            foreach (Result r in results)
+            {
+                // Preskocicemo rezultat koji nema quiz attempt ili ciji quiz attempt nema usera
+                // sto ne bi trebalo da se desi, ali bolje biti siguran i da ne vristi program
+                if (r.QuizAttempt is null || r.QuizAttempt.User is null)
+                { continue; }
+
+                entries.Add(new LeaderBoardEntryDto(
+                    cnt,
+                    r.QuizAttempt.User.UserName,
+                    r.Score,
+                    r.TimeTakenMin,
+                    r.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")
+                ));
+
+                cnt += 1;
+            }
+
+            return new LeaderBoardEntriesDto(entries);
         }
     }
 }

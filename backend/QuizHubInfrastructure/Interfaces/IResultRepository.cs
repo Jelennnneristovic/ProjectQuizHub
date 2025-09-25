@@ -13,6 +13,7 @@ namespace QuizHubInfrastructure.Interfaces
         List<Result>GetResults(int UserId);
         Result? GetResultDetailsById(int resultId);
         void CreateResult(Result result);
+        List<Result> GetLeaderboard(int quizId, string? period);
 
     }
 }

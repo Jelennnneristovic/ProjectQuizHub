@@ -11,12 +11,27 @@ namespace QuizHubInfrastructure.Repositories
 {
     public class ResultRepository(QuizHubDbContext context) : IResultRepository
     {
-        readonly QuizHubDbContext _context= context;
+        readonly QuizHubDbContext _context = context;
 
         public void CreateResult(Result result)
         {
             _context.Results.Add(result);
             _context.SaveChanges();
+
+        }
+
+        public List<Result> GetLeaderboard(int quizId, string? period)
+        {
+            return [.. GetResults()
+                .Where(r => r.QuizAttempt != null && r.QuizAttempt.QuizId == quizId
+                && (period is null || 
+                    (period.Equals("weekly") && r.CreatedAt >= DateTime.Now.AddDays(-7)) ||
+                    (period.Equals("monthly") && r.CreatedAt >= DateTime.Now.AddMonths(-1))
+                   )
+                )
+                .OrderByDescending(r => r.Score)
+                .ThenBy(r => r.TimeTakenMin)];
+
 
         }
 
@@ -79,8 +94,12 @@ namespace QuizHubInfrastructure.Repositories
                     CreatedAt = r.CreatedAt,
                     QuizAttempt = r.QuizAttempt != null ? new QuizAttempt()
                     {
-    
-                        UserId = r.QuizAttempt.UserId
+                        QuizId = r.QuizAttempt.QuizId,
+                        UserId = r.QuizAttempt.UserId,
+                        User = r.QuizAttempt.User != null ? new User()
+                        {
+                            UserName = r.QuizAttempt.User.UserName
+                        } : null
 
                     } : null
                 })
