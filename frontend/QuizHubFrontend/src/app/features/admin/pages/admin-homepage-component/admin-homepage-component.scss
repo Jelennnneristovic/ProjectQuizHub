@@ -1,0 +1,49 @@
+.admin-layout {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    min-height: 100vh;
+}
+
+.admin-main {
+    padding: 2rem;
+    background: #f9f9f9;
+}
+
+.admin-sidebar {
+    background: #ffffff;
+    border-left: 1px solid #ddd;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.admin-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.admin-sidebar li {
+    margin-bottom: 1rem;
+}
+
+.admin-sidebar a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.admin-sidebar a:hover {
+    background: #eee;
+}
+
+.admin-sidebar a.active {
+    background: #1976d2;
+    color: #fff;
+}

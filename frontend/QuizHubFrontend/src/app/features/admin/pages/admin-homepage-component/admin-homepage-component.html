@@ -1,0 +1,16 @@
+<div class="admin-layout">
+    <!-- Glavni sadržaj -->
+    <main class="admin-main">
+        <router-outlet></router-outlet>
+    </main>
+
+    <!-- Sidebar sa desne strane -->
+    <aside class="admin-sidebar">
+        <nav>
+            <ul>
+                <li><a routerLink="quizzes" routerLinkActive="active">Quizzes</a></li>
+                <li><a routerLink="results" routerLinkActive="active">Results</a></li>
+            </ul>
+        </nav>
+    </aside>
+</div>

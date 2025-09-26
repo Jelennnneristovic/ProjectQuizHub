@@ -39,7 +39,15 @@ export class LoginComponent {
     this.authService.login(dto).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['']); 
+
+        const userContext = this.authService.GetCurrentUser();
+        if(userContext?.role ==='Admin')
+        {
+            this.router.navigate(['/admin/homepage']); 
+
+        }
+        //this.router.navigate(['']); 
+
       },
       error: (err) => {
         console.log(err);
