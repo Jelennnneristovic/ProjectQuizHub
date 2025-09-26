@@ -38,15 +38,30 @@ namespace QuizHubApplication.Services
                 throw new EntityAlreadyExists(string.Format("Registration failed! The user '{0}' already exists.", createUserDto.Username));
             }
 
-            
-
             var hashedPasswords = new PasswordHasher<User>().HashPassword(new User(), createUserDto.Password);
 
-            User newUser = new(createUserDto.Username,createUserDto.Email, hashedPasswords, createUserDto.AvatarUrl);
-            _userRepository.CreateUser(newUser);
-            return new UserDto(newUser.UserName, newUser.Email,  newUser.AvatarUrl);
+            string? avatarUrl= null;
+            if (createUserDto.ProfileImage is not null)
+            {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                Directory.CreateDirectory(uploadPath);
 
-            
+                var fileName = Guid.NewGuid() + Path.GetExtension(createUserDto.ProfileImage.FileName);
+                var filePath = Path.Combine(uploadPath, fileName);
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    createUserDto.ProfileImage.CopyTo(stream);
+                }
+
+                avatarUrl = $"/uploads/{fileName}";
+            }
+
+            User newUser = new(createUserDto.Username,createUserDto.Email, hashedPasswords, avatarUrl);
+            _userRepository.CreateUser(newUser);
+
+            return new UserDto(newUser.UserName, newUser.Email,  newUser.AvatarUrl);
+  
 
         }
 

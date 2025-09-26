@@ -16,7 +16,7 @@ namespace QuizHubApi.Controllers
         private readonly IUserService _userService = userService;
 
         [HttpPost("register")]
-        public ActionResult<UserDto> CreateUser([FromBody] CreateUserDto createUserDto)
+        public ActionResult<UserDto> CreateUser([FromForm] CreateUserDto createUserDto)
         {
             try
             {

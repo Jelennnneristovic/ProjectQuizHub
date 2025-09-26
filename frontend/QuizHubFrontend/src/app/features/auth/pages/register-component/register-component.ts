@@ -20,7 +20,8 @@ export class RegisterComponent {
 
   loading = false;
   errorMsg = '';
-
+  selectedFile?: File;
+  
     registerForm: FormGroup = this.fb.group({
             username:['',[Validators.required, Validators.minLength(3)]],
             email: ['',[Validators.required, Validators.email]],
@@ -33,13 +34,32 @@ export class RegisterComponent {
       return !!(control && control.invalid && (control.dirty || control.touched));
     
     }
+
+    onFileSelected(event: Event)
+    {
+        const input = event.target as HTMLInputElement;
+        if(input.files && input.files.length >0)
+        {
+          this.selectedFile= input.files[0];
+
+        }
+
+    }
+
     onSubmit(): void {
         if (this.registerForm.invalid) return;
 
         this.loading = true;
         this.errorMsg = '';
 
-        const dto: CreateUserDto = this.registerForm.value as CreateUserDto;
+        const dto: CreateUserDto = {
+                  username: this.registerForm.value.username,
+                  email: this.registerForm.value.email,
+                  password: this.registerForm.value.password,
+                  profileImage: this.selectedFile,
+
+        };
+
 
         this.authService.register(dto).subscribe({
             next: () => {

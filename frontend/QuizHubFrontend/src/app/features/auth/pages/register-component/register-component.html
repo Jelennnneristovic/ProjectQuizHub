@@ -26,6 +26,12 @@
       }
     </div>
 
+     
+<!-- Profile Image -->
+        <div class="form-group">
+            <label for="profileImage">Profile Image</label>
+            <input id="profileImage" type="file" (change)="onFileSelected($event)" accept="image/*" />
+        </div>
     <button type="submit" [disabled]="loading">Registruj se</button>
   </form>
 

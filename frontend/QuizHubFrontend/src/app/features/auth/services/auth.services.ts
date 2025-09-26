@@ -40,10 +40,21 @@ export class AuthService {
 
     }
 
-    register(dto: CreateUserDto) : Observable<UserDto>
-    {
-        return this.http.post<UserDto>(this.apiUrl + "/register", dto).pipe(tap((res)=>{}));
-    }
+  
+    register(dto: CreateUserDto): Observable<any> {
+            const formData = new FormData();
+            formData.append('username', dto.username);
+            formData.append('email', dto.email);
+            formData.append('password', dto.password);
+
+            if (dto.profileImage) {
+                formData.append('profileImage', dto.profileImage);
+            }
+
+            console.log(formData);
+            console.log(dto);
+            return this.http.post<any>(`${this.apiUrl}/register`, formData).pipe(tap((res) => {}));
+        }
 
     GetCurrentUser(): UserContext | null {
             const token = localStorage.getItem('jwt');
