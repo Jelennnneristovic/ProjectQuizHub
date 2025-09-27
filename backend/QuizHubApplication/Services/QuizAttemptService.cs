@@ -137,15 +137,18 @@ namespace QuizHubApplication.Services
             List<QuizAttemptDto> result = [];
             foreach (QuizAttempt attempt in attempts)
             {
-              QuizAttemptDto dto = new(
-                    attempt.Id,
-                    attempt.UserId,
-                    attempt.QuizId,
-                    attempt.StartedAt.ToString("yyyy-MM-dd HH:mm:ss"),
-                    attempt.FinishedAt?.ToString("yyyy-MM-dd HH:mm:ss"),
-                    attempt.TimeTakenMin,
-                    attempt.Score
-                );
+                QuizAttemptDto dto = new(
+                      attempt.Id,
+                      attempt.UserId,
+                      attempt.User != null ? attempt.User.UserName : "",
+                      attempt.QuizId,
+                      attempt.Quiz != null ? attempt.Quiz.Title : "",
+                      attempt.StartedAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                      attempt.FinishedAt?.ToString("yyyy-MM-dd HH:mm:ss"),
+                      attempt.Quiz != null ? attempt.Quiz.TimeLimit : 0,
+                      attempt.TimeTakenMin,
+                      attempt.Score
+                  ); 
                 result.Add(dto);
 
             }
@@ -178,13 +181,16 @@ namespace QuizHubApplication.Services
             foreach (QuizAttempt attempt in attempts)
             {
               QuizAttemptDto dto = new(
-                    attempt.Id,
-                    attempt.UserId,
-                    attempt.QuizId,
-                    attempt.StartedAt.ToString("yyyy-MM-dd HH:mm:ss"),
-                    attempt.FinishedAt?.ToString("yyyy-MM-dd HH:mm:ss"),
-                    attempt.TimeTakenMin,
-                    attempt.Score
+                      attempt.Id,
+                      attempt.UserId,
+                      attempt.User != null ? attempt.User.UserName : "",
+                      attempt.QuizId,
+                      attempt.Quiz != null ? attempt.Quiz.Title : "",
+                      attempt.StartedAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                      attempt.FinishedAt?.ToString("yyyy-MM-dd HH:mm:ss"),
+                      attempt.Quiz != null ? attempt.Quiz.TimeLimit : 0,
+                      attempt.TimeTakenMin,
+                      attempt.Score
                 );
                 result.Add(dto);
 
@@ -212,9 +218,12 @@ namespace QuizHubApplication.Services
                 QuizAttemptDto dto = new(
                       attempt.Id,
                       attempt.UserId,
+                      attempt.User != null ? attempt.User.UserName : "",
                       attempt.QuizId,
+                      attempt.Quiz != null ? attempt.Quiz.Title : "",
                       attempt.StartedAt.ToString("yyyy-MM-dd HH:mm:ss"),
                       attempt.FinishedAt?.ToString("yyyy-MM-dd HH:mm:ss"),
+                      attempt.Quiz != null ? attempt.Quiz.TimeLimit : 0,
                       attempt.TimeTakenMin,
                       attempt.Score
                   );

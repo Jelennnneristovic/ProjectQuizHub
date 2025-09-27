@@ -23,27 +23,28 @@ namespace QuizHubInfrastructure.Repositories
         public List<QuizAttempt> GetAllQuizAttempts()
         {
             return _context.QuizAttempts
-                .Where(qa=> qa.User != null && qa.Quiz !=null )
+
             .Select(qa => new QuizAttempt
             {
                 Id = qa.Id,
                 UserId = qa.UserId,
-                User = new User
+                User = qa.User != null ? new User
                 {
                     Id = qa.UserId,
                     UserName = qa.User.UserName,
                     Email = qa.User.Email,
                     AvatarUrl = qa.User.AvatarUrl,
                     Role = qa.User.Role
-                },
+                } : null,
                 QuizId = qa.QuizId,
-                Quiz = new Quiz
+                Quiz = qa.Quiz != null ? new Quiz
                 {
                     Id = qa.QuizId,
                     Title = qa.Quiz.Title,
                     Description = qa.Quiz.Description,
                     IsActive = qa.Quiz.IsActive,
-                },
+                    TimeLimit = qa.Quiz.TimeLimit
+                } : null,
                 StartedAt = qa.StartedAt,
                 FinishedAt = qa.FinishedAt,
                 TimeTakenMin = qa.TimeTakenMin,

@@ -31,7 +31,7 @@ namespace QuizHubApplication.Services
 
             Category newCategory = new (createCategoryDto.Name, createCategoryDto.Description);
             _categoryRepository.CreateCategory(newCategory);
-            return new CategoryDto(newCategory.Name, newCategory.Description); 
+            return new CategoryDto(newCategory.Id, newCategory.Name, newCategory.Description); 
 
         }
 
@@ -42,7 +42,7 @@ namespace QuizHubApplication.Services
 
                 { return null; }
 
-            return new CategoryDto(category.Name, category.Description);
+            return new CategoryDto(category.Id, category.Name, category.Description);
         }
 
         public CategoryDto? DeleteCategory(string name)
@@ -56,7 +56,7 @@ namespace QuizHubApplication.Services
             }
             // ako nije null brise ga
             _categoryRepository.DeleteCategory(category);
-            return new CategoryDto(category.Name, category.Description);
+            return new CategoryDto(category.Id, category.Name, category.Description);
         
         }
 
@@ -81,7 +81,7 @@ namespace QuizHubApplication.Services
             
             _categoryRepository.UpdateCategory(category);
 
-            return new CategoryDto(category.Name, category.Description);
+            return new CategoryDto(category.Id,category.Name, category.Description);
 
         }
 
@@ -92,7 +92,7 @@ namespace QuizHubApplication.Services
 
             { return null; }
 
-            return new CategoryDto(category.Name, category.Description);
+            return new CategoryDto(category.Id,category.Name, category.Description);
         }
 
         public Category? GetCategoryById(int id)
@@ -109,6 +109,7 @@ namespace QuizHubApplication.Services
             foreach (Category category in categories)
             {
                 CategoryDto categoryDto = new (
+                    category.Id,
                     category.Name,
                     category.Description
                 );

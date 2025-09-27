@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizHubApplication.DTOs.Responses
 {
-    public record CategoryDto( string Name, string? Description)
+    public record CategoryDto( int Id, string Name, string? Description)
     {
     }
 }
