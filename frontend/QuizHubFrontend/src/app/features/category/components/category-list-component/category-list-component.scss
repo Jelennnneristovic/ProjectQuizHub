@@ -1,0 +1,23 @@
+/* Scrollable container */
+.category-list-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    background: transparent;
+}
+
+.category-list-container .card {
+    border-radius: 0.6rem;
+}
+
+.card-footer .btn {
+    white-space: nowrap;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    transition: transform 0.15s ease-in-out;
+}

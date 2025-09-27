@@ -1,0 +1,31 @@
+<!-- Overlay pozadina -->
+<div class="modal-backdrop fade show" (click)="close()"></div>
+
+<!-- Modal -->
+<div class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Category</h5>
+                <button type="button" class="btn-close" (click)="close()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">New Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="newName" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" rows="3" [(ngModel)]="newDescription"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" (click)="close()">Cancel</button>
+                <button *ngIf="isEdit; else createBtn" class="btn btn-primary" (click)="onEdit()">Save</button>
+                <ng-template #createBtn>
+                    <button class="btn btn-primary" (click)="onCreate()">Create</button>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

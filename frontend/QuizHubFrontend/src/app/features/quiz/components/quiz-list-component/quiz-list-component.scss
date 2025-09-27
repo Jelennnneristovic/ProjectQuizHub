@@ -1,0 +1,30 @@
+/* Scrollable container: prilagodi max-height po potrebi */
+.quiz-list-container {
+    max-height: 85vh; /* ili npr. calc(100vh - 200px) */
+    overflow-y: auto;
+    background: transparent;
+}
+
+/* malo unutrašnjeg razmaka kod kartica */
+.quiz-list-container .card {
+    border-radius: 0.6rem;
+}
+
+/* ravnomerno poravnanje dugmadi u kartici */
+.card-footer .btn {
+    white-space: nowrap;
+    font-size: 0.85rem;
+}
+
+/* da dugmad budu iste visine */
+.card-footer .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* opcionalno: suptilna promena senke pri hover */
+.card:hover {
+    transform: translateY(-4px);
+    transition: transform 0.15s ease-in-out;
+}
