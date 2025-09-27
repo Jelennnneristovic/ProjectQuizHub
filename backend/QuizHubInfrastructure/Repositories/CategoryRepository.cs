@@ -51,7 +51,7 @@ namespace QuizHubInfrastructure.Repositories
 
         public List<Category> GetCategories()
         {
-            return [.. context.Categories.Where(x => x.IsActive)
+            return [.. _context.Categories.Where(x => x.IsActive)
                 .Select(c => new Category
                 {
                     Id = c.Id,

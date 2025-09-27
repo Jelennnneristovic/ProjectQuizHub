@@ -52,21 +52,45 @@ namespace QuizHubInfrastructure.Repositories
                     CreatedAt = r.CreatedAt,
                     QuizAttempt = r.QuizAttempt != null ? new QuizAttempt()
                     {
+                        Id = r.QuizAttempt.Id,
+                        QuizId= r.QuizAttempt.QuizId,
+                        UserId= r.QuizAttempt.UserId,
                         AttemptAnswers = r.QuizAttempt.AttemptAnswers
                                          .Select(aa => new AttemptAnswer
                                          {
 
                                              Question = aa.Question != null ? new Question
                                              {
+                                                 Id= aa.Question.Id,
+
                                                  Text = aa.Question.Text,
+                                                 Points = aa.Question.Points,
+                                                 QuestionType=aa.Question.QuestionType,
+                                                 CorrectFillInAnswer=aa.Question.CorrectFillInAnswer,
+
+                                                 AnswerOptions=aa.Question.AnswerOptions
+                                                 .Select(ao => new AnswerOption
+                                                 { 
+                                                    Id = ao.Id,
+                                                    Text = ao.Text,
+                                                    IsCorrect=ao.IsCorrect,
+                                                 } )
+                                                    .ToList()
                                              } : null,
+                                             QuestionId=aa.QuestionId,
                                              IsCorrect = aa.IsCorrect,
                                              FillInAnswer = aa.FillInAnswer,
+                                             AwardedPoints=aa.AwardedPoints,
+
                                              AttemptAnswerOptions = aa.AttemptAnswerOptions
                                                 .Select(ao => new AttemptAnswerOption
                                                 {
+                                                    Id=ao.Id,
+                                                    AnswerOptionId=ao.AnswerOptionId,
+
                                                     AnswerOption = ao.AnswerOption != null ? new AnswerOption
                                                     {
+                                                        Id= ao.AnswerOption.Id,
                                                         Text = ao.AnswerOption.Text,
                                                         IsCorrect = ao.AnswerOption.IsCorrect
 
@@ -113,6 +137,24 @@ namespace QuizHubInfrastructure.Repositories
              return GetResults()
                 .Where(r => r.QuizAttempt != null && r.QuizAttempt.UserId == UserId)
                 .ToList();
+        }
+
+        public List<Result> GetResultsByQuizIdAndUserIdOrderByCreatedAt(int quizId, int userId)
+        {
+            return _context.Results.Where(r=> r.QuizAttempt != null && r.QuizAttempt.QuizId == quizId && r.QuizAttempt.UserId == userId) 
+                .OrderBy(r => r.CreatedAt)
+                .Select(r=> new Result { 
+                    Score= r.Score,
+                    CreatedAt= r.CreatedAt,
+
+                    QuizAttempt=r.QuizAttempt !=null ? new QuizAttempt()
+                    { 
+                        Id=r.QuizAttempt.Id,
+                        QuizId=r.QuizAttempt.QuizId
+                    } : null
+
+                
+                }).ToList();
         }
     }
 }

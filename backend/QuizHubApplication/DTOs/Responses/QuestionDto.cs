@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizHubApplication.DTOs.Responses
 {
-    public record QuestionDto(int Id,int Order, string Text, int Points, string QuestionType, string? CorrectFillInAnswer,
+    public record QuestionDto(int Id, string Text, int Points, string QuestionType, string? CorrectFillInAnswer,
         List<AnswerOptionDto> AnswerOptions)
     {
     }

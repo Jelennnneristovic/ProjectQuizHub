@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizHubApplication.DTOs.Responses
 {
-    public record QuizResultDto(int QuestionCount, int CorrectQuestionCount, double SuccessResult)
+    public record ProgressDto(int AttemptNumber, int Score)
     {
     }
 }

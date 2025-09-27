@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QuizHubInfrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,7 +78,6 @@ namespace QuizHubInfrastructure.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QuizId = table.Column<int>(type: "int", nullable: false),
                     Points = table.Column<int>(type: "int", nullable: false),
-                    Order = table.Column<int>(type: "int", nullable: false),
                     QuestionType = table.Column<int>(type: "int", nullable: false),
                     CorrectFillInAnswer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
@@ -262,13 +261,13 @@ namespace QuizHubInfrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Questions",
-                columns: new[] { "Id", "CorrectFillInAnswer", "IsActive", "Order", "Points", "QuestionType", "QuizId", "Text" },
+                columns: new[] { "Id", "CorrectFillInAnswer", "IsActive", "Points", "QuestionType", "QuizId", "Text" },
                 values: new object[,]
                 {
-                    { 1, null, true, 1, 3, 1, 1, "Koji od navedenih programa podrzava klase" },
-                    { 2, null, true, 2, 2, 2, 1, "Metoda Console.WriteLine() vraca vrednost string?" },
-                    { 3, null, true, 1, 2, 3, 3, "Zid od ___ je simbol Hladnog rata u Nemackoj?" },
-                    { 4, null, true, 1, 2, 0, 4, "Kojoj grupi instrumenata pripada bubanj?" }
+                    { 1, null, true, 3, 1, 1, "Koji od navedenih programa podrzava klase" },
+                    { 2, null, true, 2, 2, 1, "Metoda Console.WriteLine() vraca vrednost string?" },
+                    { 3, null, true, 2, 3, 3, "Zid od ___ je simbol Hladnog rata u Nemackoj?" },
+                    { 4, null, true, 2, 0, 4, "Kojoj grupi instrumenata pripada bubanj?" }
                 });
 
             migrationBuilder.InsertData(

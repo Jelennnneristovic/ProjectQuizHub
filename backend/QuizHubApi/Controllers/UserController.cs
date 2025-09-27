@@ -45,21 +45,7 @@ namespace QuizHubApi.Controllers
 
         }
 
-        [Authorize]
-        [HttpGet("/autenthication")]
-        public ActionResult AuthenticatedOnlyEndpoint()
-        {
-            return Ok("You are autenthicated!");
 
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("/admin")]
-        public ActionResult AdminOnlyEndpoint()
-        {
-            return Ok("You are admin!");
-
-        }
 
 
     }

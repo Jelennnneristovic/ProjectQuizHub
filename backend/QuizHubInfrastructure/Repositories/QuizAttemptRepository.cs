@@ -23,6 +23,7 @@ namespace QuizHubInfrastructure.Repositories
         public List<QuizAttempt> GetAllQuizAttempts()
         {
             return _context.QuizAttempts
+                .Where(qa=> qa.User != null && qa.Quiz !=null )
             .Select(qa => new QuizAttempt
             {
                 Id = qa.Id,

@@ -11,7 +11,6 @@ namespace QuizHubApplication.Interfaces
 {
     public interface IQuestionService
     {
-        QuestionDto? GetQuestion(int number);
         QuizDetailsDto? DeleteQuestion(int quizId, int questionId);
         QuizDetailsDto? UpdateQuestion(UpdateQuestionDto updateQuestionDto);
         QuizDetailsDto? CreateQuestionDto (CreateQuestionDto  createQuestionDto);

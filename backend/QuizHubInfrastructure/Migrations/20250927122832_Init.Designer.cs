@@ -12,8 +12,8 @@ using QuizHubInfrastructure.Data;
 namespace QuizHubInfrastructure.Migrations
 {
     [DbContext(typeof(QuizHubDbContext))]
-    [Migration("20250925110947_Initial")]
-    partial class Initial
+    [Migration("20250927122832_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -293,9 +293,6 @@ namespace QuizHubInfrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
@@ -320,7 +317,6 @@ namespace QuizHubInfrastructure.Migrations
                         {
                             Id = 1,
                             IsActive = true,
-                            Order = 1,
                             Points = 3,
                             QuestionType = 1,
                             QuizId = 1,
@@ -330,7 +326,6 @@ namespace QuizHubInfrastructure.Migrations
                         {
                             Id = 2,
                             IsActive = true,
-                            Order = 2,
                             Points = 2,
                             QuestionType = 2,
                             QuizId = 1,
@@ -340,7 +335,6 @@ namespace QuizHubInfrastructure.Migrations
                         {
                             Id = 3,
                             IsActive = true,
-                            Order = 1,
                             Points = 2,
                             QuestionType = 3,
                             QuizId = 3,
@@ -350,7 +344,6 @@ namespace QuizHubInfrastructure.Migrations
                         {
                             Id = 4,
                             IsActive = true,
-                            Order = 1,
                             Points = 2,
                             QuestionType = 0,
                             QuizId = 4,

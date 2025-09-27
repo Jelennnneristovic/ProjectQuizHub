@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QuizHubApplication.DTOs.Requests
 {
-    public record CreateQuestionDto(int Order,
+    public record CreateQuestionDto(
         string Text,
         int Points,
         int QuizId,

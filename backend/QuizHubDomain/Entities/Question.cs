@@ -19,7 +19,6 @@ namespace QuizHubDomain.Entities
 
         
         public int Points { get; set; } = 0; //promenila na 0 umesto 1 
-        public int Order { get; set; } //koje je pitanje po redu
 
         public QuestionType QuestionType { get; set; } = QuestionType.SingleChoice;
 
@@ -33,16 +32,14 @@ namespace QuizHubDomain.Entities
         public Question() { }
 
         //bodovi, vreme i tezina??
-        public Question(int Order, string Text, int Points) 
+        public Question( string Text, int Points) 
         {
-            this.Order = Order;
             this.Text = Text;
             this.Points = Points;
         }
 
-        public Question(int Order,int QuizId,string Text, int Points, QuestionType questionType, string? correctFillInAnswer)
+        public Question(int QuizId,string Text, int Points, QuestionType questionType, string? correctFillInAnswer)
         {
-            this.Order = Order;
             this.Text = Text;
             this.QuizId = QuizId;
             this.Points = Points;

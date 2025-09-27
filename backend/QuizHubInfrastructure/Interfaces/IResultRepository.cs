@@ -14,6 +14,7 @@ namespace QuizHubInfrastructure.Interfaces
         Result? GetResultDetailsById(int resultId);
         void CreateResult(Result result);
         List<Result> GetLeaderboard(int quizId, string? period);
+        List<Result> GetResultsByQuizIdAndUserIdOrderByCreatedAt(int quizId, int userId);
 
     }
 }

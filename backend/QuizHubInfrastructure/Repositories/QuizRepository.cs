@@ -65,7 +65,6 @@ namespace QuizHubInfrastructure.Repositories
                         Id = question.Id,
                         Text = question.Text,
                         Points = question.Points,
-                        Order = question.Order,
                         QuestionType = question.QuestionType,
                         CorrectFillInAnswer = question.CorrectFillInAnswer,
                         AnswerOptions = question.AnswerOptions.Where(a => a.IsActive)
@@ -83,7 +82,7 @@ namespace QuizHubInfrastructure.Repositories
 
         public List<Quiz> GetQuizzes()
         {
-            return [.. context.Quizzes.Where(x => x.IsActive)
+            return [.. _context.Quizzes.Where(x => x.IsActive)
                 .Select(q => new Quiz
                 {
                     Id = q.Id,

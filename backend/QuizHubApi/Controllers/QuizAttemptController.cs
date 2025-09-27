@@ -31,12 +31,17 @@ namespace QuizHubApi.Controllers
 
         }
         [HttpPut("{id}")]
-        public ActionResult<QuizResultDto> FinishQuizAttempt(int id)
+        public ActionResult<ResultDetailsDto> FinishQuizAttempt(int id)
         {
             try
-            {
+            { 
+                ResultDetailsDto? result = _quizAttemptService.FinishQuizAttempt(id);
+                if (result is null)
+                {
+                    return BadRequest();
+                }
 
-                return Ok(_quizAttemptService.FinishQuizAttempt(id));
+                return Ok(result);
             }
             catch (Exception ex) when (ex is EntityDoesNotExist or QuizAttemptAlreadyFinished)
             {

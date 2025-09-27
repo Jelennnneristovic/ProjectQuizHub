@@ -33,7 +33,7 @@ namespace QuizHubApplication.Services
                 createQuestionDto.CorrectFillInAnswer,
                 [.. createQuestionDto.AnswerOptions.Cast<ICRUDAnswerOptionDto>()]);
 
-            Question newQestion= new(createQuestionDto.Order, createQuestionDto.QuizId, createQuestionDto.Text, createQuestionDto.Points, createQuestionDto.QuestionType, createQuestionDto.CorrectFillInAnswer);
+            Question newQestion= new( createQuestionDto.QuizId, createQuestionDto.Text, createQuestionDto.Points, createQuestionDto.QuestionType, createQuestionDto.CorrectFillInAnswer);
 
             _questionRepository.CreateQuestion(newQestion);
             List<AnswerOption> answerOptions = [];
@@ -77,15 +77,6 @@ namespace QuizHubApplication.Services
             return _quizService.GetQuiz(quizId);
         }
 
-        public QuestionDto? GetQuestion(int number)
-        {
-            Question? question = _questionRepository.GetQuestionWithAnswers(number);
-            if (question is null)
-
-            { return null; }
-
-            return new QuestionDto(0, question.Order, question.Text, question.Points, "", "", null);
-        }
 
         public Question? GetQuestionWithAnswers(int questionId)
         {

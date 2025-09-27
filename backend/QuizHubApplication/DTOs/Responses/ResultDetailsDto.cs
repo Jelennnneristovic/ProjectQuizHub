@@ -16,7 +16,9 @@ namespace QuizHubApplication.DTOs.Responses
      double Percentage,
      int TimeTakenMin,
      string CreatedAt,
-     List<ResultDetailsQuizAttemptAnswerDto> AttemptAnswerDtos
+     int UnanswerdQuestion,
+     List<ResultDetailsQuizAttemptAnswerDto> AttemptAnswerDtos,
+     List<ProgressDto>Progress
 
 
 

@@ -75,7 +75,7 @@ namespace QuizHubApplication.Services
                 { return null; }
 
 
-                List<ResultDetailsAttemptAnswerOptionDto> userAnswer = [];
+                List<ResultDetailsAttemptAnswerOptionDto> userAnswers = [];
 
                 foreach (AttemptAnswerOption ao in aa.AttemptAnswerOptions)
                 {
@@ -83,18 +83,30 @@ namespace QuizHubApplication.Services
                     if (ao.AnswerOption is null)
                     { return null; }
 
-                    userAnswer.Add(new ResultDetailsAttemptAnswerOptionDto
+                    userAnswers.Add(new ResultDetailsAttemptAnswerOptionDto
                     (
                         ao.AnswerOption.Text,
                         ao.AnswerOption.IsCorrect
                     ));
 
                 }
+
+                List<ResultDetailsAttemptAnswerOptionDto> allAnswers = [];
+                foreach (AnswerOption ao in aa.Question.AnswerOptions)
+                {
+                    allAnswers.Add(new ResultDetailsAttemptAnswerOptionDto(ao.Text, ao.IsCorrect));
+                }
+
                 ResultDetailsQuizAttemptAnswerDto attemptAnswer = new(
                     aa.Question.Text,
-                    userAnswer,
                     aa.IsCorrect,
-                    aa.FillInAnswer
+                    aa.Question.CorrectFillInAnswer,
+                    allAnswers,
+                    aa.FillInAnswer,
+                    userAnswers,
+                    aa.Question.QuestionType.ToString(),
+                    aa.Question.Points,
+                    aa.AwardedPoints
                 );
 
                 attemptAnswers.Add(attemptAnswer);
@@ -110,8 +122,24 @@ namespace QuizHubApplication.Services
                 result.Percentage,
                 result.TimeTakenMin,
                 result.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
-                attemptAnswers
+                result.TotalQuestions - attemptAnswers.Count,
+                attemptAnswers,
+                CreateProgress(result.QuizAttempt.QuizId, result.QuizAttempt.UserId)
                 );
+        }
+
+        private List<ProgressDto>CreateProgress(int quizId, int userId)
+        {
+            List<ProgressDto> progress = [];
+            int cnt = 1;
+            List<Result> resultByQuizIdOrderByCreatedAt = _resultRepository.GetResultsByQuizIdAndUserIdOrderByCreatedAt(quizId, userId);
+
+            foreach (Result result in resultByQuizIdOrderByCreatedAt)
+            {
+                progress.Add(new(cnt, result.Score));
+                cnt += 1;
+            }
+            return progress;
         }
 
         public ResultDto CreateResult(Result result)

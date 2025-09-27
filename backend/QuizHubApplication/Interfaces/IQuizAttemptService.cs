@@ -14,7 +14,7 @@ namespace QuizHubApplication.Interfaces
         UserQuizAttemptDto CreateQuizAttempt(CreateQuizAttemptDto createQuizAttemptDto);
 
         QuizAttempt? GetQuizAttemptById(int quizAttemptId);
-        QuizResultDto FinishQuizAttempt(int quizAttemptId);
+        ResultDetailsDto? FinishQuizAttempt(int quizAttemptId);
         List<QuizAttemptDto> GetAllQuizAttempts();
         List<QuizAttemptDto> GetQuizAttemptsByUserId(int userId);
         List<QuizAttemptDto> GetQuizAttemptsFromUser();

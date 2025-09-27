@@ -42,7 +42,6 @@ namespace QuizHubInfrastructure.Repositories
                     Text = q.Text,
                     QuizId = q.QuizId,
                     Points = q.Points,
-                    Order = q.Order,
                     QuestionType = q.QuestionType,
                     CorrectFillInAnswer = q.CorrectFillInAnswer,
                     IsActive = q.IsActive,

@@ -31,18 +31,6 @@ namespace QuizHubApi.Controllers
 
         }
 
-        [HttpGet("{order}")]
-        public ActionResult<QuestionDto> GetQuestion(int order)
-        {
-            QuestionDto? questionDto = _questionService.GetQuestion(order);
-
-            if (questionDto is null)
-
-            { return NotFound(string.Format("The question '{0}' does not exists.", order)); }
-
-            return Ok(questionDto);
-        }
-
         [HttpDelete]
         public ActionResult<QuizDetailsDto> DeleteQuestion([FromBody] DeleteQuestionDto deleteQuestionDto)
         {

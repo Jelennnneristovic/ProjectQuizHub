@@ -8,9 +8,14 @@ namespace QuizHubApplication.DTOs.Responses
 {
     public record ResultDetailsQuizAttemptAnswerDto(
         string QuestionText,
-        List<ResultDetailsAttemptAnswerOptionDto> UserAnswers,
         bool IsCorrect,
-        string? FillInAnswer
+        string? CorrectFillInAnswer,
+        List<ResultDetailsAttemptAnswerOptionDto> AllAnswers,
+        string? FillInAnswer,
+        List<ResultDetailsAttemptAnswerOptionDto> UserAnswers,
+        string QusetionType,
+        int QuestionPoints,
+        int AwardedPoints
         )
     {
     }

@@ -72,7 +72,6 @@ namespace QuizHubApplication.Services
 
                 questions.Add(new QuestionDto(
                     question.Id,
-                    question.Order,
                     question.Text,
                     question.Points,
                     question.QuestionType.ToString(),

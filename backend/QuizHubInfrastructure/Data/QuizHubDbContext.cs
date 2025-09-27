@@ -196,7 +196,6 @@ namespace QuizHubInfrastructure.Data
                 Points = 3,
                 QuestionType = QuestionType.MultipleChoice,
                 CorrectFillInAnswer = null,
-                Order = 1,
                 IsActive = true,
             };
             var question2 = new Question
@@ -207,7 +206,6 @@ namespace QuizHubInfrastructure.Data
                 Points = 2,
                 QuestionType = QuestionType.TrueFalse,
                 CorrectFillInAnswer = null,
-                Order = 2,
                 IsActive = true,
             };
             var question3 = new Question
@@ -218,7 +216,6 @@ namespace QuizHubInfrastructure.Data
                 Points = 2,
                 QuestionType = QuestionType.FillIn,
                 CorrectFillInAnswer = null,
-                Order = 1,
                 IsActive = true,
             };
             var question4 = new Question
@@ -229,7 +226,6 @@ namespace QuizHubInfrastructure.Data
                 Points = 2,
                 QuestionType = QuestionType.SingleChoice,
                 CorrectFillInAnswer = null,
-                Order = 1,
                 IsActive = true,
             };
             modelBuilder.Entity<Question>().HasData(

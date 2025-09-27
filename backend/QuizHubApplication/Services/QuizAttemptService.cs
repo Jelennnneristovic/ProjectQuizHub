@@ -74,7 +74,7 @@ namespace QuizHubApplication.Services
             return userQuizAttemptDto;
         }
 
-        public QuizResultDto FinishQuizAttempt(int quizAttemptId)
+        public ResultDetailsDto? FinishQuizAttempt(int quizAttemptId)
         {
             QuizAttempt? quizAttempt = _quizAttemptRepository.GetQuizAttempt(quizAttemptId);
             if (quizAttempt is null)
@@ -90,7 +90,7 @@ namespace QuizHubApplication.Services
             QuizDetailsDto? quizDetails = _quizService.GetQuiz(quizAttempt.QuizId);
             if (quizDetails is null)
             {
-                throw new EntityDoesNotExist(string.Format("Quiz with id {0} does not exist.", quizDetails.Id));
+                throw new EntityDoesNotExist(string.Format("Quiz with id {0} does not exist.", quizAttempt.QuizId));
             }
 
             //kviz je zavrsen
@@ -126,8 +126,9 @@ namespace QuizHubApplication.Services
                 (int)timeTaken.TotalMinutes
             );
 
+
             _resultService.CreateResult(newResult);
-            return new (questionCount,correctQuestionCount, percentage);
+            return _resultService.GetResultDetailsById(newResult.Id);
         }
 
         public List<QuizAttemptDto> GetAllQuizAttempts()
