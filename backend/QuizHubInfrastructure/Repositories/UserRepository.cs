@@ -31,5 +31,18 @@ namespace QuizHubInfrastructure.Repositories
         {
             return _context.Users.FirstOrDefault(u => u.UserName == userKey || u.Email == userKey);
         }
+
+        public User? GetUserById(int id)
+        {
+            return _context.Users.Where(u => u.Id == id)
+                .Select(u => new User() { 
+                    Id=u.Id,
+                    UserName=u.UserName,
+                    Email=u.Email,
+                    AvatarUrl=u.AvatarUrl,
+
+                
+                }).FirstOrDefault();
+        }
     }
 }

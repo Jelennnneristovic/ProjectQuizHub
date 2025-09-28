@@ -45,7 +45,22 @@ namespace QuizHubApi.Controllers
 
         }
 
+        // [Authorize (Roles = "Admin, User")]
+        [HttpGet("{id}")]
+        public ActionResult<UserDto> GetUserById(int id)
+        {
+            
 
+            try
+            {
+                UserDto? user = _userService.GetUserByIdDto(id);
+                return Ok(user);
+            }
+            catch (Exception ex) when (ex is EntityDoesNotExist)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
     }

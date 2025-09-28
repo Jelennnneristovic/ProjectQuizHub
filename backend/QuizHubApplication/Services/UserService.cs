@@ -65,6 +65,18 @@ namespace QuizHubApplication.Services
 
         }
 
+        public UserDto GetUserByIdDto(int id)
+        {
+            User? user = _userRepository.GetUserById(id);
+            //user ne postoji
+            if (user is null)
+
+            {
+                throw new EntityDoesNotExist(string.Format("Login failed! The user with key '{0}' does not exist.", id));
+            }
+            return new(user.UserName, user.Email, user.AvatarUrl);
+        }
+
         public TokenResponseDto Login(LoginUserDto loginUserDto)
         {
             User? user = _userRepository.GetUserByEmailOrUsername(loginUserDto.UserKey);

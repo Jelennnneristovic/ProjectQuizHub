@@ -12,5 +12,6 @@ namespace QuizHubInfrastructure.Interfaces
         void CreateUser(User user);
         User? GetUserByEmailOrUsername(string username, string email);
         User? GetUserByEmailOrUsername(string userKey);
+        User? GetUserById(int id);
     }
 }

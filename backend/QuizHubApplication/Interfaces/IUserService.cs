@@ -12,5 +12,6 @@ namespace QuizHubApplication.Interfaces
     {
         UserDto CreateUser(CreateUserDto createUserDto);
         TokenResponseDto Login(LoginUserDto loginUserDto);
+        UserDto GetUserByIdDto(int id);
     }
 }
