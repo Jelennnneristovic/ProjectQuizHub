@@ -79,7 +79,7 @@ namespace QuizHubApi.Controllers
             {
                 return Ok(_quizAttemptService.GetQuizAttemptsFromUser());
             }
-            catch (EntityDoesNotExist ex)
+            catch (Exception ex) when (ex is EntityDoesNotExist or UserDoesntHaveQuizAttempts)
             {
                 return BadRequest(ex.Message);
             }

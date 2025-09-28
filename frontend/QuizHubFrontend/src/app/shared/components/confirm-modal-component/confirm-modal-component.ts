@@ -9,10 +9,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     styleUrl: './confirm-modal-component.scss',
 })
 export class ConfirmModalComponent {
-    @Input() title: string = 'Potvrda';
-    @Input() message: string = 'Da li ste sigurni?';
-    @Input() confirmText: string = 'Obriši';
-    @Input() cancelText: string = 'Odustani';
+    @Input() title: string = 'Confirm';
+    @Input() message: string = 'Are you sure?';
+    @Input() confirmText: string = 'Delete';
+    @Input() cancelText: string = 'Cancel';
 
     @Output() confirm = new EventEmitter<void>();
     @Output() cancel = new EventEmitter<void>();

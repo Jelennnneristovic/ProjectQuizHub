@@ -3,6 +3,7 @@ import { UserDto } from '../../models/UserDto';
 import { AuthService } from '../../../auth/services/auth.services';
 import { ProfileService } from '../../service/profile.service';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
     selector: 'app-my-profile-component',
@@ -15,6 +16,8 @@ export class MyProfileComponent implements OnInit {
     private profilService = inject(ProfileService);
     private authService = inject(AuthService);
     user?: UserDto;
+    profileImagePath: string = environment.imageUrl;
+
     ngOnInit(): void {
         const userContext = this.authService.GetCurrentUser();
         if (userContext) {

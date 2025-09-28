@@ -21,7 +21,15 @@
                 <td>{{ result.percentage | number:'1.0-2' }} %</td>
                 <td>{{ result.timeTakenMin }}</td>
                 <td>{{ result.createdAt | date:'short' }}</td>
-                <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/admin/homepage/results', result.id]">
+                <a
+                    class="btn btn-sm btn-outline-secondary"
+                    [routerLink]="
+                role === 'User'
+                ? ['/user/homepage/results',result.id]
+
+                : ['/admin/homepage/results', result.id]
+                "
+                >
                     Details
                 </a>
             </tr>

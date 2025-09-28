@@ -14,17 +14,30 @@ import { RouterModule } from '@angular/router';
 })
 export class ResultListComponent {
     results: ResultDto[] = [];
+    role: string = 'User';
+
     private authService = inject(AuthService);
     private resultService = inject(ResultService);
 
     ngOnInit(): void {
+        const context = this.authService.GetCurrentUser();
+        if (!context) return;
+        this.role = context.role;
         this.loadResults();
     }
     loadResults() {
-        this.resultService.getResults().subscribe({
-            next: (data) => {
-                this.results = data;
-            },
-        });
+        if (this.role == 'User') {
+            this.resultService.getResultsByUser().subscribe({
+                next: (data) => {
+                    this.results = data;
+                },
+            });
+        } else {
+            this.resultService.getResults().subscribe({
+                next: (data) => {
+                    this.results = data;
+                },
+            });
+        }
     }
 }

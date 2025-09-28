@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>{{ data.isEdit ? 'Edit Quiz' : 'Create Quiz' }}</h2>
+
+<mat-dialog-content [formGroup]="form" class="pt-2">
+    <mat-form-field appearance="fill" class="w-100 mb-3">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" />
+        <mat-error *ngIf="form.get('title')?.hasError('required')">Title is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100 mb-3">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="quizDescription" rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="d-flex gap-3">
+        <mat-form-field appearance="fill" class="flex-fill mb-3">
+            <mat-label>Time Limit (minutes)</mat-label>
+            <input matInput type="number" formControlName="timeLimit" min="0" />
+            <mat-error *ngIf="form.get('timeLimit')?.hasError('required')">Time limit is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="flex-fill mb-3">
+            <mat-label>Difficulty</mat-label>
+            <mat-select formControlName="difficultyLevel">
+                <mat-option value="Easy">Easy</mat-option>
+                <mat-option value="Medium">Medium</mat-option>
+                <mat-option value="Hard">Hard</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('difficultyLevel')?.hasError('required')">Difficulty is required</mat-error>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill" class="w-100 mb-3">
+        <mat-label>Category ID</mat-label>
+        <input matInput type="number" formControlName="categoryId" min="0" />
+        <mat-error *ngIf="form.get('categoryId')?.hasError('required')">Category is required</mat-error>
+    </mat-form-field>
+
+    <!-- optional preview -->
+    <div *ngIf="form.valid" class="mt-2 small text-muted">
+        Preview:
+        <strong>{{ form.value.title || '—' }}</strong>
+        <span *ngIf="form.value.quizDescription">— {{ form.value.quizDescription }}</span>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions-gap">
+    <button mat-stroked-button color="warn" type="button" (click)="onCancel()" class="rounded-pill px-4">Cancel</button>
+
+    <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+        (click)="onSave()"
+        class="rounded-pill px-4"
+    >
+        {{ data.isEdit ? 'Save' : 'Create' }}
+    </button>
+</mat-dialog-actions>

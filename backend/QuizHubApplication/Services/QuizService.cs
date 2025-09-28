@@ -223,7 +223,9 @@ namespace QuizHubApplication.Services
 
             _quizRepository.UpdateQuiz(quiz);
 
-            return new QuizDto(quiz.Id, category !=null ? category.Name : "", category != null ? category.Description : "", quiz.Title, quiz.Description, quiz.TimeLimit, quiz.DifficultyLevel.ToString(), 0);
+            return new QuizDto(quiz.Id, category !=null ? category.Name : "", 
+                category != null ? category.Description : "", quiz.Title, quiz.Description, quiz.TimeLimit,
+                quiz.DifficultyLevel.ToString(), quiz.Questions !=null ? quiz.Questions.Count:0);
         }
 
       
