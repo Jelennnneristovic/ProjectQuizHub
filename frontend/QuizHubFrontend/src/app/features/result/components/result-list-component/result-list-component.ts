@@ -3,12 +3,11 @@ import { Component, inject } from '@angular/core';
 import { ResultService } from '../../services/result.service';
 import { AuthService } from '../../../auth/services/auth.services';
 import { ResultDto } from '../../models/ResultDto';
-import { Observable } from 'rxjs';
-import { ResultDetailsDto } from '../../models/ResultDetailsDto';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-result-list-component',
-    imports: [CommonModule],
+    imports: [CommonModule, RouterModule],
     standalone: true,
     templateUrl: './result-list-component.html',
     styleUrl: './result-list-component.scss',
@@ -25,15 +24,6 @@ export class ResultListComponent {
         this.resultService.getResults().subscribe({
             next: (data) => {
                 this.results = data;
-            },
-        });
-    }
-    viewDetails(result: ResultDto): void {
-        // Za sada samo log u konzoli, možeš kasnije staviti modal ili navigaciju
-
-        this.resultService.getResultDetailsById(result.id).subscribe({
-            next: (data) => {
-                console.log(data);
             },
         });
     }

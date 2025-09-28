@@ -7,6 +7,7 @@ import { CategoryListComponent } from '../category/components/category-list-comp
 import { QuizAttemptsListComponent } from '../quiz-attempts/components/quiz-attempts-list-component/quiz-attempts-list-component';
 import { MyProfileComponent } from '../profile/components/my-profile-component/my-profile-component';
 import { ResultListComponent } from '../result/components/result-list-component/result-list-component';
+import { ResultDetailsComponents } from '../result/components/result-details-components/result-details-components';
 
 const routes: Routes = [
     {
@@ -20,6 +21,7 @@ const routes: Routes = [
             { path: 'attempts', component: QuizAttemptsListComponent },
             { path: 'profile', component: MyProfileComponent },
             { path: 'results', component: ResultListComponent },
+            { path: 'results/:id', component: ResultDetailsComponents },
         ],
     },
 ];

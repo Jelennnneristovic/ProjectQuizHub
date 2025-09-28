@@ -1,0 +1,53 @@
+<div class="container my-4" *ngIf="result">
+    <h2>{{ result.quizTitle }} - Details</h2>
+    <p>
+        <strong>Score:</strong>
+        {{ result.score }}
+        <strong>Percentage:</strong>
+        {{ result.percentage | number:'1.0-2' }}% |
+        <strong>Time Taken:</strong>
+        {{ result.timeTakenMin }} min
+    </p>
+
+    <h4>Progress</h4>
+    <ul>
+        <li *ngFor="let p of result.progress">Attempt {{ p.attemptNumber }}: {{ p.score }} points</li>
+    </ul>
+
+    <h4>Answers</h4>
+    <div
+        *ngFor="let a of result.attemptAnswerDtos"
+        class="card mb-2"
+        [ngClass]="{'border-success': a.isCorrect, 'bg-light': !a.isCorrect}"
+    >
+        <div class="card-body">
+            <p [ngClass]="{'text-success fw-bold': a.isCorrect}">
+                <strong>Question:</strong>
+                {{ a.questionText }}
+            </p>
+
+            <div *ngIf="a.userAnswers.length">
+                <strong>User Selected:</strong>
+                <ul>
+                    <li *ngFor="let ua of a.userAnswers" [ngClass]="{'text-success fw-bold': ua.isCorrect}">
+                        {{ ua.optionText }}
+                    </li>
+                </ul>
+            </div>
+
+            <div *ngIf="a.allAnswers.length">
+                <strong>All Options:</strong>
+                <ul>
+                    <li *ngFor="let oa of a.allAnswers" [ngClass]="{'text-success fw-bold': oa.isCorrect}">
+                        {{ oa.optionText }}
+                    </li>
+                </ul>
+            </div>
+
+            <p>
+                <strong>Points:</strong>
+                {{ a.awardedPoints }} / {{ a.questionPoints }}
+            </p>
+        </div>
+    </div>
+</div>
