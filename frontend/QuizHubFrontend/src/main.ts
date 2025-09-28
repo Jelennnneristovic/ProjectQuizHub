@@ -5,14 +5,16 @@ import { App } from './app/app';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { jwtInterceptor } from './app/core/interceptors/jwt.interceptors';
 import { environment } from './environments/environment';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 if (environment.prodaction) {
-  enableProdMode();
+    enableProdMode();
 }
 
 bootstrapApplication(App, {
-  providers: [
-    importProvidersFrom(AppRoutingModule),
-    provideHttpClient(withInterceptors([jwtInterceptor])),
-  ],
+    providers: [
+        importProvidersFrom(AppRoutingModule),
+        provideHttpClient(withInterceptors([jwtInterceptor])),
+        provideCharts(withDefaultRegisterables()),
+    ],
 }).catch((err) => console.error(err));

@@ -120,6 +120,7 @@ namespace QuizHubApplication.Services
                 result.CorrectAnswers,
                 result.Score,
                 result.Percentage,
+                result.MaximumScore,
                 result.TimeTakenMin,
                 result.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
                 result.TotalQuestions - attemptAnswers.Count,

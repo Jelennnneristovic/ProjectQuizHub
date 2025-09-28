@@ -9,6 +9,7 @@ export interface ResultDetailsDto {
     correctAnswers: number;
     score: number;
     percentage: number;
+    maximumScore: number;
     timeTakenMin: number;
     createdAt: string;
     unanswerdQuestion: number;

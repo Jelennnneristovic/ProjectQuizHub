@@ -14,6 +14,7 @@ namespace QuizHubApplication.DTOs.Responses
      int CorrectAnswers,
      int Score,
      double Percentage,
+     int MaximumScore,
      int TimeTakenMin,
      string CreatedAt,
      int UnanswerdQuestion,

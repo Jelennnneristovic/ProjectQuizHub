@@ -48,6 +48,7 @@ namespace QuizHubInfrastructure.Repositories
                     CorrectAnswers = r.CorrectAnswers,
                     Score = r.Score,
                     Percentage = r.Percentage,
+                    MaximumScore=r.MaximumScore,
                     TimeTakenMin = r.TimeTakenMin,
                     CreatedAt = r.CreatedAt,
                     QuizAttempt = r.QuizAttempt != null ? new QuizAttempt()

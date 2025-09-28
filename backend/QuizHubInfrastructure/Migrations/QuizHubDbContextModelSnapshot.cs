@@ -428,6 +428,12 @@ namespace QuizHubInfrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CurrentQuestionCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentQuizScore")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("FinishedAt")
                         .HasColumnType("datetime2");
 
@@ -458,6 +464,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            CurrentQuestionCount = 2,
+                            CurrentQuizScore = 1,
                             FinishedAt = new DateTime(2025, 8, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 1,
                             Score = 1,
@@ -468,6 +476,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 2,
+                            CurrentQuestionCount = 2,
+                            CurrentQuizScore = 3,
                             FinishedAt = new DateTime(2025, 8, 14, 19, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 1,
                             Score = 3,
@@ -478,6 +488,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 3,
+                            CurrentQuestionCount = 2,
+                            CurrentQuizScore = 5,
                             FinishedAt = new DateTime(2025, 9, 15, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 2,
                             Score = 5,
@@ -488,6 +500,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 4,
+                            CurrentQuestionCount = 1,
+                            CurrentQuizScore = 1,
                             FinishedAt = new DateTime(2025, 9, 16, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 3,
                             Score = 1,
@@ -498,6 +512,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 5,
+                            CurrentQuestionCount = 1,
+                            CurrentQuizScore = 1,
                             FinishedAt = new DateTime(2025, 9, 17, 16, 0, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 4,
                             Score = 1,
@@ -508,6 +524,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 6,
+                            CurrentQuestionCount = 1,
+                            CurrentQuizScore = 2,
                             FinishedAt = new DateTime(2025, 9, 18, 15, 20, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 3,
                             Score = 2,
@@ -518,6 +536,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 7,
+                            CurrentQuestionCount = 1,
+                            CurrentQuizScore = 1,
                             FinishedAt = new DateTime(2025, 9, 18, 16, 30, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 3,
                             Score = 1,
@@ -528,6 +548,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 8,
+                            CurrentQuestionCount = 1,
+                            CurrentQuizScore = 2,
                             FinishedAt = new DateTime(2025, 9, 19, 15, 0, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 4,
                             Score = 2,
@@ -538,6 +560,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 9,
+                            CurrentQuestionCount = 2,
+                            CurrentQuizScore = 4,
                             FinishedAt = new DateTime(2025, 9, 20, 18, 40, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 2,
                             Score = 4,
@@ -548,6 +572,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 10,
+                            CurrentQuestionCount = 2,
+                            CurrentQuizScore = 3,
                             FinishedAt = new DateTime(2025, 9, 21, 12, 25, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 1,
                             Score = 3,
@@ -558,6 +584,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 11,
+                            CurrentQuestionCount = 3,
+                            CurrentQuizScore = 4,
                             FinishedAt = new DateTime(2025, 9, 22, 10, 40, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 1,
                             Score = 4,
@@ -568,6 +596,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 12,
+                            CurrentQuestionCount = 3,
+                            CurrentQuizScore = 2,
                             FinishedAt = new DateTime(2025, 9, 22, 11, 50, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 2,
                             Score = 2,
@@ -578,6 +608,8 @@ namespace QuizHubInfrastructure.Migrations
                         new
                         {
                             Id = 13,
+                            CurrentQuestionCount = 2,
+                            CurrentQuizScore = 3,
                             FinishedAt = new DateTime(2025, 9, 23, 9, 20, 0, 0, DateTimeKind.Unspecified),
                             QuizId = 4,
                             Score = 3,
@@ -600,6 +632,9 @@ namespace QuizHubInfrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("MaximumScore")
+                        .HasColumnType("int");
 
                     b.Property<double>("Percentage")
                         .HasColumnType("float");
@@ -633,35 +668,38 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 1,
                             CorrectAnswers = 2,
                             CreatedAt = new DateTime(2025, 8, 13, 16, 30, 0, 0, DateTimeKind.Unspecified),
-                            Percentage = 100.0,
+                            MaximumScore = 6,
+                            Percentage = 17.0,
                             QuizAttemptId = 1,
                             QuizTitle = "Kviz programiranja",
-                            Score = 5,
-                            TimeTakenMin = 50,
+                            Score = 1,
+                            TimeTakenMin = 60,
                             TotalQuestions = 2
                         },
                         new
                         {
                             Id = 2,
                             CorrectAnswers = 1,
-                            CreatedAt = new DateTime(2025, 8, 14, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 8, 14, 19, 30, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 6,
                             Percentage = 50.0,
                             QuizAttemptId = 2,
                             QuizTitle = "Kviz programiranja",
                             Score = 3,
-                            TimeTakenMin = 20,
+                            TimeTakenMin = 60,
                             TotalQuestions = 2
                         },
                         new
                         {
                             Id = 3,
                             CorrectAnswers = 0,
-                            CreatedAt = new DateTime(2025, 9, 15, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 9, 15, 16, 30, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 10,
                             Percentage = 0.0,
                             QuizAttemptId = 3,
                             QuizTitle = "Kviz o arhitekturi Novog Sada",
-                            Score = 0,
-                            TimeTakenMin = 10,
+                            Score = 5,
+                            TimeTakenMin = 60,
                             TotalQuestions = 2
                         },
                         new
@@ -669,6 +707,7 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 4,
                             CorrectAnswers = 1,
                             CreatedAt = new DateTime(2025, 9, 18, 15, 20, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 2,
                             Percentage = 100.0,
                             QuizAttemptId = 6,
                             QuizTitle = "Kviz opsteg znanja istoriji",
@@ -681,7 +720,8 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 5,
                             CorrectAnswers = 1,
                             CreatedAt = new DateTime(2025, 9, 18, 16, 30, 0, 0, DateTimeKind.Unspecified),
-                            Percentage = 100.0,
+                            MaximumScore = 2,
+                            Percentage = 50.0,
                             QuizAttemptId = 7,
                             QuizTitle = "Kviz opsteg znanja istoriji",
                             Score = 1,
@@ -693,6 +733,7 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 6,
                             CorrectAnswers = 1,
                             CreatedAt = new DateTime(2025, 9, 19, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 2,
                             Percentage = 100.0,
                             QuizAttemptId = 8,
                             QuizTitle = "Kviz o muzici",
@@ -705,6 +746,7 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 7,
                             CorrectAnswers = 2,
                             CreatedAt = new DateTime(2025, 9, 20, 18, 40, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 4,
                             Percentage = 100.0,
                             QuizAttemptId = 9,
                             QuizTitle = "Kviz o arhitekturi Novog Sada",
@@ -717,6 +759,7 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 8,
                             CorrectAnswers = 1,
                             CreatedAt = new DateTime(2025, 9, 21, 12, 25, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 6,
                             Percentage = 50.0,
                             QuizAttemptId = 10,
                             QuizTitle = "Kviz programiranja",
@@ -729,6 +772,7 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 9,
                             CorrectAnswers = 2,
                             CreatedAt = new DateTime(2025, 9, 22, 10, 40, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 6,
                             Percentage = 66.0,
                             QuizAttemptId = 11,
                             QuizTitle = "Kviz programiranja",
@@ -741,6 +785,7 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 10,
                             CorrectAnswers = 1,
                             CreatedAt = new DateTime(2025, 9, 22, 11, 50, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 6,
                             Percentage = 33.0,
                             QuizAttemptId = 12,
                             QuizTitle = "Kviz o arhitekturi Novog Sada",
@@ -753,6 +798,7 @@ namespace QuizHubInfrastructure.Migrations
                             Id = 11,
                             CorrectAnswers = 2,
                             CreatedAt = new DateTime(2025, 9, 23, 9, 20, 0, 0, DateTimeKind.Unspecified),
+                            MaximumScore = 4,
                             Percentage = 100.0,
                             QuizAttemptId = 13,
                             QuizTitle = "Kviz o muzici",

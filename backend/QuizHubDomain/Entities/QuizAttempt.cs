@@ -21,15 +21,20 @@ namespace QuizHubDomain.Entities
         public DateTime? FinishedAt { get; set; } 
 
         public int Score { get; set; } = 0;
+        public int CurrentQuizScore { get; set; }
+        public int CurrentQuestionCount { get; set; }
         public Result? Result { get; set; } //svaki pokusaj ima svoj rezultat
 
         public List<AttemptAnswer> AttemptAnswers { get; set; } = [];
+
     
         public QuizAttempt() { }
-        public QuizAttempt(int quizId, int userId) 
+        public QuizAttempt(int quizId, int userId, int currentQuizScore, int currentQuestionCount) 
         {
             this.QuizId = quizId;
             this.UserId = userId;
+            this.CurrentQuizScore= currentQuizScore;
+            this.CurrentQuestionCount= currentQuestionCount;
         }
     }
 }

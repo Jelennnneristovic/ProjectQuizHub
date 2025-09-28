@@ -1,18 +1,36 @@
 <div class="container my-4" *ngIf="result">
     <h2>{{ result.quizTitle }} - Details</h2>
-    <p>
-        <strong>Score:</strong>
-        {{ result.score }}
-        <strong>Percentage:</strong>
-        {{ result.percentage | number:'1.0-2' }}% |
-        <strong>Time Taken:</strong>
-        {{ result.timeTakenMin }} min
-    </p>
-
-    <h4>Progress</h4>
-    <ul>
-        <li *ngFor="let p of result.progress">Attempt {{ p.attemptNumber }}: {{ p.score }} points</li>
-    </ul>
+    <div class="container my-3">
+        <div class="card p-3 mb-3">
+            <h5>Result Summary</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Score:</strong>
+                    {{ result.score }} / {{ result.maximumScore }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Percentage:</strong>
+                    {{ result.percentage | number:'1.0-2' }}%
+                </li>
+                <li class="list-group-item">
+                    <strong>Question Count:</strong>
+                    {{ result.totalQuestions }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Correct Answered Questions:</strong>
+                    {{ result.correctAnswers }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Unanswered Questions:</strong>
+                    {{ result.unanswerdQuestion }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Time Taken:</strong>
+                    {{ result.timeTakenMin }} min
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <h4>Answers</h4>
     <div
@@ -49,5 +67,19 @@
                 {{ a.awardedPoints }} / {{ a.questionPoints }}
             </p>
         </div>
+    </div>
+    <h4>Progress</h4>
+    <ul>
+        <li *ngFor="let p of result.progress">Attempt {{ p.attemptNumber }}: {{ p.score }} points</li>
+    </ul>
+
+    <div style="width: 1000px; height: 300px; margin: auto">
+        <canvas
+            baseChart
+            [data]="lineChartData"
+            [options]="lineChartOptions"
+            chartType="line"
+            style="width: 100%; height: 100%"
+        ></canvas>
     </div>
 </div>

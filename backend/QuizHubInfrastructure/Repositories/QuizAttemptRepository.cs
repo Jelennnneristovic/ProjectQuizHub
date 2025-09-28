@@ -81,6 +81,8 @@ namespace QuizHubInfrastructure.Repositories
                         Score = qa.Score,
                         UserId = qa.UserId,
                         QuizId = qa.QuizId,
+                        CurrentQuizScore= qa.CurrentQuizScore,
+                        CurrentQuestionCount= qa.CurrentQuestionCount,
                         AttemptAnswers = qa.AttemptAnswers.Select(aa => new AttemptAnswer
                         {
                             Id = aa.Id,

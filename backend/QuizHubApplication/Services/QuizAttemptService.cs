@@ -34,7 +34,7 @@ namespace QuizHubApplication.Services
 
             //izvlacim informacije o useru iz tokena
             UserContext context = _tokenService.GetUserContext();
-            QuizAttempt newQuizAttempt = new (createQuizAttemptDto.QuizId, context.Id);
+            QuizAttempt newQuizAttempt = new (createQuizAttemptDto.QuizId, context.Id,CalculateQuizScore(quiz.Questions),quiz.Questions.Count);
             _quizAttemptRepository.CreateQuizAttempt(newQuizAttempt);
 
             List<UserQuizAttemptQuestionDto> questions = [];
@@ -100,7 +100,7 @@ namespace QuizHubApplication.Services
             quizAttempt.TimeTakenMin = (int)timeTaken.TotalMinutes;
 
             //racunanjje tacnih odgovora
-            int questionCount = quizDetails.Questions.Count;
+            int questionCount = quizAttempt.CurrentQuestionCount;
             int correctQuestionCount = 0;
             int score = 0;
             foreach (AttemptAnswer aa in quizAttempt.AttemptAnswers)
@@ -123,6 +123,7 @@ namespace QuizHubApplication.Services
                 correctQuestionCount,
                 score,
                 percentage,
+                quizAttempt.CurrentQuizScore,
                 (int)timeTaken.TotalMinutes
             );
 
@@ -197,7 +198,15 @@ namespace QuizHubApplication.Services
             }
             return result;
         }
-
+        private static int CalculateQuizScore(List<Question> questions)
+        {
+            int score = 0;
+            foreach (Question question in questions)
+            {
+                score += question.Points;
+            }
+            return score;
+        }
         public List<QuizAttemptDto> GetQuizAttemptsFromUser()
         {
 

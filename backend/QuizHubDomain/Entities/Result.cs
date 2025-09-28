@@ -15,6 +15,7 @@ namespace QuizHubDomain.Entities
 
         // Polja rezultata
         public int TotalQuestions { get; set; }
+        public int MaximumScore { get; set; }
         public int CorrectAnswers { get; set; }
         public int Score { get; set; }
         public double Percentage { get; set; }
@@ -25,7 +26,7 @@ namespace QuizHubDomain.Entities
         public Result() { }
 
 
-        public Result(int QuizAttemptId, string QuizTitle, int TotalQuestions, int CorrectAnswers, int Score, double Percentage, int TimeTakenMin)
+        public Result(int QuizAttemptId, string QuizTitle, int TotalQuestions, int CorrectAnswers, int Score, double Percentage, int MaximumScore,int TimeTakenMin)
         {
             this.QuizAttemptId = QuizAttemptId;
             this.QuizTitle = QuizTitle;
@@ -33,6 +34,7 @@ namespace QuizHubDomain.Entities
             this.CorrectAnswers = CorrectAnswers;
             this.Score = Score;
             this.Percentage = Percentage;
+            this.MaximumScore = MaximumScore;
             this.TimeTakenMin = TimeTakenMin;
         }
 
