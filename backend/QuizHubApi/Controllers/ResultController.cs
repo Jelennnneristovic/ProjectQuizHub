@@ -48,7 +48,7 @@ namespace QuizHubApi.Controllers
 
         }
 
-        [HttpGet("topResults")]
+        [HttpGet("leaderboard")]
         public ActionResult<LeaderBoardEntriesDto> GetLeaderboard([FromQuery]  int QuizId, [FromQuery] string? Period)
         {
             try

@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Leaderboard</h2>
+<mat-form-field appearance="outline" style="width: 100%; margin-bottom: 16px">
+    <mat-label>Filter by period</mat-label>
+    <mat-select [(ngModel)]="selectedPeriod" (selectionChange)="loadLeaderboard()">
+        <mat-option value="">All time</mat-option>
+        <mat-option value="weekly">Weekly</mat-option>
+        <mat-option value="monthly">Monthly</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-dialog-content>
+    <table mat-table [dataSource]="leaderboard.entries" *ngIf="leaderboard" class="mat-elevation-z8">
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let entry">{{ entry.position }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef>Username</th>
+            <td mat-cell *matCellDef="let entry">{{ entry.username }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="score">
+            <th mat-header-cell *matHeaderCellDef>Score</th>
+            <td mat-cell *matCellDef="let entry">{{ entry.score }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="timeElapsedMin">
+            <th mat-header-cell *matHeaderCellDef>Time (min)</th>
+            <td mat-cell *matCellDef="let entry">{{ entry.timeElapsedMin }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="completedAt">
+            <th mat-header-cell *matHeaderCellDef>Completed</th>
+            <td mat-cell *matCellDef="let entry">{{ entry.completedAt | date:'short' }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *ngIf="leaderboard?.entries?.length === 0">No res</div>
+</mat-dialog-content>

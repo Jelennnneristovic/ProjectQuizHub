@@ -1,0 +1,25 @@
+<div class="container my-4">
+    <h2>Quizzes</h2>
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Time Limit (min)</th>
+                <th>Difficulty</th>
+                <th>Questions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let quiz of quizzes" (click)="openLeaderboard(quiz)" style="cursor: pointer">
+                <td>{{ quiz.id }}</td>
+                <td>{{ quiz.title }}</td>
+                <td>{{ quiz.categoryName }}</td>
+                <td>{{ quiz.timeLimit }}</td>
+                <td>{{ quiz.difficultyLevel }}</td>
+                <td>{{ quiz.questionsCount }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
