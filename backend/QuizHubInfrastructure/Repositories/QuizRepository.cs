@@ -104,7 +104,7 @@ namespace QuizHubInfrastructure.Repositories
 
               .Where(q =>
                    (difficultyLevel == null || q.DifficultyLevel == difficultyLevel) &&
-                   (string.IsNullOrEmpty(categoryName) || (q.Category != null && q.Category.Name == categoryName))
+                   (string.IsNullOrEmpty(categoryName) || (q.Category != null && q.Category.Name.Equals(categoryName, StringComparison.OrdinalIgnoreCase)))
                    
               )];
 

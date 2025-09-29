@@ -2,8 +2,39 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="m-0">Quizzes</h5>
         <small class="text-muted">{{ quizzes.length || 0 }}</small>
-        <div class="d-flex gap-2">
+        <div *ngIf="role !== 'User'" class="d-flex gap-2">
             <button class="btn btn-sm btn-primary" (click)="openAddQuizModal()">+ Add Quiz</button>
+        </div>
+    </div>
+    <!-- Filter sekcija -->
+    <div class="container mb-4">
+        <div class="row g-2 align-items-end">
+            <div class="col-12 col-md-4">
+                <label class="form-label">Keyword</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" [(ngModel)]="keyword" placeholder="Enter keyword" />
+                    <button class="btn btn-primary" (click)="onSearchByKeyword()">Search</button>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">Category</label>
+                <input type="text" class="form-control" [(ngModel)]="categoryName" placeholder="Category name" />
+            </div>
+
+            <div class="col-12 col-md-3">
+                <label class="form-label">Difficulty</label>
+                <select class="form-select" [(ngModel)]="difficultyLevel">
+                    <option [ngValue]="null">None</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-1">
+                <button class="btn btn-success" (click)="onSearchFilters()">Search</button>
+            </div>
         </div>
     </div>
 
@@ -33,13 +64,26 @@
 
                     <div class="card-footer bg-transparent border-0 pt-0">
                         <div class="d-flex gap-2 justify-content-between">
-                            <button class="btn btn-sm btn-outline-primary w-100" (click)="onDetails(q)">Details</button>
-                            <button class="btn btn-sm btn-outline-success w-100" (click)="openEditQuizModal(q)">
-                                Edit
+                            <!-- Ako je rola User prikazuje se samo Start -->
+                            <button *ngIf="role === 'User'" class="btn btn-sm btn-success w-100" (click)="startQuiz(q)">
+                                Start
                             </button>
-                            <button class="btn btn-sm btn-outline-danger w-100" (click)="openDeleteQuizConfirm(q)">
-                                Delete
-                            </button>
+
+                            <!-- Ako rola NIJE User, prikazuju se ostali dugmići -->
+                            <ng-container *ngIf="role !== 'User'">
+                                <a
+                                    class="btn btn-sm btn-outline-secondary"
+                                    [routerLink]="['/admin/homepage/quizzes', q.id]"
+                                >
+                                    Details
+                                </a>
+                                <button class="btn btn-sm btn-outline-success w-100" (click)="openEditQuizModal(q)">
+                                    Edit
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger w-100" (click)="openDeleteQuizConfirm(q)">
+                                    Delete
+                                </button>
+                            </ng-container>
                         </div>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ import { MyProfileComponent } from '../profile/components/my-profile-component/m
 import { ResultListComponent } from '../result/components/result-list-component/result-list-component';
 import { ResultDetailsComponents } from '../result/components/result-details-components/result-details-components';
 import { QuizTableComponent } from '../leaderBoard/components/quiz-table-component/quiz-table-component';
+import { QuizDetailsComponent } from '../quiz/components/quiz-details-component/quiz-details-component';
 
 const routes: Routes = [
     {
@@ -18,6 +19,7 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'quizzes', pathMatch: 'full' },
             { path: 'quizzes', component: QuizListComponent },
+            { path: 'quizzes/:id', component: QuizDetailsComponent },
             { path: 'categories', component: CategoryListComponent },
             { path: 'attempts', component: QuizAttemptsListComponent },
             { path: 'profile', component: MyProfileComponent },

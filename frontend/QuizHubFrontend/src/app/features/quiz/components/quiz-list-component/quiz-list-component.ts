@@ -8,10 +8,16 @@ import { CreateQuizDto } from '../../models/CreateQuizDto';
 import { UpdateQuizDto } from '../../models/UpdateQuizDto';
 import { QuizModalComponent } from '../quiz-modal-component/quiz-modal-component';
 import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal-component/confirm-modal-component';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { AuthService } from '../../../auth/services/auth.services';
+import { FormsModule } from '@angular/forms';
+import { DifficultyLevel } from '../../models/DifficultyLevel';
+import { subscribeOn } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-quiz-list-component',
-    imports: [CommonModule, ConfirmModalComponent],
+    imports: [CommonModule, ConfirmModalComponent, FormsModule, RouterModule],
 
     standalone: true,
     templateUrl: './quiz-list-component.html',
@@ -19,12 +25,23 @@ import { ConfirmModalComponent } from '../../../../shared/components/confirm-mod
 })
 export class QuizListComponent implements OnInit {
     private quizService = inject(QuizService);
+    private authService = inject(AuthService);
     private dialog = inject(MatDialog);
+    private toastServise = inject(ToastService);
+    role: string = 'User';
 
     quizzes: QuizDto[] = [];
     quizToDelete?: QuizDto;
 
+    keyword = '';
+    categoryName = '';
+    difficultyLevel: DifficultyLevel | null = null;
+
     ngOnInit(): void {
+        const context = this.authService.GetCurrentUser();
+        if (!context) return;
+
+        this.role = context.role;
         this.loadQuizzes();
     }
 
@@ -80,12 +97,34 @@ export class QuizListComponent implements OnInit {
         if (!this.quizToDelete) return;
 
         this.quizService.deleteQuiz(this.quizToDelete.id).subscribe({
-            next: () => {
+            next: (data) => {
+                this.toastServise.success(data);
+
                 this.loadQuizzes();
                 this.quizToDelete = undefined;
             },
         });
     }
 
-    onDetails(quiz: QuizDto) {}
+    startQuiz(quiz: QuizDto) {}
+
+    onSearchByKeyword() {
+        if (!this.keyword.trim()) {
+            this.loadQuizzes();
+            return;
+        }
+        this.quizService.searchByKeyword(this.keyword).subscribe({
+            next: (data) => {
+                this.quizzes = data;
+            },
+        });
+    }
+    onSearchFilters() {
+        const diff = this.difficultyLevel || undefined;
+        this.quizService.searchQuizzes(diff as any, this.categoryName || undefined).subscribe({
+            next: (data) => {
+                this.quizzes = data;
+            },
+        });
+    }
 }

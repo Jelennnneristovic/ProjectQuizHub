@@ -6,6 +6,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { jwtInterceptor } from './app/core/interceptors/jwt.interceptors';
 import { environment } from './environments/environment';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 if (environment.prodaction) {
     enableProdMode();
@@ -13,7 +15,9 @@ if (environment.prodaction) {
 
 bootstrapApplication(App, {
     providers: [
-        importProvidersFrom(AppRoutingModule),
+        provideAnimations(),
+        importProvidersFrom(AppRoutingModule, MatSnackBarModule),
+
         provideHttpClient(withInterceptors([jwtInterceptor])),
         provideCharts(withDefaultRegisterables()),
     ],
