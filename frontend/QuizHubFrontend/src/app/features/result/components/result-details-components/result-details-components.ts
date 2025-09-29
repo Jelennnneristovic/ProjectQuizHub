@@ -37,7 +37,7 @@ export class ResultDetailsComponents implements OnInit {
         this.resultService.getResultDetailsById(id).subscribe({
             next: (data) => {
                 this.result = data;
-                console.log(data);
+
                 this.populateChartData(this.result);
                 this.lineChartData = {
                     labels: this.labels,

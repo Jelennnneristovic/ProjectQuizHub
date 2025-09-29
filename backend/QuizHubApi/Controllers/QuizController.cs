@@ -66,7 +66,7 @@ namespace QuizHubApi.Controllers
 
         // [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
-        public ActionResult<List<QuizDetailsDto>> GetQuiz(int id)
+        public ActionResult<QuizDetailsDto> GetQuiz(int id)
         {
             QuizDetailsDto? quiz = _quizService.GetQuiz(id);
             if (quiz is null)

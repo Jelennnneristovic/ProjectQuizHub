@@ -11,7 +11,7 @@ namespace QuizHubApplication.DTOs.Requests
         string Text,
         int Points,
         int QuizId,
-        QuestionType QuestionType,
+        string QuestionType,
         string? CorrectFillInAnswer,
         List<CreateAnswerOptionDto> AnswerOptions
         )

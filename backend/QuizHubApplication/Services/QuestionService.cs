@@ -29,11 +29,13 @@ namespace QuizHubApplication.Services
                 throw new EntityDoesNotExist(string.Format("Quiz {0} does not exist", createQuestionDto.QuizId));
             }
 
-            ValidateAnswersWithQuestionType(createQuestionDto.QuestionType,
+            QuestionType questionType = (QuestionType)Enum.Parse(typeof(QuestionType), createQuestionDto.QuestionType);
+
+            ValidateAnswersWithQuestionType(questionType,
                 createQuestionDto.CorrectFillInAnswer,
                 [.. createQuestionDto.AnswerOptions.Cast<ICRUDAnswerOptionDto>()]);
 
-            Question newQestion= new( createQuestionDto.QuizId, createQuestionDto.Text, createQuestionDto.Points, createQuestionDto.QuestionType, createQuestionDto.CorrectFillInAnswer);
+            Question newQestion= new( createQuestionDto.QuizId, createQuestionDto.Text, createQuestionDto.Points, questionType, createQuestionDto.CorrectFillInAnswer);
 
             _questionRepository.CreateQuestion(newQestion);
             List<AnswerOption> answerOptions = [];

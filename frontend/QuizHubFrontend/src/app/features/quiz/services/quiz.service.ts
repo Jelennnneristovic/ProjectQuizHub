@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { QuizDto } from '../models/QuizDto';
 import { CreateQuizDto } from '../models/CreateQuizDto';
 import { UpdateQuizDto } from '../models/UpdateQuizDto';
+import { QuizDetailsDto } from '../models/QuizDetailsDto';
 
 @Injectable({ providedIn: 'root' })
 export class QuizService {
@@ -38,5 +39,9 @@ export class QuizService {
     // pretraga po ključnoj reči
     searchByKeyword(keyword: string): Observable<QuizDto[]> {
         return this.http.get<QuizDto[]>(`${this.apiUrl}/search/${keyword}`);
+    }
+
+    getQuiz(id: number): Observable<QuizDetailsDto> {
+        return this.http.get<QuizDetailsDto>(`${this.apiUrl}/${id}`);
     }
 }
