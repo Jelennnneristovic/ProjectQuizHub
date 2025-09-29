@@ -17,7 +17,7 @@ namespace QuizHubApi.Controllers
 
         [Authorize(Roles = "User")]
         [HttpPost]
-        public ActionResult<QuizAttemptDto> CreateQuizAttempt([FromBody] CreateQuizAttemptDto createQuizAttemptDto)
+        public ActionResult<UserQuizAttemptDto> CreateQuizAttempt([FromBody] CreateQuizAttemptDto createQuizAttemptDto)
         {
             try
             {

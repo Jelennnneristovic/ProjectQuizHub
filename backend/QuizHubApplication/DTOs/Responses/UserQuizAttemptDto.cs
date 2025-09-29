@@ -12,7 +12,7 @@ namespace QuizHubApplication.DTOs.Responses
         string Title,
         int TimeLimit,
         List<UserQuizAttemptQuestionDto> Questions
-        )
+    )
     {
     }
 }

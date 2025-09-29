@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { QuizDto } from '../../models/QuizDto';
@@ -17,7 +17,7 @@ import { MatInputModule } from '@angular/material/input';
     templateUrl: './quiz-modal-component.html',
     styleUrl: './quiz-modal-component.scss',
 })
-export class QuizModalComponent {
+export class QuizModalComponent implements OnInit {
     private fb = inject(FormBuilder);
     public dialogRef = inject(MatDialogRef<QuizModalComponent>);
     public data = inject(MAT_DIALOG_DATA) as { quiz?: QuizDto; isEdit: boolean };

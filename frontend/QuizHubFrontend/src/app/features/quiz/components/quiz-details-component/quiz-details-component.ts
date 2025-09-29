@@ -7,10 +7,14 @@ import { QuizDetailsDto } from '../../models/QuizDetailsDto';
 import { CreateQuestionDto } from '../../models/CreateQuestionDto ';
 import { QuestionDto } from '../../models/QuestionDto';
 import { FormsModule } from '@angular/forms';
+import { CreateAnswerOptionDto } from '../../models/CreateAnswerOptionDto ';
+import { DeleteQuestionDto } from '../../models/DeleteQuestionDto ';
+import { UpdateQuestionDto } from '../../models/UpdateQuestionDto ';
+import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal-component/confirm-modal-component';
 
 @Component({
     selector: 'app-quiz-details-component',
-    imports: [CommonModule, RouterModule, FormsModule],
+    imports: [CommonModule, RouterModule, FormsModule, ConfirmModalComponent],
     standalone: true,
     templateUrl: './quiz-details-component.html',
     styleUrl: './quiz-details-component.scss',
@@ -23,6 +27,8 @@ export class QuizDetailsComponent implements OnInit {
 
     quizDetails?: QuizDetailsDto;
 
+    questionToDelete?: QuestionDto;
+
     // novi question forma
     newQuestion: CreateQuestionDto = {
         text: '',
@@ -33,9 +39,8 @@ export class QuizDetailsComponent implements OnInit {
         answerOptions: [],
     };
 
-    // za edit
-    editingQuestion: QuestionDto | null = null;
-    toastr: any;
+    editingQuestion?: QuestionDto;
+    currentQuestion: any = this.resetNewQuestion();
 
     ngOnInit(): void {
         const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -47,71 +52,142 @@ export class QuizDetailsComponent implements OnInit {
         });
     }
 
+    private resetNewQuestion() {
+        return {
+            text: '',
+            points: 1,
+            questionType: 'SingleChoice',
+            quizId: this.quizDetails?.id,
+            correctFillInAnswer: '',
+            answerOptions: [] as CreateAnswerOptionDto[],
+        };
+    }
+
+    // ---------------- Question CRUD ----------------
+
     addQuestion() {
-        // ovdje dodati jos koju zastitu
-
-        if (!this.newQuestion.text.trim()) {
-            this.toastr.error('Question text is required.', 'Validation');
+        if (!this.currentQuestion.text.trim()) {
+            alert('Question text is required!');
             return;
         }
-        if (this.newQuestion.points <= 0) {
-            this.toastr.error('Points must be greater than 0.', 'Validation');
-            return;
-        }
-
-        if (
-            (!this.newQuestion.answerOptions || this.newQuestion.answerOptions.length === 0) &&
-            this.newQuestion.questionType !== 'FillIn'
-        ) {
-            this.toastr.error('At least one answer option is required.', 'Validation');
+        if (this.currentQuestion.questionType !== 'FillIn' && this.currentQuestion.answerOptions.length === 0) {
+            alert('Add at least one answer option!');
             return;
         }
 
-        if (!this.newQuestion.correctFillInAnswer && this.newQuestion.questionType === 'FillIn') {
-            this.toastr.error('Fill in question must have fill in answer.', 'Validation');
-            return;
-        }
+        const dto: CreateQuestionDto = {
+            quizId: this.quizDetails!.id,
+            text: this.currentQuestion.text,
+            points: this.currentQuestion.points,
+            questionType: this.currentQuestion.questionType,
+            correctFillInAnswer:
+                this.currentQuestion.questionType === 'FillIn' ? this.currentQuestion.correctFillInAnswer : undefined,
+            answerOptions: this.currentQuestion.answerOptions,
+        };
 
-        if (this.newQuestion.answerOptions.length > 0 && this.newQuestion.questionType === 'FillIn') {
-            this.toastr.error('Fill in question must have 0 answer options.', 'Validation');
-            return;
-        }
-
-        const emptyOption = this.newQuestion.answerOptions.find((opt) => !opt.text.trim());
-        if (emptyOption) {
-            this.toastr.error('All answer options must have text.', 'Validation');
-            return;
-        }
-
-        if (this.newQuestion.questionType === 'MultipleChoice') {
-            const hasCorrect = this.newQuestion.answerOptions.some((opt) => opt.isCorrect);
-            if (!hasCorrect) {
-                this.toastr.error('At least one option must be marked as correct.', 'Validation');
-                return;
-            }
-        }
-
-        this.questionService.createQuestion(this.newQuestion).subscribe({
-            next: (data) => {
-                this.quizDetails = data;
-                // reset forme
-                this.newQuestion = {
-                    text: '',
-                    points: 1,
-                    questionType: 'SingleChoice',
-                    quizId: this.quizDetails.id,
-                    correctFillInAnswer: undefined,
-                    answerOptions: [],
-                };
+        this.questionService.createQuestion(dto).subscribe({
+            next: (updatedQuiz) => {
+                this.quizDetails = updatedQuiz;
+                this.currentQuestion = this.resetNewQuestion();
+            },
+            error: (err) => {
+                console.error(err);
+                alert('Failed to add question');
             },
         });
     }
 
-    addAnswerOptionToNew() {
-        this.newQuestion.answerOptions.push({ text: '', isCorrect: false });
+    editQuestion(q: QuestionDto) {
+        this.editingQuestion = { ...q };
+        this.currentQuestion = {
+            text: q.text,
+            points: q.points,
+            questionType: q.questionType,
+            correctFillInAnswer: q.correctFillInAnswer,
+            answerOptions: q.answerOptions.map((a) => ({ ...a })),
+        };
     }
 
-    removeAnswerOptionFromNew(index: number) {
-        this.newQuestion.answerOptions.splice(index, 1);
+    updateQuestion() {
+        if (!this.editingQuestion) return;
+
+        if (!this.currentQuestion.text.trim()) {
+            alert('Question text is required!');
+            return;
+        }
+
+        const dto: UpdateQuestionDto = {
+            quizId: this.quizDetails!.id,
+            questionId: this.editingQuestion.id,
+            text: this.currentQuestion.text,
+            points: this.currentQuestion.points,
+            updateAnswerOptionDtos: this.currentQuestion.answerOptions.map((a: any) => ({
+                AnswerOptionId: a.id,
+                Text: a.text,
+                IsCorrect: a.isCorrect,
+            })),
+        };
+
+        this.questionService.updateQuestion(dto).subscribe({
+            next: (updatedQuiz) => {
+                this.quizDetails = updatedQuiz;
+                this.editingQuestion = undefined;
+                this.currentQuestion = this.resetNewQuestion();
+            },
+            error: (err) => {
+                console.error(err);
+                alert('Failed to update question');
+            },
+        });
+    }
+
+    openDeleteQuestionConfirm(question: QuestionDto) {
+        this.questionToDelete = question;
+    }
+
+    cancelDelete() {
+        this.questionToDelete = undefined;
+    }
+
+    deleteQuestion() {
+        if (!this.questionToDelete) return;
+
+        const dto: DeleteQuestionDto = {
+            quizId: this.quizDetails!.id,
+            questionId: this.questionToDelete.id,
+        };
+
+        this.questionService.removeQuestion(dto).subscribe({
+            next: (updatedQuiz) => {
+                this.quizDetails = updatedQuiz;
+                this.questionToDelete = undefined;
+            },
+            error: (err) => {
+                console.error(err);
+                alert('Failed to delete question');
+            },
+        });
+    }
+
+    cancelEditing() {
+        this.editingQuestion = undefined;
+        this.currentQuestion = this.resetNewQuestion();
+    }
+
+    // ---------------- Answer Option CRUD ----------------
+
+    addAnswerOption() {
+        this.currentQuestion.answerOptions.push({ text: '', isCorrect: false } as CreateAnswerOptionDto);
+    }
+
+    removeAnswerOption(index: number) {
+        this.currentQuestion.answerOptions.splice(index, 1);
+    }
+
+    onQuestionTypeChange() {
+        if (this.currentQuestion.questionType === 'FillIn') {
+            this.currentQuestion.answerOptions = [];
+            this.currentQuestion.correctFillInAnswer = '';
+        }
     }
 }

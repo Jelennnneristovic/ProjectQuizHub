@@ -3,7 +3,7 @@ import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { QuizService } from '../../services/quiz.service';
 import { QuizDto } from '../../models/QuizDto';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateQuizDto } from '../../models/CreateQuizDto';
 import { UpdateQuizDto } from '../../models/UpdateQuizDto';
 import { QuizModalComponent } from '../quiz-modal-component/quiz-modal-component';
@@ -12,12 +12,13 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { AuthService } from '../../../auth/services/auth.services';
 import { FormsModule } from '@angular/forms';
 import { DifficultyLevel } from '../../models/DifficultyLevel';
-import { subscribeOn } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { QuizAttemptService } from '../../../quiz-attempts/services/quiz-attempts.service';
+import { QuizAttemptViewComponent } from '../../../quiz-attempts/components/quiz-attempt-view-component/quiz-attempt-view-component';
 
 @Component({
     selector: 'app-quiz-list-component',
-    imports: [CommonModule, ConfirmModalComponent, FormsModule, RouterModule],
+    imports: [CommonModule, ConfirmModalComponent, FormsModule, RouterModule, MatDialogModule],
 
     standalone: true,
     templateUrl: './quiz-list-component.html',
@@ -28,6 +29,7 @@ export class QuizListComponent implements OnInit {
     private authService = inject(AuthService);
     private dialog = inject(MatDialog);
     private toastServise = inject(ToastService);
+    private quizAttemptService = inject(QuizAttemptService);
     role: string = 'User';
 
     quizzes: QuizDto[] = [];
@@ -106,7 +108,24 @@ export class QuizListComponent implements OnInit {
         });
     }
 
-    startQuiz(quiz: QuizDto) {}
+    startQuiz(quiz: QuizDto) {
+        this.quizAttemptService.createQuizAttempt({ quizId: quiz.id }).subscribe({
+            next: (attempt) => {
+                const dialogRef = this.dialog.open(QuizAttemptViewComponent, {
+                    width: '800px',
+                    data: attempt,
+                    disableClose: true,
+                });
+
+                dialogRef.beforeClosed().subscribe((result) => {
+                    if (!result?.finished) {
+                        alert('Kviz nije završen! Ako zatvorite modal, napredak neće biti sačuvan.');
+                    }
+                });
+            },
+            error: (err) => console.error(err),
+        });
+    }
 
     onSearchByKeyword() {
         if (!this.keyword.trim()) {

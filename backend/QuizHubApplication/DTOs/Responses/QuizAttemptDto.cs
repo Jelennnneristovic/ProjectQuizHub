@@ -18,7 +18,7 @@ namespace QuizHubApplication.DTOs.Responses
         int TimeLimit,
         int? TimeTakenMin,
         int Score
-        )
+    )
     {
     }
 }

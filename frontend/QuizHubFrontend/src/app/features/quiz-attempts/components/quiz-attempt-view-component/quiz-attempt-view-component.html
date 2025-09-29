@@ -1,0 +1,41 @@
+<div *ngIf="userQuizAttempt">
+    <h2 mat-dialog-title>{{ userQuizAttempt.title }}</h2>
+
+    <mat-dialog-content class="quiz-content">
+        <div *ngFor="let q of userQuizAttempt.questions" class="mb-3 card p-2">
+            <p><strong>{{ q.text }} ({{ q.points }} pts)</strong></p>
+
+            <!-- FillIn pitanja -->
+            <div *ngIf="q.questionType === 'FillIn'">
+                <input [disabled]="q.answered" type="text" class="form-control mb-2" #fillAnswer />
+
+                <button [disabled]="q.answered" color="primary" (click)="submitAnswer(q, [], fillAnswer.value)">
+                    Submit Answer
+                </button>
+            </div>
+
+            <!-- Single/Multiple Choice pitanja -->
+            <div *ngIf="q.questionType !== 'FillIn'">
+                <div *ngFor="let opt of q.optionDtos" class="form-check">
+                    <input
+                        [disabled]="q.answered"
+                        class="form-check-input"
+                        type="checkbox"
+                        [value]="opt.id"
+                        (change)="onOptionChange(q, opt.id, $event.target.checked)"
+                    />
+                    <label class="form-check-label">{{ opt.text }}</label>
+                </div>
+
+                <button [disabled]="q.answered" color="primary" (click)="submitAnswer(q, selectedOptions[q.id] || [])">
+                    Submit Answer
+                </button>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button color="warn" (click)="closeModal()">Close</button>
+        <button mat-raised-button color="primary" (click)="finishQuiz()">Finish Quiz</button>
+    </mat-dialog-actions>
+</div>

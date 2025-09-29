@@ -1,138 +1,109 @@
 <!-- Prikaz kviza -->
 <div class="container my-4" *ngIf="quizDetails; else loadingTpl">
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body">
-            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
-                <div>
-                    <h2 class="m-0">{{ quizDetails.title }}</h2>
-                    <p class="text-muted mb-1" *ngIf="quizDetails.categoryName">
-                        <small>
-                            Category: {{ quizDetails.categoryName }}
-                            <span *ngIf="quizDetails.categoryDescription">— {{ quizDetails.categoryDescription }}</span>
-                        </small>
-                    </p>
-                    <p class="mb-0 text-muted" *ngIf="quizDetails.description">{{ quizDetails.description }}</p>
-                </div>
-
-                <div class="d-flex align-items-start gap-3 ms-auto">
-                    <div class="text-end">
-                        <div><small class="text-muted">Time limit</small></div>
-                        <div class="h6 mb-0">⏱ {{ quizDetails.timeLimit }} min</div>
-                    </div>
-
-                    <div class="text-end">
-                        <div><small class="text-muted">Difficulty</small></div>
-                        <div class="h6 mb-0">{{ quizDetails.difficultyLevel }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Summary (po želji, možeš ukloniti) -->
-    <div class="row mb-3">
-        <div class="col-12 col-md-4">
-            <div class="card summary-card">
-                <div class="card-body">
-                    <h6 class="card-title">Questions</h6>
-                    <p class="mb-0 display-6">{{ quizDetails.questions.length || 0 }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="card mb-4">
         <div class="card-body">
-            <h5>Add new question</h5>
-            <input [(ngModel)]="newQuestion.text" placeholder="Question text" class="form-control mb-2" />
-            <input type="number" [(ngModel)]="newQuestion.points" placeholder="Points" class="form-control mb-2" />
-            <select [(ngModel)]="newQuestion.questionType" class="form-select mb-2">
+            <h4>{{ quizDetails.title }}</h4>
+            <p>{{ quizDetails.description }}</p>
+            <div class="mb-2">
+                <span class="badge bg-light text-dark me-1">Category: {{ quizDetails.categoryName }}</span>
+                <span class="badge bg-light text-dark me-1">Difficulty: {{ quizDetails.difficultyLevel }}</span>
+                <span class="badge bg-light text-dark me-1">Time: {{ quizDetails.timeLimit }} min</span>
+                <span class="badge bg-light text-dark">Questions: {{ quizDetails.questions.length }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Existing Questions -->
+    <div *ngFor="let q of quizDetails?.questions" class="card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <strong>{{ q.text }}</strong>
+                    ({{ q.points }} pts)
+                    <span class="badge bg-secondary ms-2">{{ q.questionType }}</span>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-primary" (click)="editQuestion(q)">Edit</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="openDeleteQuestionConfirm(q)">Delete</button>
+                </div>
+            </div>
+
+            <!-- Answer options -->
+            <div *ngIf="q.questionType !== 'FillIn'" class="mt-2">
+                <div *ngFor="let a of q.answerOptions" class="d-flex gap-2 align-items-center mb-1">
+                    <span [class.text-success]="a.isCorrect">{{ a.text }}</span>
+                </div>
+            </div>
+
+            <!-- Correct FillIn answer -->
+            <div *ngIf="q.questionType === 'FillIn'" class="mt-2">
+                <strong>Correct answer:</strong>
+                {{ q.correctFillInAnswer }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Add / Edit Question Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>{{ editingQuestion ? 'Edit Question' : 'Add New Question' }}</h5>
+
+            <!-- Question Text -->
+            <input [(ngModel)]="currentQuestion.text" placeholder="Question text" class="form-control mb-2" />
+
+            <!-- Points -->
+            <input type="number" [(ngModel)]="currentQuestion.points" placeholder="Points" class="form-control mb-2" />
+
+            <!-- Question Type -->
+            <select
+                [disabled]="editingQuestion !== undefined"
+                [(ngModel)]="currentQuestion.questionType"
+                class="form-select mb-2"
+                (change)="onQuestionTypeChange()"
+            >
                 <option value="SingleChoice">Single Choice</option>
                 <option value="MultipleChoice">Multiple Choice</option>
-                <option value="TrueFalse">True/False</option>
+                <option value="TrueFalse">True False</option>
                 <option value="FillIn">Fill In</option>
             </select>
-            <div *ngIf="newQuestion.questionType !== 'FillIn'">
-                <h6>Answer options</h6>
-                <div *ngFor="let opt of newQuestion.answerOptions; let i = index" class="d-flex gap-2 mb-2">
-                    <input [(ngModel)]="opt.text" placeholder="Option text" class="form-control" />
-                    <input type="checkbox" [(ngModel)]="opt.isCorrect" />
-                    Correct
-                    <button class="btn btn-sm btn-outline-danger" (click)="removeAnswerOptionFromNew(i)">x</button>
-                </div>
-                <button class="btn btn-sm btn-secondary me-2" (click)="addAnswerOptionToNew()">+ Option</button>
-            </div>
-            <div *ngIf="newQuestion.questionType === 'FillIn'" class="mb-3">
+
+            <!-- Fill In Answer -->
+            <div *ngIf="currentQuestion.questionType === 'FillIn'" class="mb-2">
                 <input
-                    [(ngModel)]="newQuestion.correctFillInAnswer"
-                    placeholder="Correct answer"
+                    [(ngModel)]="currentQuestion.correctFillInAnswer"
+                    placeholder="Correct Answer"
                     class="form-control"
                 />
             </div>
-            <button style="margin-top: 10px" class="btn btn-sm btn-success" (click)="addQuestion()">
-                Save Question
-            </button>
-        </div>
-    </div>
 
-    <!-- Pitanja -->
-    <h4 class="mb-3">Questions</h4>
-
-    <div class="row g-3">
-        <div class="col-12" *ngFor="let q of quizDetails.questions; index as i">
-            <div class="card question-card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start gap-3">
-                        <div>
-                            <h6 class="mb-1">{{ i + 1 }}. {{ q.text }}</h6>
-                            <p class="mb-1 text-muted small">
-                                <span class="me-2">
-                                    <strong>Type:</strong>
-                                    {{ q.questionType }}
-                                </span>
-                                <span>
-                                    <strong>Points:</strong>
-                                    {{ q.points }}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Fill-in pitanje: prikaži ispravan odgovor (ako postoji) -->
-                    <div *ngIf="q.questionType === 'FillIn' || q.correctFillInAnswer" class="mb-2">
-                        <small class="text-muted">Correct answer:</small>
-                        <div class="p-2 rounded small bg-light">{{ q.correctFillInAnswer || '-' }}</div>
-                    </div>
-
-                    <!-- Answer options: listaj i highlight-uj tačne odgovore -->
-                    <div *ngIf="q.answerOptions?.length" class="mt-2">
-                        <small class="text-muted">Options:</small>
-                        <ul class="list-group list-group-flush options-list">
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center"
-                                *ngFor="let opt of q.answerOptions"
-                                [ngClass]="{
-                  'option-correct': opt.isCorrect,
-                  'option-incorrect': !opt.isCorrect
-                }"
-                            >
-                                <div class="option-text">{{ opt.text }}</div>
-                                <!-- prikaz male oznake (bez teksta 'Correct') -->
-                                <span
-                                    *ngIf="opt.isCorrect"
-                                    class="badge rounded-pill bg-success-subtle border border-success text-success"
-                                >
-                                    ✔
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- awarded/other info (ako postoji) - mesto za buduće proširenje -->
-                    <div class="mt-2 text-muted small">
-                        <!-- npr. dodatne informacije -->
-                    </div>
+            <!-- Answer Options -->
+            <ng-container *ngIf="currentQuestion.questionType !== 'FillIn'">
+                <h6>Answer options</h6>
+                <div
+                    *ngFor="let opt of currentQuestion.answerOptions; let i = index"
+                    class="d-flex gap-2 mb-2 align-items-center"
+                >
+                    <input [(ngModel)]="opt.text" placeholder="Option text" class="form-control" />
+                    <input type="checkbox" [(ngModel)]="opt.isCorrect" />
+                    Correct
+                    <button
+                        *ngIf="!editingQuestion"
+                        class="btn btn-sm btn-outline-danger"
+                        (click)="removeAnswerOption(i)"
+                    >
+                        x
+                    </button>
                 </div>
+                <button *ngIf="!editingQuestion" class="btn btn-sm btn-secondary" (click)="addAnswerOption()">
+                    + Option
+                </button>
+            </ng-container>
+
+            <div class="mt-3">
+                <button class="btn btn-sm btn-success" (click)="editingQuestion ? updateQuestion() : addQuestion()">
+                    {{ editingQuestion ? 'Save Changes' : 'Save Question' }}
+                </button>
+                <button class="btn btn-sm btn-outline-secondary ms-2" (click)="cancelEditing()">Cancel</button>
             </div>
         </div>
     </div>
@@ -144,3 +115,11 @@
         <div class="mt-2 text-muted">Loading quiz...</div>
     </div>
 </ng-template>
+
+<app-confirm-modal-component
+    *ngIf="questionToDelete"
+    [title]="'Delete Question'"
+    [message]="'Are you sure you want to delete ' + questionToDelete.id + '?'"
+    (confirm)="deleteQuestion()"
+    (cancel)="cancelDelete()"
+></app-confirm-modal-component>

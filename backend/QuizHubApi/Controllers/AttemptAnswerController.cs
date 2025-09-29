@@ -12,6 +12,7 @@ namespace QuizHubApi.Controllers
     public class AttemptAnswerController(IAttemptAnswerService attemptAnswerService) : ControllerBase
     {
         private readonly IAttemptAnswerService _attemptAnswerService = attemptAnswerService;
+
         [HttpPost]
         public ActionResult<string> CreateAttemptAnswer([FromBody] CreateAttemptAnswerDto createAttemptAnswerDto)
         {

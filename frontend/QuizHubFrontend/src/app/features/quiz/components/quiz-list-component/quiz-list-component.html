@@ -91,11 +91,11 @@
         </ng-container>
     </div>
 </div>
-<div *ngIf="quizToDelete">
-    <app-confirm-modal-component
-        [title]="'Delete Quiz'"
-        [message]="'Are you sure you want to delete ' + quizToDelete.title + '?'"
-        (confirm)="deleteQuiz()"
-        (cancel)="cancelDelete()"
-    ></app-confirm-modal-component>
-</div>
+
+<app-confirm-modal-component
+    *ngIf="quizToDelete"
+    [title]="'Delete Quiz'"
+    [message]="'Are you sure you want to delete ' + quizToDelete.title + '?'"
+    (confirm)="deleteQuiz()"
+    (cancel)="cancelDelete()"
+></app-confirm-modal-component>
