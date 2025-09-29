@@ -123,7 +123,7 @@ namespace QuizHubApplication.Services
             HashSet<int> userAnswers = [];
             foreach (AttemptAnswerOption option in newAttemptAnswer.AttemptAnswerOptions)
             {
-                userAnswers.Add(option.Id);
+                userAnswers.Add(option.AnswerOptionId);
             }
 
             if (correctAnswers.SetEquals(userAnswers))

@@ -65,7 +65,12 @@
                     <div class="card-footer bg-transparent border-0 pt-0">
                         <div class="d-flex gap-2 justify-content-between">
                             <!-- Ako je rola User prikazuje se samo Start -->
-                            <button *ngIf="role === 'User'" class="btn btn-sm btn-success w-100" (click)="startQuiz(q)">
+                            <button
+                                *ngIf="role === 'User'"
+                                [disabled]="q.questionsCount === 0"
+                                class="btn btn-sm btn-success w-100"
+                                (click)="startQuiz(q)"
+                            >
                                 Start
                             </button>
 

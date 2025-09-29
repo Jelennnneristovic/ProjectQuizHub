@@ -236,10 +236,10 @@ export class QuizDetailsComponent implements OnInit {
     updateQuestion() {
         if (
             !this.editingQuestion ||
-            this.validateQuestionText(this.editingQuestion.text) ||
-            this.validatePoints(this.editingQuestion.points) ||
-            this.validateQuestionTypeForEdit(this.editingQuestion.questionType, this.editingQuestion.answerOptions) ||
-            this.validateOptionsForEdit(this.editingQuestion.questionType, this.editingQuestion.answerOptions)
+            this.validateQuestionText(this.currentQuestion.text) ||
+            this.validatePoints(this.currentQuestion.points) ||
+            this.validateQuestionTypeForEdit(this.currentQuestion.questionType, this.currentQuestion.answerOptions) ||
+            this.validateOptionsForEdit(this.currentQuestion.questionType, this.currentQuestion.answerOptions)
         ) {
             return;
         }
