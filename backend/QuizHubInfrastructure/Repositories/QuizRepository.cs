@@ -57,8 +57,6 @@ namespace QuizHubInfrastructure.Repositories
                     IsActive = q.IsActive,
                     Category = q.Category != null && q.Category.IsActive ? q.Category : null,
                     Questions = q.Questions
-
-
                     .Where(ques => ques.IsActive)
                     .Select(question => new Question
                     {
@@ -67,12 +65,16 @@ namespace QuizHubInfrastructure.Repositories
                         Points = question.Points,
                         QuestionType = question.QuestionType,
                         CorrectFillInAnswer = question.CorrectFillInAnswer,
+                        IsActive = question.IsActive,
+                        QuizId = question.QuizId,
                         AnswerOptions = question.AnswerOptions.Where(a => a.IsActive)
                         .Select(a => new AnswerOption
                         {
                             Id = a.Id,
                             Text = a.Text,
-                            IsCorrect = a.IsCorrect
+                            IsCorrect = a.IsCorrect,
+                            IsActive = a.IsActive,
+                            QuestionId = a.QuestionId
 
                         }).ToList(),
                     }).ToList()

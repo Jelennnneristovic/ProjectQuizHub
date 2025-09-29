@@ -11,6 +11,8 @@ import { CreateAnswerOptionDto } from '../../models/CreateAnswerOptionDto ';
 import { DeleteQuestionDto } from '../../models/DeleteQuestionDto ';
 import { UpdateQuestionDto } from '../../models/UpdateQuestionDto ';
 import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal-component/confirm-modal-component';
+import { ToastService } from '../../../../shared/services/toast.service';
+import { AnswerOptionDto } from '../../models/AnswerOptionDto';
 
 @Component({
     selector: 'app-quiz-details-component',
@@ -24,12 +26,12 @@ export class QuizDetailsComponent implements OnInit {
 
     private quizService = inject(QuizService);
     private questionService = inject(QuestionService);
+    private toastService = inject(ToastService);
 
     quizDetails?: QuizDetailsDto;
 
     questionToDelete?: QuestionDto;
 
-    // novi question forma
     newQuestion: CreateQuestionDto = {
         text: '',
         points: 1,
@@ -63,15 +65,88 @@ export class QuizDetailsComponent implements OnInit {
         };
     }
 
-    // ---------------- Question CRUD ----------------
+    validateQuestionText(questionText: string): boolean {
+        if (!questionText.trim()) {
+            this.toastService.error('Question text is required.', 3000);
+            return true;
+        }
+        return false;
+    }
+
+    validatePoints(points: number): boolean {
+        if (points <= 0) {
+            this.toastService.error('Points must be positive number.', 3000);
+            return true;
+        }
+        return false;
+    }
+
+    validateFillInAnswer(fillInAnswer: string, questionType: string): boolean {
+        if (questionType === 'FillIn' && !fillInAnswer.trim()) {
+            this.toastService.error('Fill in question must have answer.', 3000);
+            return true;
+        }
+        return false;
+    }
+
+    validateQuestionType(questionType: string, answerOptions: CreateAnswerOptionDto[]): boolean {
+        if (questionType === 'MultipleChoice') {
+            if (answerOptions.length < 2) {
+                this.toastService.error('Multiple Choice must have at least 2 options.', 3000);
+                return true;
+            }
+
+            const correctCount = answerOptions.filter((opt) => opt.isCorrect).length;
+            if (correctCount < 2) {
+                this.toastService.error('Multiple Choice must have at least 2 correct answers.', 3000);
+                return true;
+            }
+        }
+
+        if (questionType === 'SingleChoice') {
+            if (answerOptions.length < 2) {
+                this.toastService.error('Single Choice must have at least 2 options.', 3000);
+                return true;
+            }
+
+            const correctCount = answerOptions.filter((opt) => opt.isCorrect).length;
+            if (correctCount !== 1) {
+                this.toastService.error('Single Choice must have exactly 1 correct answer.', 3000);
+                return true;
+            }
+        }
+
+        if (questionType === 'TrueFalse') {
+            if (answerOptions.length !== 2) {
+                this.toastService.error('True/False must have exactly 2 options.', 3000);
+                return true;
+            }
+
+            const correctCount = answerOptions.filter((opt) => opt.isCorrect).length;
+            if (correctCount !== 1) {
+                this.toastService.error('True/False must have exactly 1 correct answer.', 3000);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    validateOptions(questionType: string, answerOptions: CreateAnswerOptionDto[]): boolean {
+        if (questionType !== 'FillIn' && answerOptions.some((opt) => !opt.text || opt.text.trim() === '')) {
+            this.toastService.error('All answer options must have text.', 3000);
+            return true;
+        }
+        return false;
+    }
 
     addQuestion() {
-        if (!this.currentQuestion.text.trim()) {
-            alert('Question text is required!');
-            return;
-        }
-        if (this.currentQuestion.questionType !== 'FillIn' && this.currentQuestion.answerOptions.length === 0) {
-            alert('Add at least one answer option!');
+        if (
+            this.validateQuestionText(this.currentQuestion.text.trim()) ||
+            this.validatePoints(this.currentQuestion.points) ||
+            this.validateFillInAnswer(this.currentQuestion.correctFillInAnswer, this.currentQuestion.questionType) ||
+            this.validateQuestionType(this.currentQuestion.questionType, this.currentQuestion.answerOptions) ||
+            this.validateOptions(this.currentQuestion.questionType, this.currentQuestion.answerOptions)
+        ) {
             return;
         }
 
@@ -108,11 +183,64 @@ export class QuizDetailsComponent implements OnInit {
         };
     }
 
-    updateQuestion() {
-        if (!this.editingQuestion) return;
+    validateQuestionTypeForEdit(questionType: string, answerOptions: AnswerOptionDto[]): boolean {
+        if (questionType === 'MultipleChoice') {
+            if (answerOptions.length < 2) {
+                this.toastService.error('Multiple Choice must have at least 2 options.', 3000);
+                return true;
+            }
 
-        if (!this.currentQuestion.text.trim()) {
-            alert('Question text is required!');
+            const correctCount = answerOptions.filter((opt) => opt.isCorrect).length;
+            if (correctCount < 2) {
+                this.toastService.error('Multiple Choice must have at least 2 correct answers.', 3000);
+                return true;
+            }
+        }
+
+        if (questionType === 'SingleChoice') {
+            if (answerOptions.length < 2) {
+                this.toastService.error('Single Choice must have at least 2 options.', 3000);
+                return true;
+            }
+
+            const correctCount = answerOptions.filter((opt) => opt.isCorrect).length;
+            if (correctCount !== 1) {
+                this.toastService.error('Single Choice must have exactly 1 correct answer.', 3000);
+                return true;
+            }
+        }
+
+        if (questionType === 'TrueFalse') {
+            if (answerOptions.length !== 2) {
+                this.toastService.error('True/False must have exactly 2 options.', 3000);
+                return true;
+            }
+
+            const correctCount = answerOptions.filter((opt) => opt.isCorrect).length;
+            if (correctCount !== 1) {
+                this.toastService.error('True/False must have exactly 1 correct answer.', 3000);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    validateOptionsForEdit(questionType: string, answerOptions: AnswerOptionDto[]): boolean {
+        if (questionType !== 'FillIn' && answerOptions.some((opt) => !opt.text || opt.text.trim() === '')) {
+            this.toastService.error('All answer options must have text.', 3000);
+            return true;
+        }
+        return false;
+    }
+
+    updateQuestion() {
+        if (
+            !this.editingQuestion ||
+            this.validateQuestionText(this.editingQuestion.text) ||
+            this.validatePoints(this.editingQuestion.points) ||
+            this.validateQuestionTypeForEdit(this.editingQuestion.questionType, this.editingQuestion.answerOptions) ||
+            this.validateOptionsForEdit(this.editingQuestion.questionType, this.editingQuestion.answerOptions)
+        ) {
             return;
         }
 

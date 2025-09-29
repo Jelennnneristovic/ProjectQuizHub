@@ -63,10 +63,12 @@ export class QuizListComponent implements OnInit {
 
         // subscribe na save EventEmitter
         dialogRef.componentInstance.save.subscribe((dto: CreateQuizDto | UpdateQuizDto) => {
-            console.log('Saved:', dto);
             this.quizService.updateQuiz(dto as UpdateQuizDto).subscribe({
                 next: () => {
                     this.loadQuizzes();
+                },
+                error: (err) => {
+                    this.toastServise.error(err.error, 3000);
                 },
             });
         });
@@ -80,10 +82,12 @@ export class QuizListComponent implements OnInit {
         });
 
         dialogRef.componentInstance.save.subscribe((dto: CreateQuizDto | UpdateQuizDto) => {
-            console.log('Created:', dto);
             this.quizService.createQuiz(dto as CreateQuizDto).subscribe({
                 next: () => {
                     this.loadQuizzes();
+                },
+                error: (err) => {
+                    this.toastServise.error(err.error, 3000);
                 },
             });
         });

@@ -16,11 +16,20 @@ namespace QuizHubApi.Controllers
     {
         private readonly IQuizService _quizService = quizService;
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<QuizDto> CreateQuiz([FromBody] CreateQuizDto createQuizDto)
         {
 
-            return Ok(_quizService.CreateQuiz(createQuizDto));
+            try
+            {
+              
+                return Ok(_quizService.CreateQuiz(createQuizDto));
+            }
+            catch (EntityDoesNotExist ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         //[HttpGet("{title}")]
@@ -35,6 +44,7 @@ namespace QuizHubApi.Controllers
         //    return Ok(quizDto);
         //}
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult<string> DeleteQuiz(int id)
         {
@@ -48,23 +58,21 @@ namespace QuizHubApi.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public ActionResult<QuizDto> UpdateQuiz([FromBody] UpdateQuizDto updateQuizDto)
         {
-
-            QuizDto? quizDto = _quizService.UpdateQuiz(updateQuizDto);
-
-            if (quizDto is null)
-
-            { return BadRequest(string.Format("The quiz '{0}' can not be updated! It does not exists.", updateQuizDto.id)); }
-
-
-            return Ok(quizDto);
-
-
+            try
+            {
+                QuizDto? quizDto = _quizService.UpdateQuiz(updateQuizDto);
+                return Ok(quizDto);
+            } catch (EntityDoesNotExist ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public ActionResult<QuizDetailsDto> GetQuiz(int id)
         {
@@ -79,7 +87,7 @@ namespace QuizHubApi.Controllers
 
         }
 
-        //  [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public ActionResult<List<QuizDto>> GetQuizzes()
         {
@@ -88,7 +96,7 @@ namespace QuizHubApi.Controllers
 
         }
 
-        //  [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("search")]
         public ActionResult<List<QuizDto>> GetQuizzesSearch([FromQuery] DifficultyLevel? difficultyLevel, [FromQuery] string? categoryName)
         {
@@ -98,7 +106,7 @@ namespace QuizHubApi.Controllers
         }
 
 
-        //  [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("search/{keyword}")]
         public ActionResult<List<QuizDto>> GetQuizzesByKeyWord(string keyword)
         {

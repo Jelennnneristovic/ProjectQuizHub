@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.services';
 import { LoginUserDto } from '../../models/LoginUserDto';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
     selector: 'app-login-component',
@@ -13,6 +14,8 @@ import { CommonModule } from '@angular/common';
     styleUrl: './login-component.scss',
 })
 export class LoginComponent {
+    private toastService = inject(ToastService);
+
     errorMessage = '';
     loading = false;
 
@@ -44,6 +47,7 @@ export class LoginComponent {
                 //this.router.navigate(['']);
             },
             error: (err) => {
+                this.toastService.error(err.error, 3000);
                 console.log(err);
                 this.loading = false;
                 this.errorMessage = 'Neispravno korisničko ime ili lozinka';

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuizHubApplication.DTOs.Requests;
 using QuizHubApplication.DTOs.Responses;
@@ -14,7 +15,7 @@ namespace QuizHubApi.Controllers
     {
         private readonly IQuestionService _questionService = questionService;
 
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         [HttpPost]
         public ActionResult<QuizDetailsDto> CreateQuestion( [FromBody] CreateQuestionDto createQuestionDto)
         {
@@ -31,6 +32,7 @@ namespace QuizHubApi.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public ActionResult<QuizDetailsDto> DeleteQuestion([FromBody] DeleteQuestionDto deleteQuestionDto)
         {
@@ -55,6 +57,7 @@ namespace QuizHubApi.Controllers
                 */
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public ActionResult<QuizDetailsDto> UpdateQuestion([FromBody] UpdateQuestionDto updateQuestionDto)
         {

@@ -106,10 +106,9 @@ namespace QuizHubInfrastructure.Data
             {
                 Id = 1,
                 Name = "Programiranje",
-                Description = "Objektno programiranje",
+                Description = "Generalno sve o programiranju",
                 IsActive = true
             };
-
             var category2 = new Category
             {
                 Id = 2,
@@ -145,7 +144,7 @@ namespace QuizHubInfrastructure.Data
                 Id = 1,
                 Title = "Kviz programiranja",
                 Description = null,
-                TimeLimit = 60,
+                TimeLimit = 3,
                 DifficultyLevel = DifficultyLevel.Easy,
                 CategoryId = category1.Id,
                 IsActive = true,
@@ -154,37 +153,16 @@ namespace QuizHubInfrastructure.Data
             {
                 Id = 2,
                 Title = "Kviz o arhitekturi Novog Sada",
-                Description = null,
-                TimeLimit = 60,
+                Description = "Istorija arhitektura grada Novog Sada",
+                TimeLimit = 3,
                 DifficultyLevel = DifficultyLevel.Medium,
                 CategoryId = category2.Id,
                 IsActive = true,
             };
-            var quiz3 = new Quiz
-            {
-                Id = 3,
-                Title = "Kviz opsteg znanja istoriji",
-                Description = null,
-                TimeLimit = 60,
-                DifficultyLevel = DifficultyLevel.Easy,
-                CategoryId = category3.Id,
-                IsActive = true,
-            };
-            var quiz4 = new Quiz
-            {
-                Id = 4,
-                Title = "Kviz o muzici",
-                Description = null,
-                TimeLimit = 60,
-                DifficultyLevel = DifficultyLevel.Hard,
-                CategoryId = category4.Id,
-                IsActive = true,
-            };
+           
             modelBuilder.Entity<Quiz>().HasData(
                 quiz1,
-                quiz2,
-                quiz3,
-                quiz4
+                quiz2
             );
 
             //Questions
@@ -208,31 +186,21 @@ namespace QuizHubInfrastructure.Data
                 CorrectFillInAnswer = null,
                 IsActive = true,
             };
+          
             var question3 = new Question
             {
                 Id = 3,
-                Text = "Zid od ___ je simbol Hladnog rata u Nemackoj?",
-                QuizId = quiz3.Id,
+                Text = "Ciji spomenik se nalazi na trgu u centru grada?",
+                QuizId = quiz2.Id,
                 Points = 2,
                 QuestionType = QuestionType.FillIn,
-                CorrectFillInAnswer = null,
-                IsActive = true,
-            };
-            var question4 = new Question
-            {
-                Id = 4,
-                Text = "Kojoj grupi instrumenata pripada bubanj?",
-                QuizId = quiz4.Id,
-                Points = 2,
-                QuestionType = QuestionType.SingleChoice,
-                CorrectFillInAnswer = null,
+                CorrectFillInAnswer = "Svetozar Miletic",
                 IsActive = true,
             };
             modelBuilder.Entity<Question>().HasData(
                 question1,
                 question2,
-                question3,
-                question4
+                question3
                 
             );
 
@@ -278,49 +246,12 @@ namespace QuizHubInfrastructure.Data
                 IsActive = true
             };
 
-            var answerOption6 = new AnswerOption
-            {
-                Id = 6,
-                Text = "berlinskog zida",
-                QuestionId = question3.Id,
-                IsCorrect = true,
-                IsActive = true
-            };
-
-            var answerOption7 = new AnswerOption
-            {
-                Id = 7,
-                Text = "gudacki",
-                QuestionId = question4.Id,
-                IsCorrect = false,
-                IsActive = true
-            };
-            var answerOption8 = new AnswerOption
-            {
-                Id = 8,
-                Text = "udaracki",
-                QuestionId = question4.Id,
-                IsCorrect = true,
-                IsActive = true
-            };
-            var answerOption9 = new AnswerOption
-            {
-                Id = 9,
-                Text = "duvacki",
-                QuestionId = question4.Id,
-                IsCorrect = false,
-                IsActive = true
-            };
             modelBuilder.Entity<AnswerOption>().HasData(
                 answerOption1,
                 answerOption2,
                 answerOption3,
                 answerOption4,
-                answerOption5,
-                answerOption6,
-                answerOption7,
-                answerOption8,
-                answerOption9
+                answerOption5
             );
 
             //QuizAttempts
@@ -329,184 +260,30 @@ namespace QuizHubInfrastructure.Data
                 Id = 1,
                 QuizId = quiz1.Id,
                 UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-08-13 15:30:00"),
-                FinishedAt = DateTime.Parse("2025-08-13 16:30:00"),
-                TimeTakenMin = 60,
-                Score = 1,
-                CurrentQuizScore = 1,
+                StartedAt = DateTime.Parse("2025-09-13 15:30:00"),
+                FinishedAt = DateTime.Parse("2025-09-13 15:32:00"),
+                TimeTakenMin = 2,
+                Score = 5,
+                CurrentQuizScore = 5,
                 CurrentQuestionCount = 2
             };
 
             var quizAttempt2 = new QuizAttempt
             {
                 Id = 2,
-                QuizId = quiz1.Id,
-                UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-08-14 18:30:00"),
-                FinishedAt = DateTime.Parse("2025-08-14 19:30:00"),
-                TimeTakenMin = 60,
-                Score = 3,
-                CurrentQuizScore = 3,
-                CurrentQuestionCount = 2
-            };
-
-            var quizAttempt3 = new QuizAttempt
-            {
-                Id = 3,
                 QuizId = quiz2.Id,
-                UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-15 15:30:00"),
-                FinishedAt = DateTime.Parse("2025-09-15 16:30:00"),
-                TimeTakenMin = 60,
-                Score = 5,
-                CurrentQuizScore = 5,
-                CurrentQuestionCount = 2
-            };
-
-            var quizAttempt4 = new QuizAttempt
-            {
-                Id = 4,
-                QuizId = quiz3.Id,
                 UserId = user2.Id,
-                StartedAt = DateTime.Parse("2025-09-16 15:30:00"),
-                FinishedAt = DateTime.Parse("2025-09-16 16:30:00"),
-                TimeTakenMin = 60,
-                Score = 1,
-                CurrentQuizScore = 1,
-                CurrentQuestionCount = 1
-            };
-
-            var quizAttempt5 = new QuizAttempt
-            {
-                Id = 5,
-                QuizId = quiz4.Id,
-                UserId = user2.Id,
-                StartedAt = DateTime.Parse("2025-09-17 15:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-17 16:00:00"),
-                TimeTakenMin = 60,
-                Score = 1,
-                CurrentQuizScore = 1,
-                CurrentQuestionCount = 1
-            };
-
-            var quizAttempt6 = new QuizAttempt
-            {
-                Id = 6,
-                QuizId = quiz3.Id,
-                UserId = user2.Id,
-                StartedAt = DateTime.Parse("2025-09-18 15:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-18 15:20:00"),
-                TimeTakenMin = 20,
+                StartedAt = DateTime.Parse("2025-09-28 18:30:00"),
+                FinishedAt = DateTime.Parse("2025-09-28 18:32:00"),
+                TimeTakenMin = 2,
                 Score = 2,
                 CurrentQuizScore = 2,
                 CurrentQuestionCount = 1
             };
 
-            var quizAttempt7 = new QuizAttempt
-            {
-                Id = 7,
-                QuizId = quiz3.Id,
-                UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-18 16:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-18 16:30:00"),
-                TimeTakenMin = 30,
-                Score = 1,
-                CurrentQuizScore = 1,
-                CurrentQuestionCount = 1
-            };
-
-            var quizAttempt8 = new QuizAttempt
-            {
-                Id = 8,
-                QuizId = quiz4.Id,
-                UserId = user1.Id,
-                StartedAt = DateTime.Parse("2025-09-19 14:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-19 15:00:00"),
-                TimeTakenMin = 60,
-                Score = 2,
-                CurrentQuizScore = 2,
-                CurrentQuestionCount = 1
-            };
-
-            var quizAttempt9 = new QuizAttempt
-            {
-                Id = 9,
-                QuizId = quiz2.Id,
-                UserId = user2.Id,
-                StartedAt = DateTime.Parse("2025-09-20 18:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-20 18:40:00"),
-                TimeTakenMin = 40,
-                Score = 4,
-                CurrentQuizScore = 4,
-                CurrentQuestionCount = 2
-            };
-
-            var quizAttempt10 = new QuizAttempt
-            {
-                Id = 10,
-                QuizId = quiz1.Id,
-                UserId = user2.Id,
-                StartedAt = DateTime.Parse("2025-09-21 12:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-21 12:25:00"),
-                TimeTakenMin = 25,
-                Score = 3,
-                CurrentQuizScore = 3,
-                CurrentQuestionCount = 2
-            };
-
-            var quizAttempt11 = new QuizAttempt
-            {
-                Id = 11,
-                QuizId = quiz1.Id,
-                UserId = user3.Id,
-                StartedAt = DateTime.Parse("2025-09-22 10:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-22 10:40:00"),
-                TimeTakenMin = 40,
-                Score = 4,
-                CurrentQuizScore = 4,
-                CurrentQuestionCount = 3
-            };
-
-            var quizAttempt12 = new QuizAttempt
-            {
-                Id = 12,
-                QuizId = quiz2.Id,
-                UserId = user3.Id,
-                StartedAt = DateTime.Parse("2025-09-22 11:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-22 11:50:00"),
-                TimeTakenMin = 50,
-                Score = 2,
-                CurrentQuizScore = 2,
-                CurrentQuestionCount = 3
-            };
-
-            var quizAttempt13 = new QuizAttempt
-            {
-                Id = 13,
-                QuizId = quiz4.Id,
-                UserId = user3.Id,
-                StartedAt = DateTime.Parse("2025-09-23 09:00:00"),
-                FinishedAt = DateTime.Parse("2025-09-23 09:20:00"),
-                TimeTakenMin = 20,
-                Score = 3,
-                CurrentQuizScore = 3,
-                CurrentQuestionCount = 2
-            };
             modelBuilder.Entity<QuizAttempt>().HasData(
                 quizAttempt1,
-                quizAttempt2,
-                quizAttempt3,
-                quizAttempt4,
-                quizAttempt5,
-                quizAttempt6,
-                quizAttempt7,
-                quizAttempt8,
-                quizAttempt9,
-                quizAttempt10,
-                quizAttempt11,
-                quizAttempt12,
-                quizAttempt13
-
+                quizAttempt2
             );
 
             //AttemptAnswers
@@ -519,7 +296,6 @@ namespace QuizHubInfrastructure.Data
                 IsCorrect = true,
                 AwardedPoints = question1.Points,
             };
-
             var attemptAnswer2 = new AttemptAnswer
             {
                 Id = 2,
@@ -530,10 +306,21 @@ namespace QuizHubInfrastructure.Data
                 AwardedPoints = question2.Points,
             };
 
+            var attemptAnswer3 = new AttemptAnswer
+            {
+                Id = 3,
+                QuizAttemptId = quizAttempt2.Id,
+                QuestionId = question3.Id,
+                FillInAnswer = "Svetozara Miletica",
+                IsCorrect = true,
+                AwardedPoints = question3.Points,
+            };
+
 
             modelBuilder.Entity<AttemptAnswer>().HasData(
                 attemptAnswer1,
-                attemptAnswer2
+                attemptAnswer2,
+                attemptAnswer3
             );
 
             //AttemptAnswerOptions
@@ -548,13 +335,13 @@ namespace QuizHubInfrastructure.Data
             {
                 Id = 2,
                 AttemptAnswerId = attemptAnswer1.Id,
-                AnswerOptionId = answerOption1.Id,
+                AnswerOptionId = answerOption2.Id,
             };
             var attemptAnswerOption3 = new AttemptAnswerOption
             {
                 Id = 3,
                 AttemptAnswerId = attemptAnswer1.Id,
-                AnswerOptionId = answerOption1.Id,
+                AnswerOptionId = answerOption3.Id,
             };
             var attemptAnswerOption4 = new AttemptAnswerOption
             {
@@ -569,175 +356,38 @@ namespace QuizHubInfrastructure.Data
                 attemptAnswerOption3,
                 attemptAnswerOption4
             );
+
             var result1 = new Result
             {
                 Id = 1,
-                QuizAttemptId = 1,
+                QuizAttemptId = quizAttempt1.Id,
                 QuizTitle = quiz1.Title,
                 TotalQuestions = 2,
                 CorrectAnswers = 2,
-                Score = 1,
-                MaximumScore = 6,
-                Percentage = 17,
-                TimeTakenMin = 60,
-                CreatedAt = DateTime.Parse("2025-08-13 16:30:00")
+                Score = 5,
+                MaximumScore = 5,
+                Percentage = 100,
+                TimeTakenMin = 2,
+                CreatedAt = (DateTime)quizAttempt1.FinishedAt
             };
 
             var result2 = new Result
             {
                 Id = 2,
-                QuizAttemptId = 2,
-                QuizTitle = quiz1.Title,
-                TotalQuestions = 2,
-                CorrectAnswers = 1,
-                Score = 3,
-                MaximumScore = 6,
-                Percentage = 50,
-                TimeTakenMin = 60,
-                CreatedAt = DateTime.Parse("2025-08-14 19:30:00")
-            };
-
-            var result3 = new Result
-            {
-                Id = 3,
-                QuizAttemptId = 3,
+                QuizAttemptId = quizAttempt2.Id,
                 QuizTitle = quiz2.Title,
-                TotalQuestions = 2,
-                CorrectAnswers = 0,
-                Score = 5,
-                MaximumScore = 10,
-                Percentage = 0,
-                TimeTakenMin = 60,
-                CreatedAt = DateTime.Parse("2025-09-15 16:30:00")
-            };
-
-            var result4 = new Result
-            {
-                Id = 4,
-                QuizAttemptId = 6,
-                QuizTitle = quiz3.Title,
                 TotalQuestions = 1,
                 CorrectAnswers = 1,
                 Score = 2,
                 MaximumScore = 2,
                 Percentage = 100,
-                TimeTakenMin = 20,
-                CreatedAt = DateTime.Parse("2025-09-18 15:20:00")
+                TimeTakenMin = 2,
+                CreatedAt = (DateTime)quizAttempt2.FinishedAt
             };
-
-            var result5 = new Result
-            {
-                Id = 5,
-                QuizAttemptId = 7,
-                QuizTitle = quiz3.Title,
-                TotalQuestions = 1,
-                CorrectAnswers = 1,
-                Score = 1,
-                MaximumScore = 2,
-                Percentage = 50,
-                TimeTakenMin = 30,
-                CreatedAt = DateTime.Parse("2025-09-18 16:30:00")
-            };
-
-            var result6 = new Result
-            {
-                Id = 6,
-                QuizAttemptId = 8,
-                QuizTitle = quiz4.Title,
-                TotalQuestions = 1,
-                CorrectAnswers = 1,
-                Score = 2,
-                MaximumScore = 2,
-                Percentage = 100,
-                TimeTakenMin = 60,
-                CreatedAt = DateTime.Parse("2025-09-19 15:00:00")
-            };
-
-            var result7 = new Result
-            {
-                Id = 7,
-                QuizAttemptId = 9,
-                QuizTitle = quiz2.Title,
-                TotalQuestions = 2,
-                CorrectAnswers = 2,
-                Score = 4,
-                MaximumScore = 4,
-                Percentage = 100,
-                TimeTakenMin = 40,
-                CreatedAt = DateTime.Parse("2025-09-20 18:40:00")
-            };
-
-            var result8 = new Result
-            {
-                Id = 8,
-                QuizAttemptId = 10,
-                QuizTitle = quiz1.Title,
-                TotalQuestions = 2,
-                CorrectAnswers = 1,
-                Score = 3,
-                MaximumScore = 6,
-                Percentage = 50,
-                TimeTakenMin = 25,
-                CreatedAt = DateTime.Parse("2025-09-21 12:25:00")
-            };
-
-            var result9 = new Result
-            {
-                Id = 9,
-                QuizAttemptId = 11,
-                QuizTitle = quiz1.Title,
-                TotalQuestions = 3,
-                CorrectAnswers = 2,
-                Score = 4,
-                MaximumScore = 6,
-                Percentage = 66,
-                TimeTakenMin = 40,
-                CreatedAt = DateTime.Parse("2025-09-22 10:40:00")
-            };
-
-            var result10 = new Result
-            {
-                Id = 10,
-                QuizAttemptId = 12,
-                QuizTitle = quiz2.Title,
-                TotalQuestions = 3,
-                CorrectAnswers = 1,
-                Score = 2,
-                MaximumScore = 6,
-                Percentage = 33,
-                TimeTakenMin = 50,
-                CreatedAt = DateTime.Parse("2025-09-22 11:50:00")
-            };
-
-            var result11 = new Result
-            {
-                Id = 11,
-                QuizAttemptId = 13,
-                QuizTitle = quiz4.Title,
-                TotalQuestions = 2,
-                CorrectAnswers = 2,
-                Score = 3,
-                MaximumScore = 4,
-                Percentage = 100,
-                TimeTakenMin = 20,
-                CreatedAt = DateTime.Parse("2025-09-23 09:20:00")
-            };
-
 
             modelBuilder.Entity<Result>().HasData(
                 result1,
-                result2,
-                result3,
-                result4,
-                result5,
-                result6,
-                result7,
-                result8,
-                result9,
-                result10,
-                result11
-
-
+                result2
             );
         }
     }

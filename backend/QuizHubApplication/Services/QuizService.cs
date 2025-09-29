@@ -21,16 +21,21 @@ namespace QuizHubApplication.Services
         private readonly ICategoryService _categoryService = categoryService;
         public QuizDto CreateQuiz(CreateQuizDto createQuizDto)
         {
+            CategoryDto? category = _categoryService.GetCategory(createQuizDto.CategoryId);
+
+            if (category is null)
+            {
+                throw new EntityDoesNotExist(string.Format("The category '{0}' does not exists.", createQuizDto.CategoryId.ToString()));
+            }
 
 
             Quiz newQuiz = new(createQuizDto.Title, createQuizDto.Description,createQuizDto.TimeLimit, Enum.Parse<DifficultyLevel>(createQuizDto.DifficultyLevel), createQuizDto.CategoryId);
             _quizRepository.CreateQuiz(newQuiz);
 
-            CategoryDto? category = _categoryService.GetCategory(createQuizDto.CategoryId);
-
+         
             return new QuizDto(newQuiz.Id,
-                category != null ? category.Name : "",
-                category != null ? category.Description : "",
+                category.Name,
+                category.Description,
                 newQuiz.Title,
                 newQuiz.Description,
                 newQuiz.TimeLimit,
@@ -187,7 +192,9 @@ namespace QuizHubApplication.Services
 
             if (quiz is null)
 
-            { return null; }
+            { 
+                throw new EntityDoesNotExist(string.Format("The quiz '{0}' does not exists.", updateQuizDto.id.ToString())); 
+            }
 
             // update polje samo ako je IsNullOrWhiteSpace, inace ostavlja staru vrednost
 

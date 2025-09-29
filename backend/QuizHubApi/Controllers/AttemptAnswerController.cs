@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuizHubApplication.DTOs.Requests;
 using QuizHubApplication.Exceptions;
@@ -13,6 +14,7 @@ namespace QuizHubApi.Controllers
     {
         private readonly IAttemptAnswerService _attemptAnswerService = attemptAnswerService;
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         public ActionResult<string> CreateAttemptAnswer([FromBody] CreateAttemptAnswerDto createAttemptAnswerDto)
         {

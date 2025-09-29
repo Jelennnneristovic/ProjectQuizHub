@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QuizHubInfrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -234,7 +234,7 @@ namespace QuizHubInfrastructure.Migrations
                 columns: new[] { "Id", "Description", "IsActive", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Objektno programiranje", true, "Programiranje" },
+                    { 1, "Generalno sve o programiranju", true, "Programiranje" },
                     { 2, "Rimska i anticka arhitektura", true, "Arhitektura" },
                     { 3, "Opste znanje", true, "Istorija" },
                     { 4, "Klasicna muzika", true, "Muzika" }
@@ -256,10 +256,8 @@ namespace QuizHubInfrastructure.Migrations
                 columns: new[] { "Id", "CategoryId", "Description", "DifficultyLevel", "IsActive", "TimeLimit", "Title" },
                 values: new object[,]
                 {
-                    { 1, 1, null, 0, true, 60, "Kviz programiranja" },
-                    { 2, 2, null, 1, true, 60, "Kviz o arhitekturi Novog Sada" },
-                    { 3, 3, null, 0, true, 60, "Kviz opsteg znanja istoriji" },
-                    { 4, 4, null, 2, true, 60, "Kviz o muzici" }
+                    { 1, 1, null, 0, true, 3, "Kviz programiranja" },
+                    { 2, 2, "Istorija arhitektura grada Novog Sada", 1, true, 3, "Kviz o arhitekturi Novog Sada" }
                 });
 
             migrationBuilder.InsertData(
@@ -269,8 +267,7 @@ namespace QuizHubInfrastructure.Migrations
                 {
                     { 1, null, true, 3, 1, 1, "Koji od navedenih programa podrzava klase" },
                     { 2, null, true, 2, 2, 1, "Metoda Console.WriteLine() vraca vrednost string?" },
-                    { 3, null, true, 2, 3, 3, "Zid od ___ je simbol Hladnog rata u Nemackoj?" },
-                    { 4, null, true, 2, 0, 4, "Kojoj grupi instrumenata pripada bubanj?" }
+                    { 3, "Svetozar Miletic", true, 2, 3, 2, "Ciji spomenik se nalazi na trgu u centru grada?" }
                 });
 
             migrationBuilder.InsertData(
@@ -278,19 +275,8 @@ namespace QuizHubInfrastructure.Migrations
                 columns: new[] { "Id", "CurrentQuestionCount", "CurrentQuizScore", "FinishedAt", "QuizId", "Score", "StartedAt", "TimeTakenMin", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 2, 1, new DateTime(2025, 8, 13, 16, 30, 0, 0, DateTimeKind.Unspecified), 1, 1, new DateTime(2025, 8, 13, 15, 30, 0, 0, DateTimeKind.Unspecified), 60, 2 },
-                    { 2, 2, 3, new DateTime(2025, 8, 14, 19, 30, 0, 0, DateTimeKind.Unspecified), 1, 3, new DateTime(2025, 8, 14, 18, 30, 0, 0, DateTimeKind.Unspecified), 60, 2 },
-                    { 3, 2, 5, new DateTime(2025, 9, 15, 16, 30, 0, 0, DateTimeKind.Unspecified), 2, 5, new DateTime(2025, 9, 15, 15, 30, 0, 0, DateTimeKind.Unspecified), 60, 2 },
-                    { 4, 1, 1, new DateTime(2025, 9, 16, 16, 30, 0, 0, DateTimeKind.Unspecified), 3, 1, new DateTime(2025, 9, 16, 15, 30, 0, 0, DateTimeKind.Unspecified), 60, 3 },
-                    { 5, 1, 1, new DateTime(2025, 9, 17, 16, 0, 0, 0, DateTimeKind.Unspecified), 4, 1, new DateTime(2025, 9, 17, 15, 0, 0, 0, DateTimeKind.Unspecified), 60, 3 },
-                    { 6, 1, 2, new DateTime(2025, 9, 18, 15, 20, 0, 0, DateTimeKind.Unspecified), 3, 2, new DateTime(2025, 9, 18, 15, 0, 0, 0, DateTimeKind.Unspecified), 20, 3 },
-                    { 7, 1, 1, new DateTime(2025, 9, 18, 16, 30, 0, 0, DateTimeKind.Unspecified), 3, 1, new DateTime(2025, 9, 18, 16, 0, 0, 0, DateTimeKind.Unspecified), 30, 2 },
-                    { 8, 1, 2, new DateTime(2025, 9, 19, 15, 0, 0, 0, DateTimeKind.Unspecified), 4, 2, new DateTime(2025, 9, 19, 14, 0, 0, 0, DateTimeKind.Unspecified), 60, 2 },
-                    { 9, 2, 4, new DateTime(2025, 9, 20, 18, 40, 0, 0, DateTimeKind.Unspecified), 2, 4, new DateTime(2025, 9, 20, 18, 0, 0, 0, DateTimeKind.Unspecified), 40, 3 },
-                    { 10, 2, 3, new DateTime(2025, 9, 21, 12, 25, 0, 0, DateTimeKind.Unspecified), 1, 3, new DateTime(2025, 9, 21, 12, 0, 0, 0, DateTimeKind.Unspecified), 25, 3 },
-                    { 11, 3, 4, new DateTime(2025, 9, 22, 10, 40, 0, 0, DateTimeKind.Unspecified), 1, 4, new DateTime(2025, 9, 22, 10, 0, 0, 0, DateTimeKind.Unspecified), 40, 4 },
-                    { 12, 3, 2, new DateTime(2025, 9, 22, 11, 50, 0, 0, DateTimeKind.Unspecified), 2, 2, new DateTime(2025, 9, 22, 11, 0, 0, 0, DateTimeKind.Unspecified), 50, 4 },
-                    { 13, 2, 3, new DateTime(2025, 9, 23, 9, 20, 0, 0, DateTimeKind.Unspecified), 4, 3, new DateTime(2025, 9, 23, 9, 0, 0, 0, DateTimeKind.Unspecified), 20, 4 }
+                    { 1, 2, 5, new DateTime(2025, 9, 13, 15, 32, 0, 0, DateTimeKind.Unspecified), 1, 5, new DateTime(2025, 9, 13, 15, 30, 0, 0, DateTimeKind.Unspecified), 2, 2 },
+                    { 2, 1, 2, new DateTime(2025, 9, 28, 18, 32, 0, 0, DateTimeKind.Unspecified), 2, 2, new DateTime(2025, 9, 28, 18, 30, 0, 0, DateTimeKind.Unspecified), 2, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -302,11 +288,7 @@ namespace QuizHubInfrastructure.Migrations
                     { 2, true, true, 1, "C#" },
                     { 3, true, true, 1, "C++" },
                     { 4, true, true, 2, "True" },
-                    { 5, true, false, 2, "False" },
-                    { 6, true, true, 3, "berlinskog zida" },
-                    { 7, true, false, 4, "gudacki" },
-                    { 8, true, true, 4, "udaracki" },
-                    { 9, true, false, 4, "duvacki" }
+                    { 5, true, false, 2, "False" }
                 });
 
             migrationBuilder.InsertData(
@@ -315,7 +297,8 @@ namespace QuizHubInfrastructure.Migrations
                 values: new object[,]
                 {
                     { 1, 3, null, true, 1, 1 },
-                    { 2, 2, null, true, 2, 1 }
+                    { 2, 2, null, true, 2, 1 },
+                    { 3, 2, "Svetozara Miletica", true, 3, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -323,17 +306,8 @@ namespace QuizHubInfrastructure.Migrations
                 columns: new[] { "Id", "CorrectAnswers", "CreatedAt", "MaximumScore", "Percentage", "QuizAttemptId", "QuizTitle", "Score", "TimeTakenMin", "TotalQuestions" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateTime(2025, 8, 13, 16, 30, 0, 0, DateTimeKind.Unspecified), 6, 17.0, 1, "Kviz programiranja", 1, 60, 2 },
-                    { 2, 1, new DateTime(2025, 8, 14, 19, 30, 0, 0, DateTimeKind.Unspecified), 6, 50.0, 2, "Kviz programiranja", 3, 60, 2 },
-                    { 3, 0, new DateTime(2025, 9, 15, 16, 30, 0, 0, DateTimeKind.Unspecified), 10, 0.0, 3, "Kviz o arhitekturi Novog Sada", 5, 60, 2 },
-                    { 4, 1, new DateTime(2025, 9, 18, 15, 20, 0, 0, DateTimeKind.Unspecified), 2, 100.0, 6, "Kviz opsteg znanja istoriji", 2, 20, 1 },
-                    { 5, 1, new DateTime(2025, 9, 18, 16, 30, 0, 0, DateTimeKind.Unspecified), 2, 50.0, 7, "Kviz opsteg znanja istoriji", 1, 30, 1 },
-                    { 6, 1, new DateTime(2025, 9, 19, 15, 0, 0, 0, DateTimeKind.Unspecified), 2, 100.0, 8, "Kviz o muzici", 2, 60, 1 },
-                    { 7, 2, new DateTime(2025, 9, 20, 18, 40, 0, 0, DateTimeKind.Unspecified), 4, 100.0, 9, "Kviz o arhitekturi Novog Sada", 4, 40, 2 },
-                    { 8, 1, new DateTime(2025, 9, 21, 12, 25, 0, 0, DateTimeKind.Unspecified), 6, 50.0, 10, "Kviz programiranja", 3, 25, 2 },
-                    { 9, 2, new DateTime(2025, 9, 22, 10, 40, 0, 0, DateTimeKind.Unspecified), 6, 66.0, 11, "Kviz programiranja", 4, 40, 3 },
-                    { 10, 1, new DateTime(2025, 9, 22, 11, 50, 0, 0, DateTimeKind.Unspecified), 6, 33.0, 12, "Kviz o arhitekturi Novog Sada", 2, 50, 3 },
-                    { 11, 2, new DateTime(2025, 9, 23, 9, 20, 0, 0, DateTimeKind.Unspecified), 4, 100.0, 13, "Kviz o muzici", 3, 20, 2 }
+                    { 1, 2, new DateTime(2025, 9, 13, 15, 32, 0, 0, DateTimeKind.Unspecified), 5, 100.0, 1, "Kviz programiranja", 5, 2, 2 },
+                    { 2, 1, new DateTime(2025, 9, 28, 18, 32, 0, 0, DateTimeKind.Unspecified), 2, 100.0, 2, "Kviz o arhitekturi Novog Sada", 2, 2, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -342,8 +316,8 @@ namespace QuizHubInfrastructure.Migrations
                 values: new object[,]
                 {
                     { 1, 1, 1 },
-                    { 2, 1, 1 },
-                    { 3, 1, 1 },
+                    { 2, 2, 1 },
+                    { 3, 3, 1 },
                     { 4, 4, 2 }
                 });
 

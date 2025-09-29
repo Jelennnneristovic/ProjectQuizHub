@@ -28,8 +28,9 @@ namespace QuizHubApi.Controllers
                 return BadRequest(ex.Message);
 
             }
-
         }
+
+        [Authorize(Roles = "User")]
         [HttpPut("{id}")]
         public ActionResult<ResultDetailsDto> FinishQuizAttempt(int id)
         {
@@ -50,14 +51,14 @@ namespace QuizHubApi.Controllers
             }
         }
 
-        //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult<List<QuizAttemptDto>> GetAllQuizAttempts()
         {
             return Ok(_quizAttemptService.GetAllQuizAttempts());
         }
 
-        //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("users/{userId}")]
         public ActionResult<List<QuizAttemptDto>> GetQuizAttemptsByUserId(int userId)
         {
@@ -71,6 +72,7 @@ namespace QuizHubApi.Controllers
             }
 
         }
+
         [Authorize(Roles = "User")]
         [HttpGet("user")]
         public ActionResult<List<QuizAttemptDto>> GetQuizAttemptsFromUser()

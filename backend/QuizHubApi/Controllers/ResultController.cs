@@ -12,7 +12,7 @@ namespace QuizHubApi.Controllers
     {
         private readonly IResultService _resultService = resultService;
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet ("admin")]
         public ActionResult<List<ResultDto>> GetResults()
         {
@@ -27,7 +27,7 @@ namespace QuizHubApi.Controllers
             return Ok(_resultService.GetResultsByUser());
         }
 
-       // [Authorize(Roles = "User,Admin")]
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("details/{Id}")]
         public ActionResult<ResultDetailsDto?> GetResultDetailsById(int Id)
         {
@@ -48,6 +48,7 @@ namespace QuizHubApi.Controllers
 
         }
 
+        [Authorize(Roles = "User, Admin")]
         [HttpGet("leaderboard")]
         public ActionResult<LeaderBoardEntriesDto> GetLeaderboard([FromQuery]  int QuizId, [FromQuery] string? Period)
         {

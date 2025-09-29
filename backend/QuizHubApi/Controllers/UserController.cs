@@ -30,6 +30,7 @@ namespace QuizHubApi.Controllers
             }
 
         }
+
         [HttpPost("login")]
         public ActionResult<TokenResponseDto> Login([FromBody] LoginUserDto loginUserDto)
         {
@@ -38,19 +39,17 @@ namespace QuizHubApi.Controllers
                 
                 return Ok(_userService.Login(loginUserDto));
             }
-            catch (Exception ex) when (ex is EntityAlreadyExists or InvalidPassword)
+            catch (Exception ex) when (ex is EntityAlreadyExists or InvalidPassword or EntityDoesNotExist)
             {
                 return BadRequest(ex.Message);
             }
 
         }
 
-        // [Authorize (Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public ActionResult<UserDto> GetUserById(int id)
         {
-            
-
             try
             {
                 UserDto? user = _userService.GetUserByIdDto(id);

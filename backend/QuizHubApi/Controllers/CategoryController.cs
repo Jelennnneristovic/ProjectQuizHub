@@ -16,6 +16,7 @@ namespace QuizHubApi.Controllers
         //privatan _, public je velikim slovom
         private readonly ICategoryService _categoryService = categoryService;
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<CategoryDto> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
         {
@@ -32,7 +33,7 @@ namespace QuizHubApi.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{name}")]
         public ActionResult<CategoryDto> GetCategory(string name)
         {
@@ -45,6 +46,7 @@ namespace QuizHubApi.Controllers
             return Ok(categoryDto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{name}")]
         public ActionResult<CategoryDto> DeleteCategory(string name)
         {
@@ -56,6 +58,7 @@ namespace QuizHubApi.Controllers
             return Ok(categoryDto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public ActionResult<CategoryDto> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
         {
@@ -72,7 +75,7 @@ namespace QuizHubApi.Controllers
 
         }
 
-      //  [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public ActionResult<List<CategoryDto>> GetCategories()
         {
